@@ -86,7 +86,9 @@ Thử thay đổi GET method thành OPTIONS method để kiểm tra về các lo
 
 --> Tìm được thông tin về price và message được lưu dưới dạng JSON.
 
-Sử dụng PATCH method để áp dụng thay đổi một phần (ở đây là price): 
+Sử dụng PATCH method để áp dụng thay đổi một phần (ở đây là price):
+
+Cần thêm *Content-Type header* với value là *application/json* để cho phép thêm payload json.
 
 ![img](https://imgur.com/xMJBqfN.png)
 
