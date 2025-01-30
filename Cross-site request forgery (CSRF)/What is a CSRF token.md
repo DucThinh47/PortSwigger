@@ -4,13 +4,13 @@ CSRF token là một giá trị unique, bí mật và không thể đoán trư�
 
 Một cách phổ biến để chia sẻ CSRF token với client là bao gồm chúng như một hidden param trong một HTML form, ví dụ:
 
-![alt text](image-1.png)
+![img](https://imgur.com/8WJnRsR.png)
 
 # What is a CSRF token? - Continued
 
 Submitting form sẽ có dạng request như sau: 
 
-![alt text](image-2.png)
+![img](https://imgur.com/crb0OH2.png)
 
 Khi được thực hiện chính xác, CSRF token giúp bảo vệ chống lại các cuộc tấn công CSRF bằng cách gây khó khăn cho kẻ tấn công để xây dựng một request hợp lệ thay mặt cho nạn nhân. Vì kẻ tấn công không có cách nào để dự đoán giá trị chính xác cho CSRF token, họ sẽ không thể đưa nó vào request độc hại.
 
