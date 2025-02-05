@@ -4,7 +4,7 @@
 
 Clickjacking (hay "UI Redress Attack") là kiểu tấn công dựa trên giao diện, trong đó kẻ tấn công đánh lừa người dùng nhấp vào một nội dung ẩn thông qua một trang web giả mạo. Hành động này khiến người dùng vô tình kích hoạt chức năng nhạy cảm trên một website khác mà họ không hề hay biết.
 
-![img]()
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image.png?raw=true)
 
 **2. Ví dụ cụ thể**
 
