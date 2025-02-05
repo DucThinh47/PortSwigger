@@ -61,16 +61,16 @@ Một trong những cách kẻ tấn công sử dụng để bypass frame bustin
 Frame busting scripts là một biện pháp bảo vệ chống clickjacking nhưng có những hạn chế rõ ràng. Kẻ tấn công có thể vượt qua chúng bằng các kỹ thuật như sử dụng thuộc tính **sandbox** trong HTML5 để ngăn iframe kiểm tra top-level navigation, từ đó thực hiện các cuộc tấn công clickjacking hiệu quả.
 
 # Lab: Clickjacking with a frame buster script
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image14.png?raw=true)
 
 ### Web page
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image15.png?raw=true)
 
 ### Solution
 
 Login vào account được cấp wiener:peter:
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image16.png?raw=true)
 
 Tiếp tục sử dụng lại payload: 
 
@@ -96,13 +96,13 @@ Trong payload lần này thêm thuộc tính sandbox="allow-forms" để bypass 
 
 GO to exploit server và copy payload vào phần body: 
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image17.png?raw=true)
 
 Store và Deliver exploit to victim.
 
 Solved the lab!
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image18.png?raw=true)
 
 
 
