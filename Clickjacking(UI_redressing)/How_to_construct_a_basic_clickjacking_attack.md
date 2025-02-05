@@ -55,16 +55,16 @@ Clickjacking là một kiểu tấn công mà kẻ tấn công lừa người d�
     - Kẻ tấn công chọn giá trị *opacity* phù hợp để đạt được hiệu quả mong muốn mà không kích hoạt cơ chế bảo vệ của trình duyệt.
 
 # Lab: Basic clickjacking with CSRF token protection
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image1.png?raw=true)
 
 ### Web page
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image2.png?raw=true)
 
 ### Solution
 
 Log in vào account được cấp wiener:peter
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image3.png?raw=true)
 
 Cần tạo payload có dạng như sau để phủ lên web page: 
 
@@ -108,16 +108,16 @@ Thay đổi thành:
 
 Cần điều chỉnh để Test me và Delete account button lồng với nhau. Go to exploit server và copy payload vào phần body: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image4.png?raw=true)
 
 Store và View exploit:
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image5.png?raw=true)
 
 
 Solved the lab!
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image6.png?raw=true)
 
 
 
