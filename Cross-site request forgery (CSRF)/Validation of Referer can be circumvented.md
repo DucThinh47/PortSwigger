@@ -48,47 +48,47 @@ Việc xác thực **Referer header** có thể bị bỏ qua nếu web app th�
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image.png?raw=true)
 
 ### Web page
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image1.png?raw=true)
 
 ### Solution
 
 Login với account được cấp wiener:peter: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image2.png?raw=true)
 
 Change email: 
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image3.png?raw=true)
 
 Trong Burp Suite, truy cập HTTP history trong tab Proxy và send change email request tới Repeater: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image4.png?raw=true)
 
 Thử thay đổi giá trị của domain trong Referer header: 
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image5.png?raw=true)
 
 Send Request này: 
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image6.png?raw=true)
 
 --> Nhận được response thông báo Invalid referer header.
 
 Thử xóa cả Referer header và Send Request: 
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image7.png?raw=true)
 
 --> Vẫn nhận được thông báo Invalid referer header.
 
 Lần này thử chỉnh sửa Referer header từ *https://0a2000a8033bf69f806226bc00c30061.web-security-academy.net/my-account?id=wiener* thành *https://0a2000a8033bf69f806226bc00c30061.web-security-academy.net*
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image8.png?raw=true)
 
 --> Có thể đổi email --> kiểm tra Referer header không đúng cách.
 
 Thử sửa thành *https://hacked-domain.com/?0a2000a8033bf69f806226bc00c30061.web-security-academy.net* để chỉnh sửa web app làm query param. 
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image9.png?raw=true)
 
 --> Vẫn đổi email thành công --> backend của web app vẫn chấp Referer header bị inject, thay vì xác thực chính xác toàn bộ Referer header, chỉ kiểm tra xem tên domain ở Host header có nằm trong Referer header hay không (bất kỳ vị trí nào). 
 
@@ -124,25 +124,25 @@ Chỉnh tham số thứ 3 thành lab-id, payload sẽ thành như sau:
 
 Go to exploit server và copy payload vào body: 
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image10.png?raw=true)
 
 Store và View exploit. Nhận được thông báo Invalid referer header: 
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image11.png?raw=true)
 
 Điều này là do nhiều trình duyệt hiện đại strip query string từ Referer header theo mặc định như là một biện pháp bảo mật. Để ghi đè hành vi này và đảm bảo rằng URL đầy đủ được bao gồm trong request, thêm header Referrer-Policy: unsafe-url vào phần Head: 
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image12.png?raw=true)
 
 Sửa email trong payload, store và view exploit:
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image13.png?raw=true)
 
 --> Đổi được email. Tiếp tục thay đổi email, store và deliver exploit to victim:
 
 Solved the lab!
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site%20request%20forgery%20(CSRF)/images/image14.png?raw=true)
 
 
 
