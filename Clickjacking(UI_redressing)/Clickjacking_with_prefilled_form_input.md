@@ -33,16 +33,16 @@
 Kiểu tấn công này kết hợp việc sử dụng tham số GET để điền sẵn dữ liệu vào form và clickjacking để người dùng vô tình gửi form chứa dữ liệu độc hại hoặc không mong muốn. Đây là một ví dụ khác của việc lợi dụng lỗ hổng giao diện để thao túng hành vi của người dùng.
 
 # Lab: Clickjacking with form input data prefilled from a URL parameter
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image7.png?raw=true)
 
 ### Web page
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image8.png?raw=true)
 
 ### Solution
 
 Log in vào account được cấp wiener:peter:
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image9.png?raw=true)
 
 Để giải quyết bài lab, tiếp tục cần sử dụng payload có dạng như sau: 
 
@@ -85,11 +85,11 @@ Chỉnh sửa payload thành:
 
 Go to exploit server và copy payload vào phần body: 
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image10.png?raw=true)
 
 Store và View Exploit: 
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image11.png?raw=true)
 
 Căn chỉnh lại payload để Text Click me nằm đè lên Update email button. 
 
@@ -111,11 +111,11 @@ Căn chỉnh lại payload để Text Click me nằm đè lên Update email butt
     <div>Click me</div>
     <iframe src="https://0acc004304afd6c481d2434f003f0064.web-security-academy.net/my-account?email=attacker111@test.com"></iframe>
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image12.png?raw=true)
 
 Sau khi chỉnh xong, thay giá trị opacity thành 0.00001, thay email và click Deliver exploit to victim.
 
 Solved the lab
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image13.png?raw=true)
 
