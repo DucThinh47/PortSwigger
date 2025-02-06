@@ -51,16 +51,16 @@
 Sự kết hợp giữa clickjacking và DOM XSS biến một cuộc tấn công XSS vốn đã nguy hiểm thành một phương thức tấn công mạnh mẽ hơn, lừa người dùng thực thi mã độc mà không hay biết. Tấn công này khai thác iframe để làm phương tiện che giấu, kết hợp URL payload XSS để triển khai tấn công vào trình duyệt của nạn nhân.
 
 # Lab: Exploiting clickjacking vulnerability to trigger DOM-based XSS
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image19.png?raw=true)
 
 ### Web page
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image20.png?raw=true)
 
 ### Solution
 
 Xem thử chức năng Submit feedback: 
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image21.png?raw=true)
 
 --> CÓ thể lợi dung page /feedback để chèn payload kết hợp clickjacking và DOM XSS.
 
@@ -116,14 +116,14 @@ Chỉnh sửa lại payload thành:
 
 Go to exploit server và copy payload vào phần body: 
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image22.png?raw=true)
 
 Store và View exploit: 
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image23.png?raw=true)
 
 Thay đổi lại giá trị opacity thành 0.0001, email và Click Deliver exploit to victim.
 
 Solved the lab!
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image24.png?raw=true)
