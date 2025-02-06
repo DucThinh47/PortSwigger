@@ -19,20 +19,20 @@ Tấn công **Multistep clickjacking** - Clickjacking đa bước xảy ra khi k
 Tấn công clickjacking đa bước yêu cầu kẻ tấn công cẩn thận thiết kế giao diện và thao tác chính xác để lừa người dùng thực hiện các hành động liên tiếp. Tuy nhiên, đây là một phương pháp phức tạp và đòi hỏi sự tỉ mỉ cao để đạt hiệu quả.
 
 # Lab: Multistep clickjacking
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image25.png?raw=true)
 
 ### Web page
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image26.png?raw=true)
 
 ### Solution
 
 Login vào account được cấp: 
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image27.png?raw=true)
 
 Đối với bài lab này, khi click vào button Delete account trên endpoint /my-account, endpoint /delete được hiển thị để confirm: 
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image28.png?raw=true)
 
 --> Payload sẽ cần 2 thẻ div cho 2 button, có dạng như sau:
 
@@ -86,13 +86,13 @@ Chỉnh sửa payload:
 
 Copy payload vào phần body trong exploit server, store và view exploit: 
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image29.png?raw=true)
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image30.png?raw=true)
 
 Chỉnh sửa lại button Click me next: 
 
-![img](31)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image31.png?raw=true)
 
 Payload cuối cùng: 
 
@@ -107,12 +107,12 @@ Payload cuối cùng:
         .firstClick, .secondClick {
             position:absolute;
             top:515px;
-            left:55px;
+            left:50px;
             z-index: 1;
         }
         .secondClick {
             top:310px;
-            left:170px;
+            left:200px;
         }
     </style>
     <div class="firstClick">Click me first</div>
@@ -123,7 +123,7 @@ Store và Deliver exploit to victim.
 
 Solved the lab!
 
-![img](32)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Clickjacking(UI_redressing)/images/image32.png?raw=true)
 
 
 
