@@ -1,5 +1,13 @@
 # Content
 
+- [API Testing]()
+
+- [Clickjacking (UI redrressing)]()
+
+- [Cross-site]()
+
+- [Web LLM attacks]()
+
 ### API Testing
 
 - [Lab: Exploiting an API endpoint using documentation]()
@@ -11,7 +19,7 @@
 - [Lab: Exploiting server-side parameter pollution in a query string]()
 
 
-### Clickjacking(UI_redressing)
+### Clickjacking(UI redressing)
 
 ### Cross-site request forgery (CSRF)
 
