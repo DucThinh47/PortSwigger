@@ -58,6 +58,13 @@ Thực hành các bài labs trên Portswigger liên quan đến nhiều chủ đ
 
 - [Lab: SameSite Lax bypass via cookie refresh](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site_request_forgery_(CSRF)/Bypassing_SameSite_Lax_restrictions_with_newly_issued_cookies.md#lab-samesite-lax-bypass-via-cookie-refresh)
 
-- [Lab: CSRF where Referer validation depends on header being present]()
+- [Lab: CSRF where Referer validation depends on header being present](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site_request_forgery_(CSRF)/Validation_of_Referer_can_be_circumvented.md#lab-csrf-with-broken-referer-validation)
 
 ### Web LLM attacks
+
+- [Lab: Exploiting LLM APIs with excessive agency](https://github.com/DucThinh47/PortSwigger/blob/main/Web_LLM_attacks/Exploiting_LLM_APIs_functions_and_plugins.md#lab-exploiting-llm-apis-with-excessive-agency)
+
+- [Lab: Exploiting vulnerabilities in LLM APIs](https://github.com/DucThinh47/PortSwigger/blob/main/Web_LLM_attacks/Exploiting_LLM_APIs_functions_and_plugins.md#lab-exploiting-vulnerabilities-in-llm-apis)
+
+- [Lab: Indirect prompt injection](https://github.com/DucThinh47/PortSwigger/blob/main/Web_LLM_attacks/Indirect_prompt_injection.md#lab-indirect-prompt-injection)
+
