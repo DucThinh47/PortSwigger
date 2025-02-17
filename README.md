@@ -54,4 +54,10 @@ Thực hành các bài labs trên Portswigger liên quan đến nhiều chủ đ
 
 - [Lab: SameSite Strict bypass via client-side redirect](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site_request_forgery_(CSRF)/Bypassing_SameSite_restrictions_using_on-site_gadgets.md#lab-samesite-strict-bypass-via-client-side-redirect)
 
+- [Lab: SameSite Strict bypass via sibling domain](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site_request_forgery_(CSRF)/Bypassing_SameSite_restrictions_via_vulnerable_sibling_domains.md#lab-samesite-strict-bypass-via-sibling-domain)
+
+- [Lab: SameSite Lax bypass via cookie refresh](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-site_request_forgery_(CSRF)/Bypassing_SameSite_Lax_restrictions_with_newly_issued_cookies.md#lab-samesite-lax-bypass-via-cookie-refresh)
+
+- [Lab: CSRF where Referer validation depends on header being present]()
+
 ### Web LLM attacks
