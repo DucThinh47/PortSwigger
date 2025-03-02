@@ -12,7 +12,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Web LLM attacks](https://github.com/DucThinh47/PortSwigger/tree/main?tab=readme-ov-file#web-llm-attacks)
 
-- [Path traversal]()
+- [Path traversal](https://github.com/DucThinh47/PortSwigger/tree/main#path-traversal)
 
 ### API Testing
 
@@ -72,6 +72,6 @@ Thực hành các bài labs trên Portswigger.
 
 ### Path traversal 
 
-- [Lab: File path traversal, simple case]()
+- [Lab: File path traversal, simple case](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/Reading_arbitrary_files_via_path_traversal.md#lab-file-path-traversal-simple-case)
 
 

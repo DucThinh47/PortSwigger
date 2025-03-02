@@ -30,31 +30,31 @@ Trên Windows, cả ../ và ..\ đều có thể được sử dụng để di c
 
 # Lab: File path traversal, simple case
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/images/image.png?raw=true)
 
 Truy cập Lab: 
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/images/image1.png?raw=true)
 
 Click vào xem 1 sản phẩm chi tiết: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/images/image2.png?raw=true)
 
 Website đã sử dụng tham số productId để tham chiếu đến sản phẩm trong cơ sở dữ liệu, có thể đường dẫn có dạng sau: /var/www/product/2. Để xem tệp /etc/passwd, thử thay giá trị productId thành /../../../etc/passwd:
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/images/image3.png?raw=true)
 
 Không được, thử cách khác, lần này click vào hình ảnh của 1 sản phẩm: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/images/image4.png?raw=true)
 
 => Website cũng sử dụng tham số filename để tham chiếu ID ảnh trong cơ sở dữ liệu, thử thay giá trị này thành /../../../etc/passwd: 
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/images/image5.png?raw=true)
 
 => Đọc được nội dung file /etc/passwd.
 
 Solved the lab!
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/images/image6.png?raw=true)
 
