@@ -1,6 +1,6 @@
 # Portswigger Writeup
 
-Thực hành các bài labs trên Portswigger liên quan đến nhiều chủ đề khác nhau.
+Thực hành các bài labs trên Portswigger.
 
 # Content
 
@@ -11,6 +11,8 @@ Thực hành các bài labs trên Portswigger liên quan đến nhiều chủ đ
 - [Cross-site request forgery](https://github.com/DucThinh47/PortSwigger/tree/main?tab=readme-ov-file#cross-site-request-forgery-csrf)
 
 - [Web LLM attacks](https://github.com/DucThinh47/PortSwigger/tree/main?tab=readme-ov-file#web-llm-attacks)
+
+- [Path traversal]()
 
 ### API Testing
 
@@ -67,4 +69,9 @@ Thực hành các bài labs trên Portswigger liên quan đến nhiều chủ đ
 - [Lab: Exploiting vulnerabilities in LLM APIs](https://github.com/DucThinh47/PortSwigger/blob/main/Web_LLM_attacks/Exploiting_LLM_APIs_functions_and_plugins.md#lab-exploiting-vulnerabilities-in-llm-apis)
 
 - [Lab: Indirect prompt injection](https://github.com/DucThinh47/PortSwigger/blob/main/Web_LLM_attacks/Indirect_prompt_injection.md#lab-indirect-prompt-injection)
+
+### Path traversal 
+
+- [Lab: File path traversal, simple case]()
+
 
