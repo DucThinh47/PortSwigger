@@ -78,6 +78,6 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: File path traversal, traversal sequences stripped non-recursively](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/Common_obstacles_to_exploiting_path_traversal_vulnerabilities.md#lab-file-path-traversal-traversal-sequences-stripped-non-recursively)
 
-- [Lab: File path traversal, traversal sequences stripped with superfluous URL-decode]()
+- [Lab: File path traversal, traversal sequences stripped with superfluous URL-decode](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/Common_obstacles_to_exploiting_path_traversal_vulnerabilities.md#lab-file-path-traversal-traversal-sequences-stripped-with-superfluous-url-decode)
 
 
