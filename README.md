@@ -74,4 +74,6 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: File path traversal, simple case](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/Reading_arbitrary_files_via_path_traversal.md#lab-file-path-traversal-simple-case)
 
+- [Lab: File path traversal, traversal sequences blocked with absolute path bypass]()
+
 
