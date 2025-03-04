@@ -45,35 +45,35 @@ Hãy cẩn trọng khi chèn điều kiện OR 1=1 vào truy vấn SQL. Ngay c�
 
 # Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image.png?raw=true)
 
 Truy cập lab: 
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image1.png?raw=true)
 
 Ở phần Refine your search, click chọn Accessories: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image2.png?raw=true)
 
 Intercept request này trong Burp Suite: 
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image3.png?raw=true)
 
 Chèn điều kiện '+OR+1=1-- vào đằng sau category=Accessories: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image4.png?raw=true)
 
 Số sản phẩm hiển thị khi chưa chèn: 
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image5.png?raw=true)
 
 Sau khi chèn payload: 
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image6.png?raw=true)
 
 Solved the lab!
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image7.png?raw=true)
 
 
 

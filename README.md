@@ -14,7 +14,8 @@ Thực hành các bài labs trên Portswigger.
 
 - [Path traversal](https://github.com/DucThinh47/PortSwigger/tree/main#path-traversal)
 
-- [SQL injection]()
+- [SQL injection](https://github.com/DucThinh47/PortSwigger#sql-injection)
+
 ### API Testing
 
 - [Lab: Exploiting an API endpoint using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/API_testing/API_documentation.md#lab-exploiting-an-api-endpoint-using-documentation)
@@ -87,7 +88,9 @@ Thực hành các bài labs trên Portswigger.
 
 ### SQL injection
 
-- [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data]()
+- [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Retrieving_hidden_data.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
+
+
 
 
 
