@@ -16,29 +16,29 @@ Vì dấu -- biến phần còn lại của truy vấn thành bình luận, đi�
 
 # Lab: SQL injection vulnerability allowing login bypass
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image8.png?raw=true)
 
 Truy cập lab: 
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image9.png?raw=true)
 
 Click My account:
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image10.png?raw=true)
 
 Nhập username là administrator'-- và password là 123 (tùy chọn), trước khi click Login, Intercept request này trong Burp Suite: 
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image11.png?raw=true)
 
 Send request này:
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image12.png?raw=true)
 
 Đăng nhập vào tài khoản administrator.
 
 Solved the lab!
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image13.png?raw=true)
 
 
 
