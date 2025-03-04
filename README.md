@@ -14,6 +14,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Path traversal](https://github.com/DucThinh47/PortSwigger/tree/main#path-traversal)
 
+- [SQL injection]()
 ### API Testing
 
 - [Lab: Exploiting an API endpoint using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/API_testing/API_documentation.md#lab-exploiting-an-api-endpoint-using-documentation)
@@ -80,10 +81,11 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: File path traversal, traversal sequences stripped with superfluous URL-decode](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/Common_obstacles_to_exploiting_path_traversal_vulnerabilities.md#lab-file-path-traversal-traversal-sequences-stripped-with-superfluous-url-decode)
 
-
 - [Lab: File path traversal, validation of start of path](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/Common_obstacles_to_exploiting_path_traversal_vulnerabilities.md#lab-file-path-traversal-validation-of-start-of-path)
 
 - [Lab: File path traversal, validation of file extension with null byte bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Path-Traversal/Common_obstacles_to_exploiting_path_traversal_vulnerabilities.md#lab-file-path-traversal-validation-of-file-extension-with-null-byte-bypass)
 
+### SQL injection
 
+- []
 
