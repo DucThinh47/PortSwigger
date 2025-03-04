@@ -87,5 +87,7 @@ Thực hành các bài labs trên Portswigger.
 
 ### SQL injection
 
-- []
+- [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data]()
+
+
 
