@@ -92,5 +92,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Subverting_application_logic.md#lab-sql-injection-vulnerability-allowing-login-bypass)
 
+- [Lab: SQL injection UNION attack, determining the number of columns returned by the query]()
+
 
 
