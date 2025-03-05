@@ -42,49 +42,49 @@ Tương tự như kỹ thuật **ORDER BY**, ứng dụng có thể hiển thị
 
 # Lab: SQL injection UNION attack, determining the number of columns returned by the query
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image14.png?raw=true)
 
 Truy cập lab: 
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image15.png?raw=true)
 
 Thử chọn Tech gifts và Intercept request trong Burp Suite: 
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image16.png?raw=true)
 
 Send request và xem response: 
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image17.png?raw=true)
 
 Sử dụng phương pháp chèn payload **'UNINON SELECT NULL--**, chèn payload này vào giá trị tham số category: 
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image18.png?raw=true)
 
 Thử send request này và quan sát response: 
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image19.png?raw=true)
 
 Lỗi Internal Server Error, có vẻ số cột từ truy vấn chèn chưa khớp với truy vấn gốc. Thử thêm 1 giá trị NULL vào payload: 
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image20.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image21.png?raw=true)
 
 Vẫn chưa được, thử thêm 1 giá trị NULL nữa:
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image22.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image23.png?raw=true)
 
 => Thành công, website đã phản hồi lại, tìm ra số lượng cột trong truy vấn gốc là 3. 
 
 Solved the lab!
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image24.png?raw=true)
 
 
 
