@@ -23,69 +23,69 @@ Mỗi hệ quản trị cơ sở dữ liệu có cú pháp nối chuỗi khác n
 
 # Lab: SQL injection UNION attack, retrieving multiple values in a single column
 
-![img](53)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image53.png?raw=true)
 
 Truy cập lab: 
 
-![img](54)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image54.png?raw=true)
 
 Click chọn category Pets và intercept request trong Burp Suite: 
 
-![img](55)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image55.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](56)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image56.png?raw=true)
 
 Thử chèn payload **'UNION+SELECT+NULL--** vào giá trị tham số category: 
 
-![img](57)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image57.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](58)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image58.png?raw=true)
 
 Lỗi, thử thêm một giá trị NULL: 
 
-![img](59)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image59.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](60)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image60.png?raw=true)
 
 => Thành công tìm ra số lượng cột trong truy vấn gốc là 2. Thử thay 2 giá trị NULL thành 'abc' và 'def':
 
-![img](61)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image61.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](62)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image62.png?raw=true)
 
 Bị lỗi, có vẻ 1 trong 2 cột không phải kiểu dữ liệu chuỗi. Thử thay 'abc' thành NULL: 
 
-![img](63)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image63.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](64)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image64.png?raw=true)
 
 => Cột thứ 2 mới là cột có kiểu dữ liệu chuỗi. Cần trích xuất cả username và password trong cùng một cột này. Sửa 'def' thành **username||'~'||password** và thêm **+FROM+users**: 
 
-![img](65)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image65.png?raw=true)
 
 Send request và xem resposne: 
 
-![img](66)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image66.png?raw=true)
 
 => Tìm được username: administrator và password: lev8hj12jssratpvcwl1
 
 Login vào tài khoản administrator: 
 
-![img](67)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image67.png?raw=true)
 
 Solved the lab!
 
-![img](68)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image68.png?raw=true)
 
 
 
