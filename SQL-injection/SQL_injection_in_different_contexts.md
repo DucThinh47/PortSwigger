@@ -15,31 +15,31 @@ Trước khi gửi đến bộ phân tích SQL, máy chủ sẽ giải mã nội
 
 # Lab: SQL injection with filter bypass via XML encoding
 
-![img](197)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image197.png?raw=true)
 
 Truy cập lab: 
 
-![img](198)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image198.png?raw=true)
 
 Click xem 1 sản phẩm chi tiết:
 
-![img](199)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image199.png?raw=true)
 
 Click check stock. Kiểm tra request khi check stock: 
 
-![img](200)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image200.png?raw=true)
 
 => Chức năng kiểm tra hàng tồn kho gửi productId và storeId đến ứng dụng theo định dạng XML.
 
 Send request, xem response:
 
-![img](201)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image201.png?raw=true)
 
 Thử thay đổi storeId để kiểm tra xem ứng dụng có đánh giá đầu vào không. Ví dụ, thay ID bằng một biểu thức toán học:
 
     <storeId>1+1</storeId>
 
-![img](202)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image202.png?raw=true)
 
 => Webiste thực hiện phép toán này, trả về kết quả cho một cửa hàng khác, chứng tỏ dữ liệu đầu vào bị đánh giá.
 
@@ -47,7 +47,7 @@ Tiếp tục kiểm tra bằng cách thử khai thác SQL Injection với UNION 
 
     <storeId>1 UNION SELECT NULL</storeId>
 
-![img](203)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image203.png?raw=true)
 
 => Yêu cầu bị chặn với thông báo đây là một cuộc tấn công tiềm năng, chứng tỏ hệ thống có WAF (Web Application Firewall).
 
@@ -62,7 +62,7 @@ Sử dụng Hackvertor Extension trong Burp Suite:
 - Chuột phải > Extensions > Hackvertor > Encode > dec_entities/hex_entities
 - Gửi lại yêu cầu.
 
-![img](204)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image204.png?raw=true)
 
 => Nhận được phản hồi bình thường từ ứng dụng, vượt qua WAF thành công.
 
@@ -73,19 +73,19 @@ Tiếp tục thử nghiệm, nhận thấy rằng truy vấn trả về một c�
 
 Nếu cố gắng trả về nhiều hơn một cột, website sẽ phản hồi 0 units, nghĩa là có lỗi xảy ra.
 
-![img](205)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image205.png?raw=true)
 
 Do chỉ có thể trả về một cột,nối (concatenate) dữ liệu username và password bằng ký tự ~
 
     <storeId><@hex_entities>1 UNION SELECT username || '~' || password FROM users</@hex_entities></storeId>
 
-![img](206)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image206.png?raw=true)
 
 => Tìm ra tài khoản administrator. 
 
 Login và solved bài lab: 
 
-![img](207)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image207.png?raw=true)
 
 
 

@@ -112,7 +112,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: Blind SQL injection with time delays and information retrieval](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Exploiting_blind_SQL_injection_by_triggering_time_delays.md#lab-blind-sql-injection-with-time-delays-and-information-retrieval)
 
-- [Lab: SQL injection with filter bypass via XML encoding]()
+- [Lab: SQL injection with filter bypass via XML encoding](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/SQL_injection_in_different_contexts.md#lab-sql-injection-with-filter-bypass-via-xml-encoding)
 
 
 
