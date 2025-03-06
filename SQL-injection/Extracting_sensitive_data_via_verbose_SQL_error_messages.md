@@ -30,7 +30,6 @@ Truy cập lab:
 
 ![img](162)
 
-
 Chọn category Pets và intercept request trong Burp Suite: 
 
 ![img](163)
