@@ -102,7 +102,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: SQL injection attack, querying the database type and version on MySQL and Microsoft](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Examining_the_database_in_SQL_injection_attacks.md#lab-sql-injection-attack-querying-the-database-type-and-version-on-mysql-and-microsoft)
 
-- [Lab: SQL injection attack, listing the database contents on non-Oracle databases]()
+- [Lab: SQL injection attack, listing the database contents on non-Oracle databases](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Examining_the_database_in_SQL_injection_attacks.md#lab-sql-injection-attack-listing-the-database-contents-on-non-oracle-databases)
 
 
 

@@ -137,75 +137,75 @@ Sử dụng các truy vấn này, kẻ tấn công có thể tìm ra cấu trúc
 
 # Lab: SQL injection attack, listing the database contents on non-Oracle databases
 
-![img](85)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image85.png?raw=true)
 
 Truy cập lab: 
 
-![img](86)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image86.png?raw=true)
 
 Chọn category Lifestyle và intercept request trong Burp Suite: 
 
-![img](87)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image87.png?raw=true)
 
 Thử chèn payload **'+UNION+SELECT+NULL,NULL--** vào tham số category để kiểm tra số lượng cột trong truy vấn gốc: 
 
-![img](88)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image88.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](89)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image89.png?raw=true)
 
 => Thành công biết rằng số lượng cột của truy vấn gốc là 2. 
 
 Thử kiểm tra xem cột nào nhận giá trị kiểu chuỗi: 
 
-![img](90)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image90.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](91)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image91.png?raw=true)
 
 => Cả 2 cột có thể chứa giá trị kiểu chuỗi. 
 
 Chèn payload **'UNION+SELECT+table_name,+NULL+FROM+information_schema.tables--** để lấy ra tên bảng trong CSDL: 
 
-![img](92)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image92.png?raw=true)
 
 Send request, quan sát response:
 
-![img](93)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image93.png?raw=true)
 
 => Tìm ra tên bảng chứa thông tin về users: users_twsmtx
 
 Tiếp theo cần tìm tên các cột trong bảng này, sử dụng payload **'UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name = 'users_twsmtx'--**:
 
-![img](94)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image94.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](95)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image95.png?raw=true)
 
-![img](96)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image96.png?raw=true)
 
 => Tìm ra cột lưu thông tin username: username_wmowzy và cột lưu thông tin password là: password_tqaahw
 
 Như vậy đã tìm ra tên bảng và tên cột, tiếp theo sử dụng payload **'UNION SELECT username_wmowzy, password_tqaahw FROM users_twsmtx--** để trích xuất thông tin: 
 
-![img](97)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image97.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](98)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image98.png?raw=true)
 
 => username: administrator và password: xqq27g94tizfndzfgd2p
 
 Login tài khoản administrator: 
 
-![img](99)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image99.png?raw=true)
 
 Solved the lab!
 
-![img](100)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image100.png?raw=true)
 
 
 
