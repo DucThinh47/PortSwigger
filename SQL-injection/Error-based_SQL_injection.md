@@ -43,95 +43,95 @@ Sử dụng kỹ thuật này, có thể trích xuất dữ liệu bằng cách 
 
 # Lab: Blind SQL injection with conditional errors
 
-![img](128)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image128.png?raw=true)
 
 Truy cập lab:
 
-![img](129)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image129.png?raw=true)
 
 Click vào category Tech gifts và intercept request này trong Burp Suite: 
 
-![img](130)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image130.png?raw=true)
 
 => Website sử dụng Tracking cookies để theo dõi hành vi người dùng.
 
 Send request, quan sát response: 
 
-![img](131)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image131.png?raw=true)
 
 Thử thêm dấu **'** vào sau giá trị TrackingId: 
 
-![img](132)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image132.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](133)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image133.png?raw=true)
 
 => Lỗi Internal Server Error. 
 
 Thử thêm một dấu **'** nữa: 
 
-![img](134)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image134.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](135)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image135.png?raw=true)
 
 => Không còn lỗi. Điều này cho thấy rằng lỗi cú pháp (trong trường hợp này là dấu **'** chưa đóng) đang ảnh hưởng rõ ràng đến phản hồi.
 
 Cần xác nhận rằng website đang xử lý payload chèn vào như một truy vấn SQL, tức là lỗi xuất hiện do cú pháp SQL chứ không phải do một loại lỗi khác. Thử chèn một truy vấn con với cú pháp SQL hợp lệ. **'||(SELECT '')||'**:
 
-![img](136)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image136.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](137)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image137.png?raw=true)
 
 => Lỗi Internal Server Error. Có thể là do loại CSDL - thử chỉ định tên bảng có thể dự đoán được trong truy vấn: **'||(SELECT '' FROM dual)||'**:
 
-![img](138)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image138.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](139)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image139.png?raw=true)
 
 => Không còn lỗi. Cho thấy webiste có thể đang sử dụng cơ sở dữ liệu Oracle, luôn yêu cầu tất cả các câu lệnh **SELECT** phải chỉ định rõ ràng tên bảng.
 
 Sau khi gửi một truy vấn có vẻ hợp lệ, thử gửi một truy vấn không hợp lệ nhưng vẫn đảm bảo cú pháp SQL hợp lệ. Thử truy vấn một bảng không tồn tại, sử dụng payload **'||(SELECT '' FROM not-a-real-table)||'**:
 
-![img](140)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image140.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](141)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image141.png?raw=true)
 
 Website tiếp tục trả về lỗi. Điều này cho thấy payload chèn vào đang được xử lý như một truy vấn SQL bởi hệ thống backend của website. 
 
 Chỉ cần chèn các truy vấn SQL hợp lệ về mặt cú pháp, có thể sử dụng phản hồi lỗi từ website để suy luận thông tin quan trọng về cơ sở dữ liệu. Ví dụ, để xác minh rằng bảng **users** tồn tại, chèn payload **'||(SELECT '' FROM users WHERE ROWNUM = 1)||'**:
 
-![img](142)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image142.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](143)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image143.png?raw=true)
 
 => Truy vấn này không trả về lỗi, suy ra bảng **users** thực sự tồn tại. Điều kiện **WHERE ROWNUM = 1** rất quan trọng để ngăn truy vấn trả về nhiều hơn một dòng, điều này có thể gây lỗi trong quá trình nối chuỗi.
 
 Tiếp theo thử chèn payload **'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'** để kiểm tra việc sử dụng điều kiện: 
 
-![img](144)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image144.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](145)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image145.png?raw=true)
 
 => Website trả về lỗi. Thử chèn payload **'||(SELECT CASE WHEN (1=2) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'**:
 
-![img](146)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image146.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](147)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image147.png?raw=true)
 
 => Website không trả về lỗi. => Có thể kích hoạt một lỗi một cách có điều kiện dựa trên tính đúng sai của một điều kiện cụ thể.
 
@@ -139,63 +139,63 @@ Câu lệnh **CASE** kiểm tra một điều kiện và trả về một biểu
 
 Có thể sử dụng hành vi này để kiểm tra xem các bản ghi cụ thể có tồn tại trong bảng hay không. Dùng truy vấn **'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'** để kiểm tra xem tên người dùng **administrator** có tồn tại hay không:
 
-![img](148)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image148.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](149)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image149.png?raw=true)
 
 => Lỗi được trả về => điều kiện đúng, có người dùng tên **administrator**. 
 
 Tiếp theo cần xác định độ dài mật khẩu của administrator, sử dụng payload **'||(SELECT CASE WHEN LENGTH(password)>1 THEN to_char(1/0) ELSE '' END FROM users WHERE username='administrator')||'**: 
 
-![img](150)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image150.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](151)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image151.png?raw=true)
 
 => Lỗi được trả về, điều kiện là đúng, độ dài password > 1. 
 
 Chèn payload **'||(SELECT CASE WHEN LENGTH(password)>20 THEN to_char(1/0) ELSE '' END FROM users WHERE username='administrator')||'**:
 
-![img](152)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image152.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](153)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image153.png?raw=true)
 
 => Không có lỗi, nghĩa là điều kiện sai => độ dài password = 20. 
 
 Tiếp theo cần thử từng ký tự tương ứng với từng vị trí, send request sang Intruder và thay payload thành **'||(SELECT CASE WHEN SUBSTR(password,1,1)='a' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'**: 
 
-![img](154)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image154.png?raw=true)
 
 Chọn vị trí brute-force ở ký tự tương ứng với từng vị trí (='a') 
 
-![img](155)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image155.png?raw=true)
 
 Chọn payload: 
 
-![img](156)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image156.png?raw=true)
 
 Start attack, lọc ra những lần thử trả về lỗi 500 vì đó sẽ là ký tự cần tìm:
 
-![img](157)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image157.png?raw=true)
 
 Tiếp tục thay lần lượt từng vị trí và tấn công lại: 
 
-![img](158)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image158.png?raw=true)
 
 => Tìm ra password: twqfdeu25oasvp136962 
 
 Login tài khoản administrator: 
 
-![img](159)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image159.png?raw=true)
 
 Solved the lab!
 
-![img](160)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image160.png?raw=true)
 
 
 

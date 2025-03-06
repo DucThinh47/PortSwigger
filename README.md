@@ -106,6 +106,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: Blind SQL injection with conditional responses](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Exploiting_blind_SQL_injection_by_triggering_conditional_responses.md#lab-blind-sql-injection-with-conditional-responses)
 
+- [Lab: Blind SQL injection with conditional errors](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Error-based_SQL_injection.md#lab-blind-sql-injection-with-conditional-errors)
 
 
 
