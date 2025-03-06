@@ -30,67 +30,67 @@ Nếu tấn công thành công, nó có thể trả về thông tin như sau, x�
 
 # Lab: SQL injection attack, querying the database type and version on MySQL and Microsoft
 
-![img](69)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image69.png?raw=true)
 
 Truy cập lab: 
 
-![img](70)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image70.png?raw=true)
 
 Click chọn category Gifts và intercept request trong Burp Suite: 
 
-![img](71)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image71.png?raw=true)
 
 Send request và xem response: 
 
-![img](72)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image72.png?raw=true)
 
 Thử thêm payload **'UNION+SELECT+NULL,NULL--** vào tham số category: 
 
-![img](73)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image73.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](74)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image74.png?raw=true)
 
 Bị lỗi dù đã sử dụng giá trị NULL, có thể do cách sử dụng comment không khớp với kiểu CSDL, thử thay **--** thành **+#**: 
 
-![img](75)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image75.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](76)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image76.png?raw=true)
 
 => Thành công, tìm ra số lượng cột trong truy vấn gốc là 2. Tiếp theo vì version của DB là kiểu dữ liệu chuỗi, cần thử xem cột nào là cột có kiểu dữ liệu chuỗi. Thay giá trị NULL thứ 2 thành 'abcdf': 
 
-![img](77)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image77.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](78)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image78.png?raw=true)
 
 => Tìm ra cột thứ 2 có kiểu dữ liệu là chuỗi. Thử cả cột thứ nhất: 
 
-![img](79)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image79.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](80)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image80.png?raw=true)
 
 => Cột thứ nhất cũng có kiểu dữ liệu là chuỗi. Để truy xuất DB version, thử chèn giá trị **SELECT+@@version**: 
 
-![img](81)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image81.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](82)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image82.png?raw=true)
 
 => Thành công tìm ra DB version. Chuyển payload này sang request bên tab proxy và forward: 
 
-![img](83)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image83.png?raw=true)
 
 Solved the lab!
 
-![img](84)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image84.png?raw=true)
 
 
 
