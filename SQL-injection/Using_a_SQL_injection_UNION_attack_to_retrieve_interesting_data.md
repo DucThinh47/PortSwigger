@@ -18,53 +18,53 @@ Tuy nhiên, hầu hết các hệ quản trị cơ sở dữ liệu hiện đạ
 
 # Lab: SQL injection UNION attack, retrieving data from other tables
 
-![img](41)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image41.png?raw=true)
 
 Truy cập lab: 
 
-![img](42)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image42.png?raw=true)
 
 Chọn category Gifts và intercept request trong Burp Suite: 
 
-![img](43)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image43.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](44)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image44.png?raw=true)
 
 Thử thêm payload **'+UNION+SELECT+NULL--** vào giá trị tham số category: 
 
-![img](45)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image45.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](46)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image46.png?raw=true)
 
 Có vẻ số lượng cột chưa khớp với truy vấn gốc, thử thêm 1 giá trị NULL: 
 
-![img](47)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image47.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](48)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image48.png?raw=true)
 
 => Tìm ra số lượng cột của truy vấn gốc là 2. Thử thay 2 giá trị NULL thành username, password và thêm FROM users: 
 
-![img](49)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image49.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](50)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image50.png?raw=true)
 
 => Tìm được username: administrator và password: hzz2lhkguo4in0qrff6a
 
 Đăng nhập vào tài khoản administrator: 
 
-![img](51)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image51.png?raw=true)
 
 Solved the lab!
 
-![img](52)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image52.png?raw=true)
 
 
 

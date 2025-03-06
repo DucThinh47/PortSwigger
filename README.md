@@ -96,7 +96,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: SQL injection UNION attack, finding a column containing text](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Finding_columns_with_a_useful_data_type.md#lab-sql-injection-union-attack-finding-a-column-containing-text)
 
-- [Lab: SQL injection UNION attack, retrieving data from other tables]()
+- [Lab: SQL injection UNION attack, retrieving data from other tables](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Using_a_SQL_injection_UNION_attack_to_retrieve_interesting_data.md#lab-sql-injection-union-attack-retrieving-data-from-other-tables)
 
 
 
