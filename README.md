@@ -110,7 +110,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: Visible error-based SQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Error-based_SQL_injection.md#lab-visible-error-based-sql-injection)
 
-- [Lab: Blind SQL injection with time delays and information retrieval]()
+- [Lab: Blind SQL injection with time delays and information retrieval](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Exploiting_blind_SQL_injection_by_triggering_time_delays.md#lab-blind-sql-injection-with-time-delays-and-information-retrieval)
 
 
 
