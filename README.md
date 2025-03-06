@@ -100,6 +100,8 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: SQL injection UNION attack, retrieving multiple values in a single column](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Retrieving_multiple_values_within_a_single_column.md#lab-sql-injection-union-attack-retrieving-multiple-values-in-a-single-column)
 
+- [Lab: SQL injection attack, querying the database type and version on MySQL and Microsoft]()
+
 
 
 
