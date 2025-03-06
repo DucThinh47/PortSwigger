@@ -86,5 +86,20 @@ Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image24.png?raw=true)
 
+# Database-specific syntax
+
+Trên **Oracle**, mọi truy vấn **SELECT** đều phải chứa từ khóa **FROM** và chỉ định một bảng hợp lệ. Oracle có một bảng tích hợp sẵn gọi là **DUAL**, có thể được sử dụng cho mục đích này. Do đó, các truy vấn chèn vào trên Oracle cần có dạng:
+
+    ' UNION SELECT NULL FROM DUAL--
+
+Các payload trên sử dụng chuỗi ký tự **--** để tạo một chú thích, giúp loại bỏ phần còn lại của truy vấn gốc sau điểm injection.
+
+Trên **MySQL**, chuỗi **--** phải được theo sau bởi một khoảng trắng (-- ). Ngoài ra, có thể sử dụng dấu **#** để tạo chú thích:
+
+    ' UNION SELECT NULL #  
+
+
+
+
 
 
