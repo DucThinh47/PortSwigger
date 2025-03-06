@@ -94,5 +94,9 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: SQL injection UNION attack, determining the number of columns returned by the query](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Determining_the_number_of_columns_required.md#lab-sql-injection-union-attack-determining-the-number-of-columns-returned-by-the-query)
 
+- [Lab: SQL injection UNION attack, finding a column containing text]()
+
+
+
 
 
