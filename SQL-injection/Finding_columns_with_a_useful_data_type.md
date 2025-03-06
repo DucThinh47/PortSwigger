@@ -17,69 +17,69 @@ Ngược lại, nếu **không có lỗi** xảy ra và phản hồi của ứng
 
 # Lab: SQL injection UNION attack, finding a column containing text
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image25.png?raw=true)
 
 Truy cập lab: 
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image26.png?raw=true)
 
 Click chọn category Pets và intercept request này: 
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image27.png?raw=true)
 
 Send request này và quan sát response: 
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image28.png?raw=true)
 
 Chèn payload **'UNION+SELECT+NULL--** vào giá trị tham số category: 
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image29.png?raw=true)
 
 Send request này quan sát response: 
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image30.png?raw=true)
 
 Bị lỗi, có vẻ số lượng cột chưa khớp với truy vấn gốc. Thử thêm 1 giá trị NULL: 
 
-![img](31)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image31.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](32)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image32.png?raw=true)
 
 Chưa được, tiếp tục thêm 1 giá trị NULL: 
 
-![img](33)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image33.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](34)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image34.png?raw=true)
 
 => Tìm ra được số lượng cột trong truy vấn gốc là 3. Tiếp theo cần kiểm tra từng cột để xem cột nào có thể chứa dữ liệu dạng chuỗi. Để làm điều này, gửi một chuỗi payload **UNION SELECT** với một giá trị chuỗi đặt vào từng cột lần lượt, thử chèn vào giá trị NULL đầu tiên: 
 
-![img](35)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image35.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](36)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image36.png?raw=true)
 
 Chưa được, cột đầu tiên không phải dữ liệu dạng chuỗi. Thử cột thứ 2: 
 
-![img](37)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image37.png?raw=true)
 
 Send request và quan sát response: 
 
-![img](38)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image38.png?raw=true)
 
 => Thành công tìm ra cột thứ 2 là cột có kiểu dữ liệu chuỗi. Mở lại tab Proxy trong Burp Suite và chèn payload này vào request, sau đó forward request này: 
 
 **Lưu ý, thay giá trị chuỗi thử thành 'CiPooV'**
 
-![img](39)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image39.png?raw=true)
 
 Solved the lab!
 
-![img](40)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image40.png?raw=true)
 
 
 
