@@ -4,23 +4,23 @@ Nhiều trang web hiện đại sử dụng CORS để cho phép truy cập từ
 
 # Lab: CORS vulnerability with basic origin reflection
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image.png?raw=true)
 
 Truy cập lab: 
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image1.png?raw=true)
 
 Đăng nhập vào tài khoản wiener: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image2.png?raw=true)
 
 Kiểm tra trong Burp HTTP history, tìm request AJAX gửi đến /accountDetails để lấy API key.
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image3.png?raw=true)
 
 Response của request này: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image4.png?raw=true)
 
 => Response từ server chứa tiêu đề **Access-Control-Allow-Credentials: true**, nghĩa là nó hỗ trợ CORS với thông tin xác thực.
 
@@ -34,11 +34,11 @@ Gửi request /accountDetails đến Burp Repeater và sửa tiêu đề để t
 
     Origin: https://example.com
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image5.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image6.png?raw=true)
 
 =>  server phản hồi với header: 
 
@@ -60,7 +60,7 @@ Payload để nhập vào Exploit server:
         };
     </script>
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image7.png?raw=true)
 
 
 - **withCredentials = true** đảm bảo rằng trình duyệt gửi cookie xác thực của nạn nhân.
@@ -71,11 +71,11 @@ Payload để nhập vào Exploit server:
 
 Deliver attack to victim và quan sát Access log: 
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image8.png?raw=true)
 
 => Tìm ra API key của nạn nhân là y4HpPTYTr5eYNK0mwl1sJfEFnbIahDk6. Submit API key và solved bài lab.
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image9.png?raw=true)
 
 
 

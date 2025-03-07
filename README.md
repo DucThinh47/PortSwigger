@@ -118,7 +118,7 @@ Thực hành các bài labs trên Portswigger.
 
 ### Cross-origin resource sharing (CORS) 
 
-- [Lab: CORS vulnerability with basic origin reflection]()
+- [Lab: CORS vulnerability with basic origin reflection](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/Vulnerabilities_arising_from_CORS_configuration_issues.md#lab-cors-vulnerability-with-basic-origin-reflection)
 
 
 
