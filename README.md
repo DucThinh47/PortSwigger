@@ -118,7 +118,7 @@ Thực hành các bài labs trên Portswigger.
 
 ### Cross-origin resource sharing (CORS) 
 
-
+- [Lab: CORS vulnerability with basic origin reflection]()
 
 
 
