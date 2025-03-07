@@ -1,0 +1,3 @@
+# Relaxation of the same-origin policy
+
+Chính sách cùng nguồn gốc rất nghiêm ngặt, do đó, nhiều phương pháp đã được phát triển để vượt qua những hạn chế này. Nhiều trang web cần tương tác với các tên miền phụ hoặc các trang web bên thứ ba theo cách yêu cầu quyền truy cập chéo miền hoàn toàn. Việc nới lỏng có kiểm soát chính sách cùng nguồn gốc có thể được thực hiện bằng cách sử dụng cơ chế chia sẻ tài nguyên chéo nguồn (CORS).

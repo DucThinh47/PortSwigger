@@ -16,6 +16,8 @@ Thực hành các bài labs trên Portswigger.
 
 - [SQL injection](https://github.com/DucThinh47/PortSwigger#sql-injection)
 
+- [Cross-origin resource sharing (CORS)]()
+
 ### API Testing
 
 - [Lab: Exploiting an API endpoint using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/API_testing/API_documentation.md#lab-exploiting-an-api-endpoint-using-documentation)
@@ -114,7 +116,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: SQL injection with filter bypass via XML encoding](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/SQL_injection_in_different_contexts.md#lab-sql-injection-with-filter-bypass-via-xml-encoding)
 
-
+### Cross-origin resource sharing (CORS) 
 
 
 
