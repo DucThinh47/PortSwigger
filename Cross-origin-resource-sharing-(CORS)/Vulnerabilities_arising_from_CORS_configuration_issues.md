@@ -391,5 +391,25 @@ Submit api key và solved bài lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image30.png?raw=true)
 
+# Intranets and CORS without credentials
+
+Hầu hết các cuộc tấn công CORS dựa vào sự tồn tại của tiêu đề phản hồi:
+
+    Access-Control-Allow-Credentials: true
+
+Nếu tiêu đề này không tồn tại, trình duyệt của người dùng sẽ từ chối gửi cookie của họ, có nghĩa là kẻ tấn công chỉ có thể truy cập nội dung không yêu cầu xác thực, thứ mà chúng cũng có thể dễ dàng truy cập bằng cách truy cập trực tiếp vào trang web mục tiêu.
+
+Tuy nhiên, có một trường hợp phổ biến mà kẻ tấn công không thể truy cập trực tiếp vào một trang web: khi trang đó là một phần của mạng nội bộ của tổ chức và nằm trong không gian địa chỉ IP riêng. Các trang web nội bộ thường có tiêu chuẩn bảo mật thấp hơn so với các trang web bên ngoài, tạo điều kiện cho kẻ tấn công tìm ra lỗ hổng và tiếp cận sâu hơn.
+
+Ví dụ, một yêu cầu từ một mạng riêng có thể trông như sau:
+
+    GET /reader?url=doc1.pdf
+    Host: intranet.normal-website.com
+    Origin: https://normal-website.com
+
+Và máy chủ phản hồi với:
+
+    HTTP/1.1 200 OK
+    Access-Control-Allow-Origin: *
 
 
