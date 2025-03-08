@@ -18,6 +18,8 @@ Thực hành các bài labs trên Portswigger.
 
 - [Cross-origin resource sharing (CORS)](https://github.com/DucThinh47/PortSwigger#cross-origin-resource-sharing-cors)
 
+- [NoSQL Injection]()
+
 ### API Testing
 
 - [Lab: Exploiting an API endpoint using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/API_testing/API_documentation.md#lab-exploiting-an-api-endpoint-using-documentation)
@@ -124,7 +126,6 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: CORS vulnerability with trusted insecure protocols](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/Vulnerabilities_arising_from_CORS_configuration_issues.md#lab-cors-vulnerability-with-trusted-insecure-protocols)
 
+### NoSQL Injection
 
-
-
-
+- [Lab: Detecting NoSQL injection]()
