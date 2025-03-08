@@ -18,7 +18,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Cross-origin resource sharing (CORS)](https://github.com/DucThinh47/PortSwigger#cross-origin-resource-sharing-cors)
 
-- [NoSQL Injection]()
+- [NoSQL Injection](https://github.com/DucThinh47/PortSwigger/tree/main#nosql-injection)
 
 ### API Testing
 
