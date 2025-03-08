@@ -298,43 +298,43 @@ Vì **Access-Control-Allow-Credentials: true**, nên trình duyệt sẽ gửi c
 
 # Lab: CORS vulnerability with trusted insecure protocols
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image20.png?raw=true)
 
 Truy cập lab: 
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image21.png?raw=true)
 
 Login tài khoản wiener: 
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image22.png?raw=true)
 
 Mở Burp history, tìm kiếm request tới /accountDetails:
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image23.png?raw=true)
 
 => Response của request: 
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image24.png?raw=true)
 
 => Có **Access-Control-Allow-Credentials header**, như vậy server có thể hỗ trợ CORS. 
 
 Chỉnh sửa request, thêm header Origin: http://subdomain.0ade004e0488d95280a1bc83008f00d2.web-security-academy.net
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image25.png?raw=true)
 
 Send request, quan sát response:
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image26.png?raw=true)
 
 => Máy chủ phản hồi **Access-Control-Allow-Origin header**, xác nhận cấu hình CORS cho phép truy cập từ các subdomains khác tùy ý, cả HTTPs và HTTP.
 
 Chọn 1 sản phẩm và check stock: 
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image27.png?raw=true)
 
 => Trang này sử dụng HTTP. Đồng thời, nhận thấy tham số productID dễ bị tấn công XSS: 
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image28.png?raw=true)
 
 Payload chèn vào exploit server:
 
@@ -383,13 +383,13 @@ Tạo một **XMLHttpRequest** để gửi yêu cầu GET đến /accountDetails
 
 Deliver attack to victim và xem Access log: 
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image29.png?raw=true)
 
 => Tìm ra api key của nạn nhân: mS3S2vBwnqpgsmvrdxI8TLnZXm0iqeej
 
 Submit api key và solved bài lab!
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image30.png?raw=true)
 
 
 
