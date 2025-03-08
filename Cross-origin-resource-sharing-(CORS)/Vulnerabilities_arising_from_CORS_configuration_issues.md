@@ -167,33 +167,33 @@ Theo đặc tả của **Origin header**, giá trị **null** được hỗ tr�
 
 # Lab: CORS vulnerability with trusted null origin
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image10.png?raw=true)
 
 Truy cập lab: 
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image11.png?raw=true)
 
 Đăng nhập vào tài khoản wiener: 
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image12.png?raw=true)
 
 Tìm kiếm yêu cầu đến /accountDetails trong Burp Proxy history: 
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image13.png?raw=true)
 
 Response của request này: 
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image14.png?raw=true)
 
 Response có **Access-Control-Allow-Credentials header**, gợi ý rằng website có hỗ trợ CORS. 
 
 Thêm **Origin header** với giá trị null: 
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image15.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image16.png?raw=true)
 
 => **Access-Control-Allow-Origin header** có giá trị null. 
 
@@ -210,7 +210,7 @@ Payload thêm vào exploit server:
         };
     </script>"></iframe>
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image17.png?raw=true)
 
 Giải thích: 
 
@@ -234,17 +234,15 @@ Quy trình:
 - Nếu máy chủ mục tiêu chấp nhận **Origin: null**, phản hồi sẽ được gửi lại cho script trong iframe.
 - Script này sau đó gửi dữ liệu đánh cắp đến máy chủ của kẻ tấn công (exploit-server.net).
 
-
-
 => Deliver exploit to victim và xem Access log: 
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image18.png?raw=true)
 
 => Tìm ra API key của administrator: a7emNqBMuJQzlV3feCvVhV2A7sTj7XrK
 
 Submit api key và solved bài lab!
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Cross-origin-resource-sharing-(CORS)/images/image19.png?raw=true)
 
 
 
