@@ -110,67 +110,67 @@ Kết quả:
 
 # Lab: Detecting NoSQL injection
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image.png?raw=true)
 
 Truy cập lab: 
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image1.png?raw=true)
 
 Chọn category Gifts và intercept request trong Burp Suite: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image2.png?raw=true)
 
 Thử chèn ký tự **'** vào tham số **category**:
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image3.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image4.png?raw=true)
 
 => website trả về lỗi cú pháp JavaScript, điều này có thể cho thấy đầu vào người dùng không được lọc hoặc kiểm tra đúng cách.
 
 Thử chèn payload JS hợp lệ như ***Gifts'+'***: 
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image5.png?raw=true)
 
 => Send request, quan sát response: 
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image6.png?raw=true)
 
 => Không còn lỗi, có thể website đang thực thi JavaScript do người dùng nhập vào, cho thấy lỗ hổng injection trên server-side.
 
 Thử gửi payload để kiểm tra xem có thể ảnh hưởng đến logic truy vấn không, sử dụng điều kiện boolean sai ***Gifts' && 0 && 'x***
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image7.png?raw=true)
 
 Send request:
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image8.png?raw=true)
 
 => không có sản phẩm nào được trả về, như vậy điều kiện boolean sai đã ảnh hưởng đến truy vấn. 
 
 Tiếp theo, thử nghiệm với điều kiện boolean luôn đúng: ***Gifts' && 1 && 'x***: 
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image9.png?raw=true)
 
 Send request: 
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image10.png?raw=true)
 
 => website có trả về sản phẩm, có thể truy vấn đang bị thao túng thành công.
 
 Tiếp theo, gửi payload ghi đè điều kiện truy vấn: ***Gifts'||1||'***:
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image11.png?raw=true)
 
 Send request: 
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image12.png?raw=true)
 
 => Hiển thị thêm các sản phẩm chưa được phát hành. Solved the lab!
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image13.png?raw=true)
 
 
 
