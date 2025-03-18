@@ -2,9 +2,9 @@
 
 ## Content
 
-- [Types of NoSQL injection]()
+- [Types of NoSQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#types-of-nosql-injection)
 
-- [NoSQL syntax injection]()
+- [NoSQL syntax injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#nosql-syntax-injection)
 
 ### Types of NoSQL injection
 
