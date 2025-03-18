@@ -130,4 +130,4 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: Detecting NoSQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#lab-detecting-nosql-injection)
 
-- [Lab: Exploiting NoSQL operator injection to bypass authentication]()
+- [Lab: Exploiting NoSQL operator injection to bypass authentication](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#lab-exploiting-nosql-operator-injection-to-bypass-authentication)

@@ -6,7 +6,7 @@
 
 - [NoSQL syntax injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#nosql-syntax-injection)
 
-- [NoSQL operator injection]()
+- [NoSQL operator injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#nosql-operator-injection)
 
 ### Types of NoSQL injection
 
@@ -261,57 +261,57 @@ Truy vấn này sẽ trả về tất cả các thông tin đăng nhập có use
 
 #### Lab: Exploiting NoSQL operator injection to bypass authentication
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image14.png?raw=true)
 
 Truy cập lab: 
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image15.png?raw=true)
 
 Login vào tài khoản được cấp `wiener:peter`:
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image16.png?raw=true)
 
 `POST /login` request: 
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image17.png?raw=true)
 
 Thử injection với toán tử `$ne`. Thay đổi giá trị của tham số username từ `wiener` thành `{"$ne":""}`:
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image18.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image19.png?raw=true)
 
 Có vẻ Login thành công. 
 
 Thử injection với toán tử `$regex`, thay đổi giá trị username thành `{"$regex":"wien.*"}`:
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image20.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image21.png?raw=true)
 
 Có vẻ vẫn có thể Login thành công. 
 
 Tiếp theo thử injection đồng thời username và password, thay 2 giá trị này thành `{"$ne":""}`:
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image22.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image23.png?raw=true)
 
 Thông báo lỗi cho thấy truy vấn trả về một số lượng bản ghi không mong muốn, cho thấy có nhiều người dùng được chọn.
 
 Tiếp theo, thử login với quyền `Admin`, thay password thành `{"$ne":""}` và username thành `{"$regex":"admin.*"}`:
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image24.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image25.png?raw=true)
 
 Login thành công dưới quyền `admin`. 
 
@@ -329,7 +329,7 @@ Trong tab Proxy, thay đổi payload trong POST /login request thành:
 
 Forward request và solved the lab!
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image26.png?raw=true)
 
 
 
