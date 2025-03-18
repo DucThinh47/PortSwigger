@@ -128,4 +128,4 @@ Thực hành các bài labs trên Portswigger.
 
 ### NoSQL Injection
 
-- [Lab: Detecting NoSQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_syntax_injection.md#lab-detecting-nosql-injection)
+- [Lab: Detecting NoSQL injection]()

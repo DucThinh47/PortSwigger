@@ -1,10 +1,28 @@
-# NoSQL syntax injection
+# NoSQL Injection
+
+## Content
+
+- [Types of NoSQL injection]()
+
+- [NoSQL syntax injection]()
+
+### Types of NoSQL injection
+
+Có hai loại tấn công NoSQL injection:
+
+- **Syntax injection** – Xảy ra khi kẻ tấn công có thể phá vỡ cú pháp truy vấn NoSQL, cho phép chèn payload tùy chỉnh. Phương pháp này tương tự với SQL injection, nhưng bản chất tấn công có sự khác biệt đáng kể do NoSQL sử dụng nhiều ngôn ngữ truy vấn, cú pháp truy vấn khác nhau và các cấu trúc dữ liệu đa dạng.
+
+- **Operator injection** – Xảy ra khi kẻ tấn công có thể sử dụng các toán tử truy vấn của NoSQL để thao túng truy vấn theo ý muốn.
+
+Trong chủ đề này, tìm hiểu cách kiểm tra lỗ hổng NoSQL nói chung, sau đó tập trung khai thác lỗ hổng trên MongoDB – cơ sở dữ liệu NoSQL phổ biến nhất. 
+
+### NoSQL syntax injection
 
 Có thể phát hiện lỗ hổng **NoSQL injection** bằng cách thử phá vỡ cú pháp truy vấn. Để làm điều này, hãy kiểm tra từng đầu vào một cách có hệ thống bằng cách gửi các **chuỗi fuzz** và các ký tự đặc biệt. Nếu những ký tự này không được lọc hoặc xử lý đúng cách bởi ứng dụng, chúng có thể kích hoạt lỗi cơ sở dữ liệu hoặc gây ra hành vi bất thường có thể phát hiện được.
 
 Nếu biết **ngôn ngữ API** của cơ sở dữ liệu mục tiêu, sử dụng các ký tự đặc biệt và chuỗi fuzz phù hợp với ngôn ngữ đó. Nếu không, hãy thử nhiều chuỗi fuzz khác nhau để nhắm đến nhiều loại API khác nhau.
 
-# Detecting syntax injection in MongoDB
+#### Detecting syntax injection in MongoDB
 
 Kịch bản là một ứng dụng mua sắm hiển thị sản phẩm theo danh mục. Khi người dùng chọn **danh mục Fizzy drinks**, trình duyệt của họ sẽ gửi yêu cầu đến URL sau:
 
@@ -34,7 +52,7 @@ Trong kịch bản trên, payload được chèn qua URL nên đã được **m�
 
     '\"`{\r;$Foo}\n$Foo \\xYZ\u0000
 
-# Determining which characters are processed
+#### Determining which characters are processed
 
 Để xác định các ký tự nào được ứng dụng hiểu là **một phần của cú pháp truy vấn**, có thể **chèn từng ký tự riêng lẻ** vào đầu vào. Ví dụ, có thể thử chèn ký tự **'**, khiến ứng dụng tạo truy vấn MongoDB sau:
 
@@ -46,7 +64,7 @@ Nếu phản hồi của ứng dụng thay đổi so với ban đầu, điều �
 
 Nếu chuỗi này không gây ra lỗi cú pháp, điều đó có thể có nghĩa là ứng dụng dễ bị tấn công **NoSQL injection**.
 
-# Confirming conditional behavior
+#### Confirming conditional behavior
 
 Sau khi phát hiện lỗ hổng, bước tiếp theo là kiểm tra xem có thể **tác động đến điều kiện boolean** bằng cú pháp **NoSQL** hay không.
 
@@ -58,7 +76,7 @@ Sau khi phát hiện lỗ hổng, bước tiếp theo là kiểm tra xem có th�
 
 Nếu ứng dụng phản hồi khác nhau giữa hai yêu cầu này, điều đó cho thấy điều kiện sai ***(&& 0 &&)*** đã ảnh hưởng đến logic truy vấn, trong khi điều kiện đúng ***(&& 1 &&)*** không ảnh hưởng. Điều này chứng minh rằng việc chèn cú pháp này có tác động đến truy vấn phía máy chủ, nghĩa là ứng dụng có khả năng dễ bị **NoSQL injection**.
 
-# Overriding existing conditions
+#### Overriding existing conditions
 
 Bây giờ, khi đã xác định rằng có thể **tác động đến điều kiện boolean**, có thể thử **ghi đè các điều kiện hiện có** để khai thác lỗ hổng.
 
@@ -80,7 +98,7 @@ Cẩn trọng khi chèn điều kiện luôn đúng vào truy vấn NoSQL.
 
 - Nếu điều kiện này được sử dụng trong truy vấn **cập nhật** hoặc **xóa dữ liệu**, nó có thể gây mất toàn bộ dữ liệu.
 
-# Overriding existing conditions - Continued
+#### Overriding existing conditions - Continued
 
 Cũng có thể thêm ký tự null ***(\x00)*** vào sau giá trị của **category**. Trong một số trường hợp, MongoDB có thể **bỏ qua toàn bộ ký tự sau null**, điều này khiến các điều kiện khác trong truy vấn bị vô hiệu hóa.
 
@@ -108,7 +126,7 @@ Kết quả:
 - Điều kiện ***this.released == 1*** bị vô hiệu hóa.
 - Toàn bộ sản phẩm trong danh mục "fizzy" đều hiển thị, bao gồm cả những sản phẩm chưa phát hành mà đáng lẽ phải bị ẩn.
 
-# Lab: Detecting NoSQL injection
+#### Lab: Detecting NoSQL injection
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image.png?raw=true)
 
