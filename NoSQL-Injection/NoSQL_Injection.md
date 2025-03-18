@@ -6,6 +6,8 @@
 
 - [NoSQL syntax injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#nosql-syntax-injection)
 
+- [NoSQL operator injection]()
+
 ### Types of NoSQL injection
 
 Có hai loại tấn công NoSQL injection:
@@ -189,6 +191,149 @@ Send request:
 => Hiển thị thêm các sản phẩm chưa được phát hành. Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image13.png?raw=true)
+
+### NoSQL operator injection
+
+Các cơ sở dữ liệu `NoSQL` thường sử dụng các `toán tử truy vấn` (query operators) để chỉ định các điều kiện mà dữ liệu phải đáp ứng để được đưa vào kết quả truy vấn. Một số ví dụ về `toán tử truy vấn` trong `MongoDB` bao gồm:
+
+- `$where` - Khớp các tài liệu (documents) thỏa mãn một biểu thức JavaScript.
+
+- `$ne` - Khớp tất cả các giá trị không bằng với một giá trị được chỉ định.
+
+- `$in` - Khớp tất cả các giá trị được chỉ định trong một mảng.
+
+- `$regex` - Lựa chọn các tài liệu có giá trị khớp với biểu thức chính quy (regular expression) được chỉ định.
+
+Kẻ tấn công có thể lợi dụng lỗ hổng bằng cách `tiêm các toán tử truy vấn` (operator injection) để thao túng các truy vấn `NoSQL`. Để thực hiện điều này, cần gửi có hệ thống các toán tử khác nhau vào một loạt các đầu vào từ phía người dùng, sau đó quan sát các phản hồi để tìm kiếm thông báo lỗi hoặc các thay đổi khác.
+
+#### Submitting query operators
+
+Trong các thông điệp `JSON`, có thể chèn các `toán tử truy vấn` dưới dạng `các đối tượng lồng nhau` (nested objects). Ví dụ:
+
+- Từ `{"username":"wiener"}`
+
+- Thành `{"username":{"$ne":"invalid"}}`
+
+Đối với các đầu vào dựa trên URL, có thể chèn các toán tử truy vấn thông qua các `tham số URL`. Ví dụ:
+
+- Từ `username=wiener`
+
+- Thành `username[$ne]=invalid`
+
+Nếu cách trên không hoạt động, có thể thử các bước sau:
+
+- Chuyển đổi phương thức yêu cầu từ `GET` sang `POST`.
+
+- Thay đổi header `Content-Type` thành `application/json`.
+
+- Thêm dữ liệu `JSON` vào phần thân (body) của thông điệp.
+
+- Tiêm các toán tử truy vấn vào `JSON`.
+
+**Lưu ý**:
+Có thể sử dụng tiện ích mở rộng `Content Type Converter` để tự động chuyển đổi phương thức yêu cầu và thay đổi một yêu cầu `POST` được mã hóa URL thành định dạng `JSON`.
+
+#### Detecting operator injection in MongoDB
+
+Xem xét một ứng dụng dễ bị tấn công, chấp nhận username và password trong body của yêu cầu `POST`:
+
+    {"username":"wiener","password":"peter"}
+
+Kiểm tra từng đầu vào với nhiều toán tử khác nhau. Ví dụ, để kiểm tra xem đầu vào username có xử lý toán tử truy vấn hay không, có thể thử tiêm như sau:
+
+    {"username":{"$ne":"invalid"},"password":"peter"}
+
+Nếu toán tử `$ne` được áp dụng, truy vấn này sẽ trả về tất cả người dùng có tên không bằng `invalid`.
+
+Nếu cả hai đầu vào username và password đều xử lý được toán tử, có thể bypass quá trình xác thực bằng cách sử dụng payload sau:
+
+    {"username":{"$ne":"invalid"},"password":{"$ne":"invalid"}}
+
+Truy vấn này trả về tất cả thông tin đăng nhập mà cả tên người dùng và mật khẩu đều không bằng `invalid`. Kết quả là có thể đăng nhập vào ứng dụng dưới tư cách người dùng đầu tiên trong tập hợp dữ liệu.
+
+**Nhắm mục tiêu một tài khoản cụ thể**
+
+Để nhắm đến một tài khoản cụ thể, có thể xây dựng payload bao gồm một username đã biết hoặc đã đoán được. Ví dụ:
+
+    {"username":{"$in":["admin","administrator","superadmin"]},"password":{"$ne":""}}
+
+Truy vấn này sẽ trả về tất cả các thông tin đăng nhập có username là `admin`, `administrator` hoặc `superadmin` và mật khẩu không rỗng.
+
+#### Lab: Exploiting NoSQL operator injection to bypass authentication
+
+![img](14)
+
+Truy cập lab: 
+
+![img](15)
+
+Login vào tài khoản được cấp `wiener:peter`:
+
+![img](16)
+
+`POST /login` request: 
+
+![img](17)
+
+Thử injection với toán tử `$ne`. Thay đổi giá trị của tham số username từ `wiener` thành `{"$ne":""}`:
+
+![img](18)
+
+Send request, quan sát response: 
+
+![img](19)
+
+Có vẻ Login thành công. 
+
+Thử injection với toán tử `$regex`, thay đổi giá trị username thành `{"$regex":"wien.*"}`:
+
+![img](20)
+
+Send request, quan sát response: 
+
+![img](21)
+
+Có vẻ vẫn có thể Login thành công. 
+
+Tiếp theo thử injection đồng thời username và password, thay 2 giá trị này thành `{"$ne":""}`:
+
+![img](22)
+
+Send request, quan sát response: 
+
+![img](23)
+
+Thông báo lỗi cho thấy truy vấn trả về một số lượng bản ghi không mong muốn, cho thấy có nhiều người dùng được chọn.
+
+Tiếp theo, thử login với quyền `Admin`, thay password thành `{"$ne":""}` và username thành `{"$regex":"admin.*"}`:
+
+![img](24)
+
+Send request, quan sát response: 
+
+![img](25)
+
+Login thành công dưới quyền `admin`. 
+
+Trong tab Proxy, thay đổi payload trong POST /login request thành:
+
+    {"username":{
+
+    "$regex":"admin.*"
+
+    },"password":{
+
+    "$ne":""
+
+    }}
+
+Forward request và solved the lab!
+
+![img](26)
+
+
+
+
 
 
 
