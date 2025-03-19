@@ -8,7 +8,7 @@
 
 - [NoSQL operator injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#nosql-operator-injection)
 
-- [Exploiting syntax injection to extract data]()
+- [Exploiting syntax injection to extract data](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#exploiting-syntax-injection-to-extract-data)
 
 ### Types of NoSQL injection
 
@@ -383,67 +383,67 @@ Ngoài ra, có thể sử dụng kỹ thuật `chèn toán tử NoSQL` để tr�
 
 #### Lab: Exploiting NoSQL injection to extract data
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image27.png?raw=true)
 
 Truy cập lab: 
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image28.png?raw=true)
 
 Đăng nhập tài khoản `wiener:peter`:
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image29.png?raw=true)
 
 Trong tab history proxy, tìm được request yêu cầu server tìm kiêm username `wiener`: 
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image30.png?raw=true)
 
 Send request tới Repeater và thử thêm ký tự ' vào giá trị tham số `user`: 
 
-![img](31)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image31.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](32)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image32.png?raw=true)
 
 => Server thông báo lỗi `There was an error getting user details`, cho thấy đầu vào chưa được lọc hoặc xử lý đúng cách.
 
 Thử chèn payload JavaScript hợp lệ `wiener'+'`:
 
-![img](33)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image33.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](34)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image34.png?raw=true)
 
 => Nhận được thông tin tài khoản wiener, có thể xảy ra lỗi Injection phía server.
 
 Tiếp theo kiểm tra điều kiện Boolean, thử gửi một điều kiện sai trong tham số `user`: `wiener' && '1'=='2`:
 
-![img](35)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image35.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](36)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image36.png?raw=true)
 
 => Thông báo lỗi "Could not find user", như vậy điều kiện sai đã được xử lý. 
 
 Tiếp theo thử gửi một điều kiện đúng `wiener' && '1'=='1`:
 
-![img](37)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image37.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](38)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image38.png?raw=true)
 
 => Nhận được chi tiết tài khoản `wiener`, chứng minh rằng có thể kiểm tra điều kiện Boolean để thay đổi phản hồi.
 
 Tiếp theo cần xác định độ dài mật khẩu của tài khoản `administrator`, thử chèn điều kiện kiểm tra độ dài mật khẩu `administrator' && this.password.length < 30 || 'a'=='b`:
 
-![img](39)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image39.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](40)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image40.png?raw=true)
 
 => Trả về chi tiết tài khoản `administrator`, chứng minh rằng mật khẩu có độ dài nhỏ hơn 30 ký tự.
 
@@ -451,47 +451,47 @@ Tiếp theo giảm dần độ dài và tiếp tục gửi yêu cầu.
 
 Khi sử dụng độ dài < 9, vẫn nhận được thông tin tài khoản:
 
-![img](41)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image41.png?raw=true)
 
 Khi sử dụng độ dài < 8, nhận được thông báo lỗi:
 
-![img](42)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image42.png?raw=true)
 
 => Xác nhận mật khẩu có 8 ký tự.
 
 Tiếp theo, tấn công brute-force để liệt kê mật khẩu. Send request tới Intruder, thiết lập như sau: 
 
-![img](43)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image43.png?raw=true)
 
 Payload position 1: 
 
-![img](44)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image44.png?raw=true)
 
 Payload position 2: 
 
-![img](45)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image45.png?raw=true)
 
 Start attack:
 
-![img](46)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image46.png?raw=true)
 
 Nếu Length của request = 151, nghĩa là kí tự tại vị trí tương ứng trong chuỗi mật khẩu không đúng:
 
-![img](47)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image47.png?raw=true)
 
 Nếu Length của request = 209, nghĩa là kí tự tại vị trí tương ứng trong chuỗi mật khẩu đúng:
 
-![img](48)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image48.png?raw=true)
 
 Sắp xếp request theo Length và tìm từng ký tự của chuỗi mật khẩu.
 
-![img](49)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image49.png?raw=true)
 
 => Tìm được password của administrator: `obfbwpav`
 
 Đăng nhập tài khoản và solved the lab!
 
-![img](50)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image50.png?raw=true)
 
 
 
