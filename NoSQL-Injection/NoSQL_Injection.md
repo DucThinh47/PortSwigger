@@ -8,6 +8,8 @@
 
 - [NoSQL operator injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#nosql-operator-injection)
 
+- [Exploiting syntax injection to extract data]()
+
 ### Types of NoSQL injection
 
 Có hai loại tấn công NoSQL injection:
@@ -330,6 +332,186 @@ Trong tab Proxy, thay đổi payload trong POST /login request thành:
 Forward request và solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image26.png?raw=true)
+
+#### Exploiting syntax injection to extract data
+
+Trong nhiều cơ sở dữ liệu `NoSQL`, một số toán tử truy vấn hoặc hàm có thể chạy mã JavaScript hạn chế, chẳng hạn như toán tử `$where` và hàm `mapReduce()` trong `MongoDB`. Điều này có nghĩa là, nếu một ứng dụng dễ bị tấn công sử dụng các toán tử hoặc hàm này, cơ sở dữ liệu có thể thực thi mã JavaScript như một phần của truy vấn. Do đó, có thể sử dụng các hàm JavaScript để trích xuất dữ liệu từ cơ sở dữ liệu.
+
+#### Exfiltrating data in MongoDB
+
+Xem xét một ứng dụng dễ bị tấn công cho phép người dùng tra cứu username đã đăng ký khác và hiển thị vai trò của họ. Điều này kích hoạt một yêu cầu đến URL:
+
+    https://insecure-website.com/user/lookup?username=admin
+
+Yêu cầu này dẫn đến truy vấn `NoSQL` sau đây của tập hợp người dùng:
+
+    {"$where":"this.username == 'admin'"}
+
+Vì truy vấn sử dụng toán tử `$where`, có thể cố gắng chèn các hàm JavaScript vào truy vấn này để trả về dữ liệu nhạy cảm. Ví dụ, có thể gửi payload sau:
+
+    admin' && this.password[0] == 'a' || 'a'=='b
+
+Payload này trả về `ký tự đầu tiên` của chuỗi mật khẩu của người dùng, cho phép trích xuất mật khẩu từng ký tự một.
+
+Cũng có thể sử dụng hàm `match()` của JavaScript để trích xuất thông tin. Ví dụ, payload sau cho phép xác định xem mật khẩu có chứa chữ số hay không:
+
+    admin' && this.password.match(/\d/) || 'a'=='b
+
+#### Identifying field names
+
+Vì `MongoDB` xử lý dữ liệu `bán cấu trúc` mà không yêu cầu một lược đồ cố định, có thể cần xác định các trường hợp hợp lệ trong tập hợp trước khi có thể trích xuất dữ liệu bằng cách chèn JavaScript.
+
+Ví dụ, để xác định xem cơ sở dữ liệu `MongoDB` có chứa trường mật khẩu hay không, có thể gửi payload sau:
+
+    https://insecure-website.com/user/lookup?username=admin'+%26%26+this.password!%3d'
+
+Gửi lại payload này cho một trường `có tồn tại` và một trường `không tồn tại`. Trong ví dụ này, biết rằng trường username tồn tại, vì vậy có thể gửi các payload sau:
+
+    admin' && this.username!='  
+    admin' && this.foo!='
+
+Nếu trường `password` tồn tại, phản hồi lý tưởng sẽ giống với phản hồi của trường tồn tại (`username`), nhưng khác với phản hồi của trường không tồn tại (`foo`).
+
+#### Identifying field names - Continued
+
+Nếu muốn kiểm tra các tên trường khác nhau, có thể thực hiện `tấn công từ điển` bằng cách sử dụng một `wordlist` để lặp qua các tên trường tiềm năng.
+
+**Lưu ý**:
+
+Ngoài ra, có thể sử dụng kỹ thuật `chèn toán tử NoSQL` để trích xuất tên trường từng ký tự một. Điều này cho phép xác định tên trường mà không cần phải đoán hoặc thực hiện tấn công từ điển. 
+
+
+#### Lab: Exploiting NoSQL injection to extract data
+
+![img](27)
+
+Truy cập lab: 
+
+![img](28)
+
+Đăng nhập tài khoản `wiener:peter`:
+
+![img](29)
+
+Trong tab history proxy, tìm được request yêu cầu server tìm kiêm username `wiener`: 
+
+![img](30)
+
+Send request tới Repeater và thử thêm ký tự ' vào giá trị tham số `user`: 
+
+![img](31)
+
+Send request, quan sát response: 
+
+![img](32)
+
+=> Server thông báo lỗi `There was an error getting user details`, cho thấy đầu vào chưa được lọc hoặc xử lý đúng cách.
+
+Thử chèn payload JavaScript hợp lệ `wiener'+'`:
+
+![img](33)
+
+Send request, quan sát response: 
+
+![img](34)
+
+=> Nhận được thông tin tài khoản wiener, có thể xảy ra lỗi Injection phía server.
+
+Tiếp theo kiểm tra điều kiện Boolean, thử gửi một điều kiện sai trong tham số `user`: `wiener' && '1'=='2`:
+
+![img](35)
+
+Send request, quan sát response: 
+
+![img](36)
+
+=> Thông báo lỗi "Could not find user", như vậy điều kiện sai đã được xử lý. 
+
+Tiếp theo thử gửi một điều kiện đúng `wiener' && '1'=='1`:
+
+![img](37)
+
+Send request, quan sát response: 
+
+![img](38)
+
+=> Nhận được chi tiết tài khoản `wiener`, chứng minh rằng có thể kiểm tra điều kiện Boolean để thay đổi phản hồi.
+
+Tiếp theo cần xác định độ dài mật khẩu của tài khoản `administrator`, thử chèn điều kiện kiểm tra độ dài mật khẩu `administrator' && this.password.length < 30 || 'a'=='b`:
+
+![img](39)
+
+Send request, quan sát response: 
+
+![img](40)
+
+=> Trả về chi tiết tài khoản `administrator`, chứng minh rằng mật khẩu có độ dài nhỏ hơn 30 ký tự.
+
+Tiếp theo giảm dần độ dài và tiếp tục gửi yêu cầu.
+
+Khi sử dụng độ dài < 9, vẫn nhận được thông tin tài khoản:
+
+![img](41)
+
+Khi sử dụng độ dài < 8, nhận được thông báo lỗi:
+
+![img](42)
+
+=> Xác nhận mật khẩu có 8 ký tự.
+
+Tiếp theo, tấn công brute-force để liệt kê mật khẩu. Send request tới Intruder, thiết lập như sau: 
+
+![img](43)
+
+Payload position 1: 
+
+![img](44)
+
+Payload position 2: 
+
+![img](45)
+
+Start attack:
+
+![img](46)
+
+Nếu Length của request = 151, nghĩa là kí tự tại vị trí tương ứng trong chuỗi mật khẩu không đúng:
+
+![img](47)
+
+Nếu Length của request = 209, nghĩa là kí tự tại vị trí tương ứng trong chuỗi mật khẩu đúng:
+
+![img](48)
+
+Sắp xếp request theo Length và tìm từng ký tự của chuỗi mật khẩu.
+
+![img](49)
+
+=> Tìm được password của administrator: `obfbwpav`
+
+Đăng nhập tài khoản và solved the lab!
+
+![img](50)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
