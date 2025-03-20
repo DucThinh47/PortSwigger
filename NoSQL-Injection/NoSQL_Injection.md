@@ -12,6 +12,8 @@
 
 - [Exploiting NoSQL operator injection to extract data](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#exploiting-nosql-operator-injection-to-extract-data)
 
+- [Timing based injection]()
+
 ### Types of NoSQL injection
 
 Có hai loại tấn công NoSQL injection:
@@ -683,7 +685,30 @@ Chuột phải vào response > Request in browser > Original session để lấy
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image76.png?raw=true)
 
+### Timing based injection
 
+Đôi khi việc kích hoạt lỗi cơ sở dữ liệu không gây ra sự khác biệt trong phản hồi của ứng dụng. Trong tình huống này, vẫn có thể phát hiện và khai thác lỗ hổng bằng cách sử dụng `tiêm mã JavaScript` để kích hoạt `sự trì hoãn có điều kiện` về thời gian.
+
+**Để thực hiện NoSQL injection dựa trên thời gian**:
+
+1. Tải trang nhiều lần để xác định `thời gian tải cơ sở` (baseline).
+2. Chèn `payload dựa trên thời gian` vào đầu vào. Payload dựa trên thời gian sẽ gây ra sự trì hoãn có chủ ý trong phản hồi khi được thực thi. Ví dụ:
+
+        {"$where": "sleep(5000)"}
+    Payload này sẽ gây ra sự trì hoãn có chủ ý là `5000 ms` khi tiêm thành công.
+3. Xác định xem phản hồi có tải chậm hơn hay không. Điều này cho thấy việc tiêm mã đã thành công.
+
+**Ví dụ về payload dựa trên thời gian**:
+
+Các payload dưới đây sẽ kích hoạt sự trì hoãn về thời gian nếu mật khẩu bắt đầu bằng chữ cái "a":
+
+    admin'+function(x){var waitTill = new Date(new Date().getTime() + 5000);while((x.password[0]==="a") && waitTill > new Date()){};}(this)+'
+
+hoặc
+
+    admin'+function(x){if(x.password[0]==="a"){sleep(5000)};}(this)+'
+
+Payload trên sử dụng `JavaScript` để tạo ra sự trì hoãn khi điều kiện được đáp ứng (mật khẩu bắt đầu bằng chữ "a"), giúp xác định lỗ hổng bảo mật bằng cách quan sát sự thay đổi về thời gian phản hồi.
 
 
 
