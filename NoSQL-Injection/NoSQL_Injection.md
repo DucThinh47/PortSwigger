@@ -14,6 +14,8 @@
 
 - [Timing based injection]()
 
+- [Preventing NoSQL injection]()
+
 ### Types of NoSQL injection
 
 Có hai loại tấn công NoSQL injection:
@@ -710,7 +712,15 @@ hoặc
 
 Payload trên sử dụng `JavaScript` để tạo ra sự trì hoãn khi điều kiện được đáp ứng (mật khẩu bắt đầu bằng chữ "a"), giúp xác định lỗ hổng bảo mật bằng cách quan sát sự thay đổi về thời gian phản hồi.
 
+### Preventing NoSQL injection
 
+Cách phù hợp để ngăn chặn các cuộc tấn công `NoSQL injection` phụ thuộc vào công nghệ NoSQL cụ thể đang sử dụng. Do đó, khuyến nghị `đọc tài liệu bảo mật cho cơ sở dữ liệu NoSQL` đã chọn. Tuy nhiên, các hướng dẫn chung sau đây cũng sẽ giúp giảm thiểu rủi ro:
+
+- `Làm sạch và xác thực đầu vào của người dùng`, sử dụng `danh sách cho phép` (allowlist) các ký tự được chấp nhận.
+
+- `Chèn đầu vào của người dùng bằng cách sử dụng các truy vấn có tham số` (parameterized queries) thay vì nối trực tiếp đầu vào của người dùng vào truy vấn.
+
+- `Để ngăn chặn tiêm toán tử` (operator injection), áp dụng danh sách cho phép các khóa (keys) được chấp nhận.
 
 
 
