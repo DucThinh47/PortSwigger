@@ -12,9 +12,9 @@
 
 - [Exploiting NoSQL operator injection to extract data](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#exploiting-nosql-operator-injection-to-extract-data)
 
-- [Timing based injection]()
+- [Timing based injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#timing-based-injection)
 
-- [Preventing NoSQL injection]()
+- [Preventing NoSQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#preventing-nosql-injection)
 
 ### Types of NoSQL injection
 
