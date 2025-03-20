@@ -8,9 +8,9 @@
 
 - [NoSQL operator injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#nosql-operator-injection)
 
-- [Exploiting syntax injection to extract data]()
+- [Exploiting syntax injection to extract data](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#exploiting-syntax-injection-to-extract-data)
 
-- [Exploiting NoSQL operator injection to extract data]()
+- [Exploiting NoSQL operator injection to extract data](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#exploiting-nosql-operator-injection-to-extract-data)
 
 ### Types of NoSQL injection
 
@@ -544,29 +544,29 @@ Nếu phản hồi của yêu cầu này khác với phản hồi khi gửi mậ
 
 #### Lab: Exploiting NoSQL operator injection to extract unknown fields
 
-![img](51)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image51.png?raw=true)
 
 Truy cập lab: 
 
-![img](52)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image52.png?raw=true)
 
 Click My account, nhập `username` là `carlos` và `password` bất kỳ, website trả về thông báo "Invalid username or password":
 
-![img](53)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image53.png?raw=true)
 
 Mở tab proxy history, chuyển request đăng nhập đến Repeater: 
 
-![img](54)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image54.png?raw=true)
 
 Tiếp theo thử khai thác `NoSQL Injection` bằng toán tử `$ne`, thay đổi giá trị tham số `password` thành:
 
     "password": {"$ne": "invalid"}
 
-![img](55)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image55.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](56)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image56.png?raw=true)
 
 => Website phản hồi "Account locked", chứng minh rằng toán tử `$ne` đã được chấp nhận và ứng dụng dễ bị tấn công.
 
@@ -578,15 +578,15 @@ Tiếp theo, thử khai thác lỗ hổng `JavaScript Injection`. Thêm tham s�
         "$where": "0"
     }
 
-![img](57)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image57.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](58)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image58.png?raw=true)
 
 => Website phản hồi "Invalid username or password". Thử thay đổi `$where` thành 1 và send request:
 
-![img](59)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image59.png?raw=true)
 
 => Website phản hồi "Account locked: please reset your password", điều này chứng minh rằng mã JavaScript được thực thi trong toán tử `$where`.
 
@@ -594,33 +594,33 @@ Tiếp theo thử lấy tên trường (Field Names), send request này sang Int
 
     "$where":"Object.keys(this)[1].match('^.{}.*')"
 
-![img](60)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image60.png?raw=true)
 
 Vị trí chèn payload thứ nhất là vị trí kí tự, vị trí chèn payload thứ hai là kí tự đó. 
 
 Cấu hình payload options 1: 
 
-![img](61)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image61.png?raw=true)
 
 Cấu hình payload options 2:
 
-![img](62)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image62.png?raw=true)
 
 Start attack: 
 
-![img](63)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image63.png?raw=true)
 
 Quan sát có 2 kiểu phản hồi, với request có `Length = 3514` sẽ có phản hồi là "Account locked: please reset your password":
 
-![img](64)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image64.png?raw=true)
 
 Còn request có `Length = 3500` sẽ có phản hồi là "Invalid username or password":
 
-![img](65)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image65.png?raw=true)
 
 Sau khi tấn công xong, các ký tự tìm được ở payload 2 sẽ ghép lại thành `username`:
 
-![img](66)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image66.png?raw=true)
 
 Tiếp theo thử xác định trường chứa Token đặt lại mật khẩu, thay đổi payload với các chỉ số field khác, có thể thay payload thành:
 
@@ -637,19 +637,19 @@ Vị trí field name thứ 4 là hợp lý nhất.
 
 Tiếp theo thử kiểm tra tên token trên endpoint reset password để đổi lại password của carlos. Request `/forgot-password`: 
 
-![img](67)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image67.png?raw=true)
 
 Thử thêm tham số `?foo=invalid`:
 
-![img](68)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image68.png?raw=true)
 
 Send request, quan sát response:
 
-![img](69)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image69.png?raw=true)
 
 Response lại trang như ban đầu. Thay đổi tham số foo thành `pwResetTkn` (vừa tìm được) và send request, quan sát resposne:
 
-![img](70)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image70.png?raw=true)
 
 => Thông báo lỗi "Invalid token", xác nhận `pwResetTkn` là tên token đúng. 
 
@@ -659,29 +659,29 @@ Tiếp theo, cần tìm giá trị token để reset lại mật khẩu của ca
 
 Trước tiên, cần brute-force để xác định độ dài token, chọn payload position như sau: 
 
-![img](71)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image71.png?raw=true)
 
 Xác nhận độ dài token là `16` (ký tự cuối không tính):
 
-![img](72)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image72.png?raw=true)
 
 Tiến hành tấn công, tìm từng ký tự tương ứng từng vị trí. Tìm được giá trị token là `a3a1d407ba81c6cf`, thay vào request: 
 
-![img](73)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image73.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](74)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image74.png?raw=true)
 
 => Thành công. 
 
 Chuột phải vào response > Request in browser > Original session để lấy url, truy cập url, đặt mật khẩu là `123`:
 
-![img](75)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image75.png?raw=true)
 
 Đăng nhập vào tài khoản carlos với mật khẩu mới, solve the lab!
 
-![img](76)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image76.png?raw=true)
 
 
 
