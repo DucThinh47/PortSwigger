@@ -8,7 +8,9 @@
 
 - [NoSQL operator injection](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#nosql-operator-injection)
 
-- [Exploiting syntax injection to extract data](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#exploiting-syntax-injection-to-extract-data)
+- [Exploiting syntax injection to extract data]()
+
+- [Exploiting NoSQL operator injection to extract data]()
 
 ### Types of NoSQL injection
 
@@ -333,7 +335,7 @@ Forward request và solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image26.png?raw=true)
 
-#### Exploiting syntax injection to extract data
+### Exploiting syntax injection to extract data
 
 Trong nhiều cơ sở dữ liệu `NoSQL`, một số toán tử truy vấn hoặc hàm có thể chạy mã JavaScript hạn chế, chẳng hạn như toán tử `$where` và hàm `mapReduce()` trong `MongoDB`. Điều này có nghĩa là, nếu một ứng dụng dễ bị tấn công sử dụng các toán tử hoặc hàm này, cơ sở dữ liệu có thể thực thi mã JavaScript như một phần của truy vấn. Do đó, có thể sử dụng các hàm JavaScript để trích xuất dữ liệu từ cơ sở dữ liệu.
 
@@ -492,6 +494,197 @@ Sắp xếp request theo Length và tìm từng ký tự của chuỗi mật kh�
 Đăng nhập tài khoản và solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/images/image50.png?raw=true)
+
+### Exploiting NoSQL operator injection to extract data
+
+Ngay cả khi truy vấn ban đầu không sử dụng bất kỳ toán tử nào cho phép chạy mã JavaScript tùy ý, vẫn có thể tự tiêm (inject) một trong những toán tử này.
+Sau đó, có thể sử dụng các điều kiện `boolean` để xác định xem ứng dụng có thực thi bất kỳ mã JavaScript nào đã inject thông qua toán tử này hay không.
+
+#### Injecting operators in MongoDB
+
+Giả sử có một ứng dụng dễ bị tấn công chấp nhận `username` và `password` trong phần body của yêu cầu `POST` như sau:
+
+    {"username":"wiener","password":"peter"}
+
+Để kiểm tra xem có thể tiêm (inject) các toán tử hay không, có thể thử thêm toán tử `$where` làm tham số bổ sung, sau đó gửi hai yêu cầu: một yêu cầu với điều kiện đánh giá là `false`, và một yêu cầu với điều kiện đánh giá là `true`. Ví dụ:
+
+- Điều kiện `false`: 
+
+    {"username":"wiener","password":"peter", "$where":"0"}
+
+- Điều kiện true:
+
+    {"username":"wiener","password":"peter", "$where":"1"}
+
+Nếu có sự khác biệt giữa các phản hồi, điều này có thể cho thấy rằng biểu thức JavaScript trong câu lệnh `$where` đang được thực thi.
+
+#### Extracting field names
+
+Nếu đã tiêm (inject) một toán tử cho phép chạy mã JavaScript, có thể sử dụng phương thức `keys()` để trích xuất tên các trường dữ liệu. Ví dụ, có thể gửi payload sau:
+
+    "$where":"Object.keys(this)[0].match('^.{0}a.*')"
+
+Payload này kiểm tra trường dữ liệu đầu tiên trong đối tượng `user` và trả về ký tự đầu tiên của tên trường. Điều này cho phép trích xuất tên trường từng ký tự một.
+
+#### Exfiltrating data using operators
+
+Ngoài ra, có thể trích xuất dữ liệu bằng cách sử dụng các toán tử không cho phép chạy JavaScript. Ví dụ, có thể sử dụng toán tử `$regex` để trích xuất dữ liệu từng ký tự một.
+
+Giả sử có một ứng dụng dễ bị tấn công chấp nhận `username` và `password` trong phần body của yêu cầu `POST` như sau:
+
+    {"username":"myuser","password":"mypass"}
+
+Có thể bắt đầu bằng cách kiểm tra xem toán tử `$regex` có được xử lý hay không như sau:
+
+    {"username":"admin","password":{"$regex":"^.*"}}
+
+Nếu phản hồi của yêu cầu này khác với phản hồi khi gửi mật khẩu sai, điều đó cho thấy rằng ứng dụng có thể dễ bị tấn công. Có thể sử dụng toán tử `$regex` để trích xuất dữ liệu từng ký tự một. Ví dụ, payload sau kiểm tra xem mật khẩu có bắt đầu bằng ký tự `a` hay không:
+
+    {"username":"admin","password":{"$regex":"^a*"}}
+
+#### Lab: Exploiting NoSQL operator injection to extract unknown fields
+
+![img](51)
+
+Truy cập lab: 
+
+![img](52)
+
+Click My account, nhập `username` là `carlos` và `password` bất kỳ, website trả về thông báo "Invalid username or password":
+
+![img](53)
+
+Mở tab proxy history, chuyển request đăng nhập đến Repeater: 
+
+![img](54)
+
+Tiếp theo thử khai thác `NoSQL Injection` bằng toán tử `$ne`, thay đổi giá trị tham số `password` thành:
+
+    "password": {"$ne": "invalid"}
+
+![img](55)
+
+Send request, quan sát response: 
+
+![img](56)
+
+=> Website phản hồi "Account locked", chứng minh rằng toán tử `$ne` đã được chấp nhận và ứng dụng dễ bị tấn công.
+
+Tiếp theo, thử khai thác lỗ hổng `JavaScript Injection`. Thêm tham số `$where` vào yêu cầu JSON như sau:
+
+    {
+        "username": "carlos",
+        "password": {"$ne": "invalid"},
+        "$where": "0"
+    }
+
+![img](57)
+
+Send request, quan sát response: 
+
+![img](58)
+
+=> Website phản hồi "Invalid username or password". Thử thay đổi `$where` thành 1 và send request:
+
+![img](59)
+
+=> Website phản hồi "Account locked: please reset your password", điều này chứng minh rằng mã JavaScript được thực thi trong toán tử `$where`.
+
+Tiếp theo thử lấy tên trường (Field Names), send request này sang Intruder và thay đổi $where thành:
+
+    "$where":"Object.keys(this)[1].match('^.{}.*')"
+
+![img](60)
+
+Vị trí chèn payload thứ nhất là vị trí kí tự, vị trí chèn payload thứ hai là kí tự đó. 
+
+Cấu hình payload options 1: 
+
+![img](61)
+
+Cấu hình payload options 2:
+
+![img](62)
+
+Start attack: 
+
+![img](63)
+
+Quan sát có 2 kiểu phản hồi, với request có `Length = 3514` sẽ có phản hồi là "Account locked: please reset your password":
+
+![img](64)
+
+Còn request có `Length = 3500` sẽ có phản hồi là "Invalid username or password":
+
+![img](65)
+
+Sau khi tấn công xong, các ký tự tìm được ở payload 2 sẽ ghép lại thành `username`:
+
+![img](66)
+
+Tiếp theo thử xác định trường chứa Token đặt lại mật khẩu, thay đổi payload với các chỉ số field khác, có thể thay payload thành:
+
+    "$where": "function(){ if(Object.keys(this)[3].match(/^a/) ) return 1; else 0; }"
+
+Chọn payload position cần brute-force là "a".
+
+[1] username
+[2] password
+[3] email
+[4] pwResetTkn
+
+Vị trí field name thứ 4 là hợp lý nhất.
+
+Tiếp theo thử kiểm tra tên token trên endpoint reset password để đổi lại password của carlos. Request `/forgot-password`: 
+
+![img](67)
+
+Thử thêm tham số `?foo=invalid`:
+
+![img](68)
+
+Send request, quan sát response:
+
+![img](69)
+
+Response lại trang như ban đầu. Thay đổi tham số foo thành `pwResetTkn` (vừa tìm được) và send request, quan sát resposne:
+
+![img](70)
+
+=> Thông báo lỗi "Invalid token", xác nhận `pwResetTkn` là tên token đúng. 
+
+Tiếp theo, cần tìm giá trị token để reset lại mật khẩu của carlos, thay đổi payload trong Intruder thành: 
+
+    "$where":"this.pwResetTkn.match('^.{§§}§§.*')"
+
+Trước tiên, cần brute-force để xác định độ dài token, chọn payload position như sau: 
+
+![img](71)
+
+Xác nhận độ dài token là `16` (ký tự cuối không tính):
+
+![img](72)
+
+Tiến hành tấn công, tìm từng ký tự tương ứng từng vị trí. Tìm được giá trị token là `a3a1d407ba81c6cf`, thay vào request: 
+
+![img](73)
+
+Send request, quan sát response: 
+
+![img](74)
+
+=> Thành công. 
+
+Chuột phải vào response > Request in browser > Original session để lấy url, truy cập url, đặt mật khẩu là `123`:
+
+![img](75)
+
+Đăng nhập vào tài khoản carlos với mật khẩu mới, solve the lab!
+
+![img](76)
+
+
+
 
 
 
