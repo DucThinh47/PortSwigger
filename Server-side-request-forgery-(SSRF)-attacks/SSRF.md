@@ -21,3 +21,7 @@ Một cuộc tấn công `SSRF` thành công thường có thể dẫn đến c�
 Một khai thác `SSRF` gây ra kết nối đến các hệ thống bên ngoài của bên thứ ba có thể dẫn đến các cuộc tấn công độc hại tiếp theo. Những cuộc tấn công này có thể xuất phát từ tổ chức đang lưu trữ ứng dụng dễ bị tấn công.
 
 
+
+
+
+
