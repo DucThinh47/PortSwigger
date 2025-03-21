@@ -20,6 +20,8 @@ Thực hành các bài labs trên Portswigger.
 
 - [NoSQL Injection](https://github.com/DucThinh47/PortSwigger/tree/main#nosql-injection)
 
+- [Server-side request forgery (SSRF) attacks]()
+
 ### API Testing
 
 - [Lab: Exploiting an API endpoint using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/API_testing/API_documentation.md#lab-exploiting-an-api-endpoint-using-documentation)
@@ -135,3 +137,6 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Exploiting NoSQL injection to extract data](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#lab-exploiting-nosql-injection-to-extract-data)
 
 - [Lab: Exploiting NoSQL operator injection to extract unknown fields](https://github.com/DucThinh47/PortSwigger/blob/main/NoSQL-Injection/NoSQL_Injection.md#lab-exploiting-nosql-operator-injection-to-extract-unknown-fields)
+
+### Server-side request forgery (SSRF) attacks 
+
