@@ -20,7 +20,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [NoSQL Injection](https://github.com/DucThinh47/PortSwigger/tree/main#nosql-injection)
 
-- [Server-side request forgery (SSRF) attacks]()
+- [Server-side request forgery (SSRF) attacks](https://github.com/DucThinh47/PortSwigger#server-side-request-forgery-ssrf-attacks)
 
 ### API Testing
 
