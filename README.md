@@ -140,3 +140,4 @@ Thực hành các bài labs trên Portswigger.
 
 ### Server-side request forgery (SSRF) attacks 
 
+- [Lab: Basic SSRF against the local server]()

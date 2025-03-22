@@ -60,6 +60,64 @@ Kẻ tấn công có thể truy cập `URL /admin`, nhưng chức năng quản t
 
 Ứng dụng sẽ cấp quyền truy cập đầy đủ vào chức năng quản trị vì yêu cầu dường như xuất phát từ một vị trí đáng tin cậy.
 
+#### SSRF attacks against the server - Continued
+
+Tại sao các ứng dụng lại hoạt động theo cách này và mặc nhiên tin tưởng các yêu cầu đến từ máy cục bộ? Điều này có thể xảy ra vì nhiều lý do:
+
+- Kiểm tra kiểm soát truy cập có thể được triển khai trong một thành phần khác `nằm phía trước` máy chủ ứng dụng. Khi một kết nối được thực hiện quay lại máy chủ, quá trình kiểm tra này bị bỏ qua.
+
+- Vì mục đích `khôi phục thảm họa`, ứng dụng có thể cho phép truy cập quản trị mà `không cần` đăng nhập đối với bất kỳ người dùng nào đến từ `máy cục bộ`. Điều này cung cấp một cách để quản trị viên khôi phục hệ thống nếu họ mất thông tin đăng nhập. Điều này giả định rằng chỉ có người dùng hoàn toàn tin cậy mới đến trực tiếp từ máy chủ.
+
+- Giao diện quản trị có thể lắng nghe trên một cổng (port) khác so với ứng dụng chính và có thể `không truy cập được trực tiếp` bởi người dùng.
+
+Những mối quan hệ tin cậy kiểu này, trong đó các `yêu cầu xuất phát từ máy cục bộ` được `xử lý khác` với các `yêu cầu thông thường`, thường khiến `SSRF` trở thành một lỗ hổng nghiêm trọng.
+
+#### Lab: Basic SSRF against the local server
+
+![img](1)
+
+Access the lab: 
+
+![img](2)
+
+Như mô tả bài lab, thử tìm chức năng kiểm tra hàng tồn kho. Click vào 1 sản phẩm bất kỳ, để ý có phần `Check stock`: 
+
+![img](3)
+
+Click `Check stock`: 
+
+![img](4)
+
+-> Website thông báo còn 112 sản phẩm.
+
+Tìm kiếm trong Burp Proxy History request check stock: 
+
+![img](5)
+
+-> Trong request có tồn tại stock check URL, thử thay đổi thành `http://localhost/admin`: 
+
+![img](6)
+
+Send request, quan sát response:
+
+![img](7)
+
+-> Truy cập thành công trang của admin. Mở trên Browser:
+
+![img](8)
+
+Tìm được URL dẫn đến việc xóa user carlos: 
+
+![img](9)
+
+Thay đổi stock check URL thành `http://localhost/admin/delete?username=carlos` và forward stock check request, sovle the lab!
+
+![img](10)
+
+
+
+
+
 
 
 
