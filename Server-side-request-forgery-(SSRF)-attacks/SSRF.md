@@ -74,45 +74,45 @@ Những mối quan hệ tin cậy kiểu này, trong đó các `yêu cầu xuấ
 
 #### Lab: Basic SSRF against the local server
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image1.png?raw=true)
 
 Access the lab: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image2.png?raw=true)
 
 Như mô tả bài lab, thử tìm chức năng kiểm tra hàng tồn kho. Click vào 1 sản phẩm bất kỳ, để ý có phần `Check stock`: 
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image3.png?raw=true)
 
 Click `Check stock`: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image4.png?raw=true)
 
 -> Website thông báo còn 112 sản phẩm.
 
 Tìm kiếm trong Burp Proxy History request check stock: 
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image5.png?raw=true)
 
 -> Trong request có tồn tại stock check URL, thử thay đổi thành `http://localhost/admin`: 
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image6.png?raw=true)
 
 Send request, quan sát response:
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image7.png?raw=true)
 
 -> Truy cập thành công trang của admin. Mở trên Browser:
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image8.png?raw=true)
 
 Tìm được URL dẫn đến việc xóa user carlos: 
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image9.png?raw=true)
 
 Thay đổi stock check URL thành `http://localhost/admin/delete?username=carlos` và forward stock check request, sovle the lab!
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image10.png?raw=true)
 
 
 
