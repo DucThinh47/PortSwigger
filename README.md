@@ -146,3 +146,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: SSRF with blacklist-based input filter](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#lab-ssrf-with-blacklist-based-input-filter)
 
+- [Lab: SSRF with filter bypass via open redirection vulnerability]()
+
+
+

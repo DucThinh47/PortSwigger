@@ -254,6 +254,115 @@ Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image37.png?raw=true)
 
+#### SSRF with whitelist-based input filters
+
+Một số ứng dụng chỉ cho phép các đầu vào khớp với `danh sách trắng` của các giá trị được phép. Bộ lọc có thể tìm kiếm `sự khớp` ở đầu chuỗi đầu vào hoặc `bên trong chuỗi` đó. Có thể vượt qua bộ lọc này bằng cách khai thác `sự không nhất quán` trong quá trình phân tích cú pháp `URL`.
+
+`Đặc tả URL` chứa một số tính năng dễ bị bỏ qua khi các `URL` được triển khai phân tích cú pháp và xác thực theo `phương pháp tự tạo`:
+
+Có thể `nhúng thông tin xác thực` vào `URL` trước `tên máy chủ` bằng cách sử dụng ký tự `@`. Ví dụ:
+
+    https://expected-host:fakepassword@evil-host
+
+Có thể sử dụng ký tự `#` để chỉ định `một đoạn URL (fragment)`. Ví dụ:
+
+    https://evil-host#expected-host
+
+Có thể tận dụng `hệ thống phân giải tên miền DNS` để đặt đầu vào yêu cầu vào một `tên miền DNS đầy đủ` được kiểm soát. Ví dụ:
+
+    https://expected-host.evil-host
+
+Có thể `mã hóa URL các ký tự` để làm `rối loạn mã phân tích cú pháp URL`. Điều này đặc biệt hữu ích nếu `mã triển khai bộ lọc` xử lý các `ký tự được mã hóa URL` `khác` với `mã thực hiện yêu cầu HTTP back-end`. Cũng có thể thử `mã hóa kép các ký tự;` một số máy chủ `giải mã URL đệ quy` cho đầu vào mà chúng nhận được, điều này có thể dẫn đến sự `không nhất quán`.
+
+Có thể `kết hợp các kỹ thuật trên` với nhau để tăng khả năng vượt qua bộ lọc.
+
+#### Bypassing SSRF filters via open redirection
+
+Đôi khi có thể vượt qua các biện pháp phòng thủ dựa trên bộ lọc bằng cách khai thác `lỗ hổng chuyển hướng mở` (Open Redirection).
+
+Trong ví dụ trước, giả sử `URL` do người dùng cung cấp `được kiểm tra nghiêm ngặt` để ngăn chặn việc khai thác độc hại từ lỗ hổng `SSRF`. Tuy nhiên, ứng dụng mà các `URL` được phép truy cập lại chứa một `lỗ hổng chuyển hướng mở`. Nếu `API` được sử dụng để thực hiện `yêu cầu HTTP` từ `back-end` hỗ trợ chuyển hướng, có thể xây dựng một `URL` thỏa mãn bộ lọc nhưng vẫn `dẫn đến một yêu cầu chuyển hướng` tới mục tiêu `back-end` mong muốn.
+
+Ví dụ: Ứng dụng chứa một `lỗ hổng chuyển hướng mở`, trong đó `URL` sau:
+
+    /product/nextProduct?currentProductId=6&path=http://evil-user.net
+
+Trả về một chuyển hướng đến:
+
+    http://evil-user.net
+
+Có thể tận dụng `lỗ hổng chuyển hướng mở` này để `vượt qua bộ lọc URL` và khai thác lỗ hổng `SSRF` như sau:
+
+    POST /product/stock HTTP/1.0
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 118
+
+    stockApi=http://weliketoshop.net/product/nextProduct?currentProductId=6&path=http://192.168.0.68/admin
+
+**Cách thức khai thác SSRF**:
+
+1. Ứng dụng đầu tiên sẽ kiểm tra và xác nhận rằng `URL stockApi` thuộc miền được phép (`weliketoshop.net`), và điều này là `hợp lệ`.
+
+2. Sau đó, ứng dụng thực hiện yêu cầu đến `URL` đã cung cấp, điều này sẽ kích hoạt `quá trình chuyển hướng mở`.
+
+3. Ứng dụng theo dõi chuyển hướng và cuối cùng gửi yêu cầu đến `URL nội bộ` do kẻ tấn công chỉ định (`http://192.168.0.68/admin`).
+
+Nhờ vào lỗ hổng chuyển hướng mở, kẻ tấn công có thể vượt qua bộ lọc `URL` của ứng dụng và khai thác `SSRF` để truy cập vào các tài nguyên nội bộ mà bình thường không thể truy cập được.
+
+#### Lab: SSRF with filter bypass via open redirection vulnerability
+
+![img](38)
+
+Access the lab: 
+
+![img](39)
+
+Như mô tả bài lab, tìm request check stock: 
+
+![img](40)
+
+-> Tham số stockApi có giá trị là `/product/stock/check?productId=1&storeId=1`.
+
+Thử thay đổi thành `/product/stock/check?productId=1&storeId=1&path=http://192.168.0.12:8080/admin` và send request này: 
+
+![img](41)
+
+-> Không thể làm cho web server đưa ra yêu cầu trực tiếp đến một server khác. 
+
+Thử click Next Product: 
+
+![img](43)
+
+Request và response khi click Next Product: 
+
+![img](44)
+
+-> Nhận thấy server phản hồi có `Location` header dẫn đến `endpoint` trong tham số `path` từ request. Header `Location` trong phản hồi HTTP được sử dụng để `chỉ định URL` mà `client nên chuyển hướng` (redirect) đến.
+
+Thử thay đổi giá trị tham số `stockApi` thành `/product/nextProduct?path=http://192.168.0.12:8080/admin` và send request: 
+
+![img](45)
+
+-> Thành công truy cập trang admin. Tìm được URL dẫn đến việc xóa user `carlos`: `/admin/delete?username=carlos`
+
+![img](46)
+
+Thay đổi giá trị tham số stockApi thành `/product/nextProduct?path=http://192.168.0.12:8080/admin/delete?username=carlos` và send request: 
+
+![img](47)
+
+-> Xóa `carlos` thành công. Solve the lab!
+
+![img](48)
+
+
+
+
+
+
+
+
+
+
 
 
 
