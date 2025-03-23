@@ -310,49 +310,49 @@ Nhờ vào lỗ hổng chuyển hướng mở, kẻ tấn công có thể vượ
 
 #### Lab: SSRF with filter bypass via open redirection vulnerability
 
-![img](38)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image38.png?raw=true)
 
 Access the lab: 
 
-![img](39)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image39.png?raw=true)
 
 Như mô tả bài lab, tìm request check stock: 
 
-![img](40)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image40.png?raw=true)
 
 -> Tham số stockApi có giá trị là `/product/stock/check?productId=1&storeId=1`.
 
 Thử thay đổi thành `/product/stock/check?productId=1&storeId=1&path=http://192.168.0.12:8080/admin` và send request này: 
 
-![img](41)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image41.png?raw=true)
 
 -> Không thể làm cho web server đưa ra yêu cầu trực tiếp đến một server khác. 
 
 Thử click Next Product: 
 
-![img](43)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image43.png?raw=true)
 
 Request và response khi click Next Product: 
 
-![img](44)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image44.png?raw=true)
 
 -> Nhận thấy server phản hồi có `Location` header dẫn đến `endpoint` trong tham số `path` từ request. Header `Location` trong phản hồi HTTP được sử dụng để `chỉ định URL` mà `client nên chuyển hướng` (redirect) đến.
 
 Thử thay đổi giá trị tham số `stockApi` thành `/product/nextProduct?path=http://192.168.0.12:8080/admin` và send request: 
 
-![img](45)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image45.png?raw=true)
 
 -> Thành công truy cập trang admin. Tìm được URL dẫn đến việc xóa user `carlos`: `/admin/delete?username=carlos`
 
-![img](46)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image46.png?raw=true)
 
 Thay đổi giá trị tham số stockApi thành `/product/nextProduct?path=http://192.168.0.12:8080/admin/delete?username=carlos` và send request: 
 
-![img](47)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image47.png?raw=true)
 
 -> Xóa `carlos` thành công. Solve the lab!
 
-![img](48)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image48.png?raw=true)
 
 
 
