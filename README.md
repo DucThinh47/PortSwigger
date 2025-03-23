@@ -141,3 +141,6 @@ Thực hành các bài labs trên Portswigger.
 ### Server-side request forgery (SSRF) attacks 
 
 - [Lab: Basic SSRF against the local server](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#lab-basic-ssrf-against-the-local-server)
+
+- [Lab: Basic SSRF against another back-end system]()
+

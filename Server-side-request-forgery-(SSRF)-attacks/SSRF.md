@@ -114,6 +114,83 @@ Thay đổi stock check URL thành `http://localhost/admin/delete?username=carlo
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image10.png?raw=true)
 
+#### SSRF attacks against other back-end systems
+
+Trong một số trường hợp, máy chủ ứng dụng có khả năng `tương tác` với các hệ thống `back-end` mà người dùng không thể truy cập trực tiếp. Các hệ thống này thường có `địa chỉ IP riêng` không thể định tuyến được. Các hệ thống `back-end` thường được `bảo vệ bởi cấu trúc mạng`, vì vậy chúng thường có `tư thế bảo mật yếu hơn`. Trong nhiều trường hợp, các `hệ thống back-end nội bộ` chứa các chức năng nhạy cảm có thể được truy cập mà `không cần xác thực` bởi bất kỳ ai có khả năng tương tác với các hệ thống đó.
+
+Trong ví dụ trước, tưởng tượng có một giao diện quản trị tại URL back-end `https://192.168.0.68/admin`. Kẻ tấn công có thể gửi yêu cầu sau để khai thác lỗ hổng `SSRF` và truy cập vào giao diện quản trị:
+
+    POST /product/stock HTTP/1.0
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 118
+
+    stockApi=http://192.168.0.68/admin
+
+#### Lab: Basic SSRF against another back-end system
+
+![img](11)
+
+Access the lab: 
+
+![img](12)
+
+Như mô tả của bài lab, click vào 1 sản phẩm bất kì và kiểm tra hàng tồn kho:
+
+![img](13)
+
+Click check stock: 
+
+![img](14)
+
+-> Website trả về 666 sản phẩm. Trong `Burp Proxy History`, tìm request yêu cầu `check stock`: 
+
+![img](15)
+
+Thử thay `stockApi` thành `http://192.168.0.1:8080/admin` để truy cập giao diện admin:
+
+![img](16)
+
+Send request này tới `Burp Intruder` để để brute-force octet cuối cùng: 
+
+![img](17)
+
+Payload option: 
+
+![img](18)
+
+Start attack:
+
+![img](19)
+
+Tìm request nào trả về status code là `404` vì trang admin là 1 hệ thống `back-end` mà người dùng không thể truy cập trực tiếp. Các hệ thống này thường có `địa chỉ IP riêng` không thể định tuyến được:
+
+![img](20)
+
+-> Tìm ra địa chỉ IP `192.168.0.149`, thử thay vào Burp Repeater và Send request: 
+
+![img](21)
+
+-> Thành công truy cập trang admin. Tìm ra URL để xóa user `carlos`: `http://192.168.0.149:8080/admin/delete?username=carlos`:
+
+![img](22)
+
+Thay vào request trong Burp Proxy:
+
+![img](23)
+
+Forward request này, solve the lab: 
+
+![img](24)
+
+
+
+
+
+
+
+
+
+
 
 
 
