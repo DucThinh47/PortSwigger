@@ -148,39 +148,39 @@ Click check stock:
 
 Thử thay `stockApi` thành `http://192.168.0.1:8080/admin` để truy cập giao diện admin:
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image16.png?raw=true)
 
 Send request này tới `Burp Intruder` để để brute-force octet cuối cùng: 
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image17.png?raw=true)
 
 Payload option: 
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image18.png?raw=true)
 
 Start attack:
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image19.png?raw=true)
 
 Tìm request nào trả về status code là `404` vì trang admin là 1 hệ thống `back-end` mà người dùng không thể truy cập trực tiếp. Các hệ thống này thường có `địa chỉ IP riêng` không thể định tuyến được:
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image20.png?raw=true)
 
 -> Tìm ra địa chỉ IP `192.168.0.149`, thử thay vào Burp Repeater và Send request: 
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image21.png?raw=true)
 
 -> Thành công truy cập trang admin. Tìm ra URL để xóa user `carlos`: `http://192.168.0.149:8080/admin/delete?username=carlos`:
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image22.png?raw=true)
 
 Thay vào request trong Burp Proxy:
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image23.png?raw=true)
 
 Forward request này, solve the lab: 
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image24.png?raw=true)
 
 
 
