@@ -8,7 +8,7 @@
 
 - [Common SSRF attacks](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#common-ssrf-attacks)
 
-- [Circumventing common SSRF defenses]()
+- [Circumventing common SSRF defenses](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#circumventing-common-ssrf-defenses)
 
 ### What is SSRF?
 
@@ -202,57 +202,57 @@ Một số ứng dụng `chặn các đầu vào` chứa tên máy chủ như `1
 
 #### Lab: SSRF with blacklist-based input filter
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image25.png?raw=true)
 
 Access the lab: 
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image26.png?raw=true)
 
 Theo mô tả bài lab, tiếp tục tìm request check stock:
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image27.png?raw=true)
 
 Thử thay tham số `stockApi` thành URL dẫn đến trang admin `http://localhost/admin`:
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image28.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image29.png?raw=true)
 
 -> Website trả về thông báo *"External stock check blocked for security reasons"*. Có vẻ request chứa `localhost` đã bị đưa vào danh sách đen và bị lọc. Thử thay thành `http://127.0.0.1/admin` và send request:
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image30.png?raw=true)
 
 Vẫn không được, thử thay thành `http://2130706433/admin` và send request: 
 
-![img](31)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image31.png?raw=true)
 
 Vẫn không được, thử thay thành `http://017700000001/admin` và send request: 
 
-![img](32)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image32.png?raw=true)
 
 Vẫn không được, thử thay thành `http://127.1/admin` và send request: 
 
-![img](33)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image33.png?raw=true)
 
 Vẫn không được, thử thay thành `http://127.1/AdMin` và send request: 
 
-![img](34)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image34.png?raw=true)
 
 -> Thành công truy nhập trang admin, như vậy có thể sử dụng chuỗi IP thay thế và làm mờ chuỗi bị chặn `admin` thì có thể bypass bộ lọc sử dụng `blacklist`. 
 
 Tìm ra URL tương ứng với việc xóa user `carlos`: `http://127.1/AdMin/delete?username=carlos`
 
-![img](35)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image35.png?raw=true)
 
 Thay thế giá trị tham số stockApi thành URL này trong Burp Proxy và Forward request: 
 
-![img](36)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image36.png?raw=true)
 
 Solved the lab!
 
-![img](37)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image37.png?raw=true)
 
 
 
