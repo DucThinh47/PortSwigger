@@ -10,9 +10,9 @@
 
 - [Circumventing common SSRF defenses](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#circumventing-common-ssrf-defenses)
 
-- [Blind SSRF vulnerabilities]()
+- [Blind SSRF vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#blind-ssrf-vulnerabilities)
 
-- [Finding hidden attack surface for SSRF vulnerabilities]()
+- [Finding hidden attack surface for SSRF vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#finding-hidden-attack-surface-for-ssrf-vulnerabilities)
 
 ### What is SSRF?
 
