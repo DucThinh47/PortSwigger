@@ -6,7 +6,9 @@
 
 - [What is the impact of SSRF attacks?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#what-is-the-impact-of-ssrf-attacks)
 
-- [Common SSRF attacks]()
+- [Common SSRF attacks](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#common-ssrf-attacks)
+
+- [Circumventing common SSRF defenses]()
 
 ### What is SSRF?
 
@@ -128,23 +130,23 @@ Trong ví dụ trước, tưởng tượng có một giao diện quản trị t�
 
 #### Lab: Basic SSRF against another back-end system
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image11.png?raw=true)
 
 Access the lab: 
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image12.png?raw=true)
 
 Như mô tả của bài lab, click vào 1 sản phẩm bất kì và kiểm tra hàng tồn kho:
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image13.png?raw=true)
 
 Click check stock: 
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image14.png?raw=true)
 
 -> Website trả về 666 sản phẩm. Trong `Burp Proxy History`, tìm request yêu cầu `check stock`: 
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image15.png?raw=true)
 
 Thử thay `stockApi` thành `http://192.168.0.1:8080/admin` để truy cập giao diện admin:
 
@@ -181,6 +183,80 @@ Thay vào request trong Burp Proxy:
 Forward request này, solve the lab: 
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image24.png?raw=true)
+
+### Circumventing common SSRF defenses
+
+Thông thường các ứng dụng có hành vi `SSRF` đi kèm với các biện pháp phòng thủ nhằm ngăn chặn việc khai thác độc hại. Tuy nhiên, các biện pháp phòng thủ này thường có thể bị vượt qua.
+
+#### SSRF with blacklist-based input filters
+
+Một số ứng dụng `chặn các đầu vào` chứa tên máy chủ như `127.0.0.1` và `localhost`, hoặc các URL nhạy cảm như `/admin`. Trong tình huống này, thường có thể vượt qua bộ lọc bằng cách sử dụng các kỹ thuật sau:
+
+- Sử dụng biểu diễn `địa chỉ IP thay thế` cho `127.0.0.1`, chẳng hạn như `2130706433`, `017700000001`, hoặc `127.1`.
+
+- Đăng ký `tên miền riêng` trỏ đến `127.0.0.1`. Có thể sử dụng `spoofed.burpcollaborator.net` cho mục đích này.
+
+- `Làm mờ` các chuỗi bị chặn bằng cách sử dụng `mã hóa URL` hoặc `thay đổi kiểu chữ` (chữ hoa/chữ thường).
+
+- Cung cấp một `URL được kiểm soát`, sau đó `chuyển hướng đến URL mục tiêu`. Thử sử dụng các `mã chuyển hướng khác nhau`, cũng như `các giao thức khác nhau` cho URL mục tiêu. Ví dụ: chuyển đổi từ URL `http:` sang `https:` trong quá trình chuyển hướng đã được chứng minh là có thể vượt qua một số bộ lọc chống `SSRF`.
+
+#### Lab: SSRF with blacklist-based input filter
+
+![img](25)
+
+Access the lab: 
+
+![img](26)
+
+Theo mô tả bài lab, tiếp tục tìm request check stock:
+
+![img](27)
+
+Thử thay tham số `stockApi` thành URL dẫn đến trang admin `http://localhost/admin`:
+
+![img](29)
+
+Send request, quan sát response: 
+
+![img](29)
+
+-> Website trả về thông báo *"External stock check blocked for security reasons"*. Có vẻ request chứa `localhost` đã bị đưa vào danh sách đen và bị lọc. Thử thay thành `http://127.0.0.1/admin` và send request:
+
+![img](30)
+
+Vẫn không được, thử thay thành `http://2130706433/admin` và send request: 
+
+![img](31)
+
+Vẫn không được, thử thay thành `http://017700000001/admin` và send request: 
+
+![img](32)
+
+Vẫn không được, thử thay thành `http://127.1/admin` và send request: 
+
+![img](33)
+
+Vẫn không được, thử thay thành `http://127.1/AdMin` và send request: 
+
+![img](34)
+
+-> Thành công truy nhập trang admin, như vậy có thể sử dụng chuỗi IP thay thế và làm mờ chuỗi bị chặn `admin` thì có thể bypass bộ lọc sử dụng `blacklist`. 
+
+Tìm ra URL tương ứng với việc xóa user `carlos`: `http://127.1/AdMin/delete?username=carlos`
+
+![img](35)
+
+Thay thế giá trị tham số stockApi thành URL này trong Burp Proxy và Forward request: 
+
+![img](36)
+
+Solved the lab!
+
+![img](37)
+
+
+
+
 
 
 
