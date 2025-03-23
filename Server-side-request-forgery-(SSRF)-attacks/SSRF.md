@@ -10,6 +10,10 @@
 
 - [Circumventing common SSRF defenses](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/SSRF.md#circumventing-common-ssrf-defenses)
 
+- [Blind SSRF vulnerabilities]()
+
+- [Finding hidden attack surface for SSRF vulnerabilities]()
+
 ### What is SSRF?
 
 `SSRF (Server-Side Request Forgery)` là một lỗ hổng bảo mật web cho phép kẻ tấn công khiến ứng dụng phía máy chủ thực hiện các yêu cầu đến `một vị trí không mong muốn`.
@@ -353,6 +357,87 @@ Thay đổi giá trị tham số stockApi thành `/product/nextProduct?path=http
 -> Xóa `carlos` thành công. Solve the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-request-forgery-(SSRF)-attacks/images/image48.png?raw=true)
+
+### Blind SSRF vulnerabilities
+
+Lỗ hổng `Blind SSRF` xảy ra khi có thể khiến ứng dụng `thực hiện` một `yêu cầu HTTP` đến một `URL` được cung cấp, nhưng phản hồi từ yêu cầu phía `back-end` `không được trả về` trong phản hồi phía `front-end` của ứng dụng.
+
+#### What is the impact of blind SSRF vulnerabilities?
+
+Lỗ hổng `Blind SSRF` thường có `tác động thấp hơn` so với `lỗ hổng SSRF thông thường` do tính chất một chiều của nó. Điều này có nghĩa là chúng `không dễ dàng bị khai thác` để thu thập dữ liệu nhạy cảm từ các hệ thống `back-end`.
+
+Tuy nhiên, trong một số trường hợp, lỗ hổng `Blind SSRF` vẫn có thể bị lợi dụng để đạt được `thực thi mã từ xa`(Remote Code Execution - RCE) trên máy chủ hoặc các thành phần `back-end` khác.
+
+#### How to find and exploit blind SSRF vulnerabilities
+
+**Phát hiện lỗ hổng Blind SSRF**
+
+Cách đáng tin cậy nhất để phát hiện lỗ hổng `Blind SSRF` là sử dụng `kỹ thuật out-of-band (OAST)`. Kỹ thuật này bao gồm:
+
+1. Thực hiện một yêu cầu HTTP đến `một hệ thống bên ngoài` được kiểm soát.
+
+2. Theo dõi các `tương tác mạng` với hệ thống đó để phát hiện phản hồi.
+
+**Sử dụng Burp Collaborator để phát hiện Blind SSRF**
+
+Cách dễ nhất và hiệu quả nhất để sử dụng kỹ thuật `out-of-band` là thông qua `Burp Collaborator`. Các bước thực hiện như sau:
+
+1. Sử dụng `Burp Collaborator` để tạo ra `các tên miền duy nhất`.
+
+2. Gửi các tên miền này dưới dạng `payload` vào ứng dụng đang kiểm tra.
+
+3. Giám sát xem có bất kỳ `tương tác` nào với các tên miền đó hay không.
+
+    - Nếu có `yêu cầu HTTP` đến từ ứng dụng, điều đó chứng tỏ ứng dụng `dễ bị tấn công SSRF`.
+
+**Lưu ý khi kiểm tra Blind SSRF**
+
+Khi kiểm tra lỗ hổng `SSRF`, có thể quan sát thấy một `truy vấn DNS` đối với tên miền của `Burp Collaborator`, nhưng không có yêu cầu HTTP nào tiếp theo. Điều này thường xảy ra vì:
+
+- Ứng dụng `cố gắng thực hiện` yêu cầu HTTP tới tên miền, dẫn đến việc `tra cứu DNS`.
+- Yêu cầu HTTP thực tế bị chặn bởi `bộ lọc cấp mạng`.
+
+Nguyên nhân phổ biến:
+
+- Hạ tầng mạng thường `cho phép lưu lượng DNS` đi ra ngoài vì cần thiết cho nhiều mục đích, nhưng lại `chặn kết nối HTTP` đến các đích không mong muốn.
+
+#### How to find and exploit blind SSRF vulnerabilities - Continued
+
+Việc `chỉ xác định` được một `lỗ hổng Blind SSRF` có khả năng `kích hoạt các yêu cầu HTTP` theo kỹ thuật `out-of-band` không tự nó cung cấp một lộ trình khai thác. Do không thể xem phản hồi từ yêu cầu phía `back-end`, hành vi này `không thể được sử dụng` để khám phá nội dung trên các hệ thống mà `máy chủ ứng dụng có thể truy cập`. Tuy nhiên, nó vẫn có thể được tận dụng để `thăm dò các lỗ hổng khác` trên chính máy chủ hoặc trên các hệ thống `back-end` khác. Có thể `quét một cách mù quáng` không gian `địa chỉ IP nội bộ`, gửi các `payload` được thiết kế để phát hiện các lỗ hổng đã biết. Nếu những `payload` đó cũng sử dụng các kỹ thuật `out-of-band`, có thể phát hiện một lỗ hổng nghiêm trọng trên một máy chủ nội bộ chưa được vá.
+
+Một hướng khai thác khác cho lỗ hổng `Blind SSRF` là khiến ứng dụng `kết nối tới một hệ thống do kẻ tấn công kiểm soát` và trả về các `phản hồi độc hại cho HTTP client` thực hiện kết nối. Nếu có thể khai thác được một lỗ hổng nghiêm trọng phía client trong việc triển khai HTTP của máy chủ, thì có thể `đạt được quyền thực thi mã từ xa (RCE)` trong hạ tầng ứng dụng.
+
+### Finding hidden attack surface for SSRF vulnerabilities
+
+Nhiều lỗ hổng `Server-Side Request Forgery (SSRF)` rất `dễ phát hiện` vì lưu lượng truy cập thông thường của ứng dụng bao gồm các `tham số yêu cầu chứa đầy đủ URL`. Tuy nhiên, một số trường hợp `SSRF` khác lại khó tìm hơn.
+
+#### Partial URLs in requests
+
+Đôi khi, một ứng dụng `chỉ đặt một tên miền (hostname)` hoặc `một phần của đường dẫn URL` vào các `tham số yêu cầu`. Giá trị được gửi sau đó sẽ được máy chủ `kết hợp thành một URL đầy đủ`để thực hiện yêu cầu. Nếu giá trị này dễ dàng được nhận dạng là một `tên miền` hoặc `đường dẫn URL`, bề mặt tấn công tiềm năng có thể sẽ rõ ràng. Tuy nhiên, khả năng khai thác như một `lỗ hổng SSRF` đầy đủ có thể `bị hạn chế`vì không kiểm soát được `toàn bộ URL` được yêu cầu.
+
+#### URLs within data formats
+
+Một số ứng dụng truyền dữ liệu theo các định dạng `có đặc tả cho phép bao gồm URL`, những `URL` này có thể được `trình phân tích cú pháp dữ liệu yêu cầu`. Một ví dụ rõ ràng về điều này là `định dạng dữ liệu XML`, được sử dụng rộng rãi trong các ứng dụng web để truyền `dữ liệu có cấu trúc` từ client đến server.
+
+Khi một ứng dụng chấp nhận dữ liệu ở `định dạng XML` và phân tích nó, ứng dụng có thể bị tổn thương trước `lỗ hổng chèn XXE (XML External Entity)`. Ngoài ra, nó cũng có thể dễ bị khai thác `SSRF` thông qua `XXE`.
+
+#### SSRF via the Referer header
+
+Một số ứng dụng sử dụng phần mềm phân tích phía máy chủ để `theo dõi client truy cập`. Phần mềm này thường ghi lại `header Referer` trong các yêu cầu nhằm theo dõi `các liên kết đến từ bên ngoài`.
+
+Phần mềm phân tích thường sẽ truy cập vào `bất kỳ URL bên thứ ba nào` xuất hiện trong `header Referer`. Điều này thường được thực hiện để `phân tích nội dung` của các trang web giới thiệu, bao gồm cả văn bản liên kết (anchor text) được sử dụng trong các liên kết đến.
+
+Do đó, `header Referer` thường trở thành một `bề mặt tấn công hữu ích` cho các `lỗ hổng SSRF`.
+
+
+
+
+
+
+
+
+
+
 
 
 
