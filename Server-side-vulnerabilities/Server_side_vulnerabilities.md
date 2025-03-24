@@ -54,21 +54,21 @@ Trên hệ điều hành Windows, cả hai cụm `../` và `..\` đều là các
 
 #### Lab: File path traversal, simple case
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image.png?raw=true)
 
 Access the lab: 
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image1.png?raw=true)
 
 Mở hình ảnh của 1 sản phẩm bất kỳ trên tab mới: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image2.png?raw=true)
 
 Thay đổi giá trị tham số `filename` thành `/../../../etc/passwd`:
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image3.png?raw=true)
 
 Solve the lab!
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image4.png?raw=true)
 
