@@ -2,7 +2,7 @@
 
 Thực hành các bài labs trên Portswigger.
 
-# Content
+## Content
 
 - [API Testing](https://github.com/DucThinh47/PortSwigger/tree/main#api-testing)
 
@@ -21,6 +21,8 @@ Thực hành các bài labs trên Portswigger.
 - [NoSQL Injection](https://github.com/DucThinh47/PortSwigger/tree/main#nosql-injection)
 
 - [Server-side request forgery (SSRF) attacks](https://github.com/DucThinh47/PortSwigger#server-side-request-forgery-ssrf-attacks)
+
+- [Server-side vulnerabilities]()
 
 ### API Testing
 
