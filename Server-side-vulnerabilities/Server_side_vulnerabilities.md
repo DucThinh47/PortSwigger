@@ -2,7 +2,7 @@
 
 ## Content
 
-- [What is path traversal?]()
+- [What is path traversal?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-is-path-traversal)
 
 ### What is path traversal?
 

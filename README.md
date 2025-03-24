@@ -22,7 +22,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Server-side request forgery (SSRF) attacks](https://github.com/DucThinh47/PortSwigger#server-side-request-forgery-ssrf-attacks)
 
-- [Server-side vulnerabilities]()
+- [Server-side vulnerabilities](https://github.com/DucThinh47/PortSwigger/tree/main#server-side-vulnerabilities)
 
 ### API Testing
 
