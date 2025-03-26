@@ -6,6 +6,10 @@
 
     - [What is path traversal?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-is-path-traversal)
 
+- [Access control]()
+
+    - [What is access control?]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -71,4 +75,23 @@ Thay đổi giá trị tham số `filename` thành `/../../../etc/passwd`:
 Solve the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image4.png?raw=true)
+
+### Access control
+
+#### What is access control?
+
+Kiểm soát truy cập là việc `áp dụng các ràng buộc` đối với ai hoặc cái gì được phép thực hiện hành động hoặc truy cập tài nguyên. Trong bối cảnh ứng dụng web, kiểm soát truy cập phụ thuộc vào `xác thực` và `quản lý phiên`:
+
+- `Xác thực` xác nhận rằng người dùng thực sự là người mà họ khai báo.
+
+- `Quản lý phiên` xác định các yêu cầu HTTP tiếp theo nào đang được thực hiện bởi cùng một người dùng đó.
+
+- `Kiểm soát truy cập` quyết định liệu người dùng có được phép thực hiện hành động mà họ đang cố gắng thực hiện hay không.
+
+Các kiểm soát truy cập `bị hỏng` là điều phổ biến và thường tạo ra lỗ hổng bảo mật nghiêm trọng. Việc thiết kế và quản lý kiểm soát truy cập là một vấn đề phức tạp và thay đổi liên tục, áp dụng các ràng buộc từ kinh doanh, tổ chức và pháp lý vào một triển khai kỹ thuật. Các quyết định thiết kế kiểm soát truy cập phải do con người thực hiện, vì vậy `khả năng xảy ra lỗi là rất cao`.
+
+![img](5)
+
+
+
 
