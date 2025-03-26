@@ -28,6 +28,10 @@
 
     - [Lab: User ID controlled by request parameter, with unpredictable user IDs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-id-controlled-by-request-parameter-with-unpredictable-user-ids)
 
+    - [Horizontal to vertical privilege escalation]()
+
+    - [Lab: User ID controlled by request parameter with password disclosure]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -280,6 +284,44 @@ Click `My account` và thay đổi giá trị tham số `id` hiện tại của 
 -> Truy cập thành công account `carlos`, submit API key, solve the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image29.png?raw=true)
+
+#### Horizontal to vertical privilege escalation
+
+Thông thường, một cuộc tấn công nâng cấp đặc quyền theo chiều ngang có thể được chuyển thành nâng cấp đặc quyền theo chiều dọc bằng cách `xâm phạm một người dùng có đặc quyền cao hơn`. Ví dụ, một cuộc tấn công nâng cấp ngang có thể cho phép kẻ tấn công `đặt lại` hoặc `chiếm đoạt` mật khẩu của một người dùng khác. Nếu kẻ tấn công nhắm vào một `người dùng quản trị` và xâm phạm tài khoản của họ, thì họ có thể giành được quyền truy cập quản trị, từ đó thực hiện nâng cấp đặc quyền theo chiều dọc.
+
+Kẻ tấn công có thể truy cập vào trang tài khoản của người dùng khác bằng kỹ thuật `thay đổi tham số` đã được mô tả trong nâng cấp đặc quyền theo chiều ngang:
+
+    https://insecure-website.com/myaccount?id=456
+
+Nếu người dùng mục tiêu là một quản trị viên ứng dụng, thì kẻ tấn công sẽ giành được quyền truy cập vào trang tài khoản quản trị. Trang này có thể tiết lộ `mật khẩu của quản trị viên`, cung cấp phương tiện để thay đổi mật khẩu, hoặc thậm chí cho phép truy cập trực tiếp vào các chức năng đặc quyền.
+
+#### Lab: User ID controlled by request parameter with password disclosure
+
+![img](30)
+
+Access the lab: 
+
+![img](31)
+
+Đăng nhập vào account `wiener:peter`:
+
+![img](32)
+
+Thử thay đổi giá trị tham số `id` thành `administrator`:
+
+![img](33)
+
+-> Truy cập thành công trang my account của `administrator`. Request yêu cầu trang my account của `administrator`: 
+
+![img](34)
+
+-> Tìm được mật khẩu của `administrator` là `y1aq7w5lie7ev014szja`. Đăng nhập vào tài khoản `administrator`:
+
+![img](35)
+
+Xóa user `carlos`, solved the lab!
+
+![img](36)
 
 
 
