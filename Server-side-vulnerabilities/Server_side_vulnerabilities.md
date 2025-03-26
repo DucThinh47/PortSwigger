@@ -20,9 +20,9 @@
 
     - [Lab: Unprotected admin functionality with unpredictable URL](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-unprotected-admin-functionality-with-unpredictable-url)
 
-    - [Parameter-based access control methods]()
+    - [Parameter-based access control methods](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#parameter-based-access-control-methods)
 
-    - [Lab: User role controlled by request parameter]()
+    - [Lab: User role controlled by request parameter](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-role-controlled-by-request-parameter)
 
 ### Path traversal
 
@@ -205,31 +205,31 @@ Cách tiếp cận này `không an toàn` vì người dùng có thể thay đ�
 
 #### Lab: User role controlled by request parameter
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image16.png?raw=true)
 
 Access the lab: 
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image17.png?raw=true)
 
 Đăng nhập vào account `wiener:peter`:
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image18.png?raw=true)
 
 Request yêu cầu trang thông tin account của `wiener`:
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image19.png?raw=true)
 
 -> Tìm được cookie tên `Admin` có giá trị đang là `false`. Thay đổi giá trị này thành `true` và refresh lại page: 
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image20.png?raw=true)
 
 -> Click vào `Admin panel`: 
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image21.png?raw=true)
 
 Xóa user `carlos`, Solve the lab!
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image22.png?raw=true)
 
 
 
