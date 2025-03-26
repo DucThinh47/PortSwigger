@@ -153,3 +153,5 @@ Thực hành các bài labs trên Portswigger.
 ### Server-side vulnerabilities
 
 - [Lab: File path traversal, simple case](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-file-path-traversal-simple-case)
+
+- [Lab: Unprotected admin functionality]()

@@ -10,6 +10,12 @@
 
     - [What is access control?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-is-access-control)
 
+    - [Vertical privilege escalation]()
+
+    - [Unprotected functionality]()
+
+    - [Lab: Unprotected admin functionality]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -91,6 +97,44 @@ Kiểm soát truy cập là việc `áp dụng các ràng buộc` đối với a
 Các kiểm soát truy cập `bị hỏng` là điều phổ biến và thường tạo ra lỗ hổng bảo mật nghiêm trọng. Việc thiết kế và quản lý kiểm soát truy cập là một vấn đề phức tạp và thay đổi liên tục, áp dụng các ràng buộc từ kinh doanh, tổ chức và pháp lý vào một triển khai kỹ thuật. Các quyết định thiết kế kiểm soát truy cập phải do con người thực hiện, vì vậy `khả năng xảy ra lỗi là rất cao`.
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image5.png?raw=true)
+
+#### Vertical privilege escalation
+
+Nếu một người dùng có thể `truy cập vào các chức năng` mà họ `không được phép truy cập`, thì đây được gọi là `nâng cấp đặc quyền theo chiều dọc`. Ví dụ, nếu một người dùng không phải là quản trị viên có thể truy cập vào trang quản trị, nơi họ có thể `xóa tài khoản người dùng`, thì đó là `nâng cấp đặc quyền theo chiều dọc`.
+
+#### Unprotected functionality
+
+Ở mức cơ bản nhất, `nâng cấp đặc quyền theo chiều dọc` xảy ra khi một ứng dụng không áp dụng bất kỳ biện pháp bảo vệ nào cho các chức năng nhạy cảm. Ví dụ, các chức năng quản trị có thể được liên kết từ trang chào mừng của quản trị viên, nhưng không có trên trang chào mừng của người dùng thông thường. Tuy nhiên, một người dùng vẫn có thể truy cập vào các chức năng quản trị bằng cách `điều hướng trực tiếp đến URL quản trị tương ứng`.
+
+Chẳng hạn, một trang web có thể `lưu trữ chức năng nhạy cảm` tại URL sau:
+
+    https://insecure-website.com/admin
+
+URL này có thể được truy cập bởi `bất kỳ người dùng nào`, không chỉ những người dùng quản trị có liên kết đến chức năng đó trong giao diện của họ. Trong một số trường hợp, URL quản trị có thể bị tiết lộ ở các vị trí khác, chẳng hạn như trong tệp `robots.txt`:
+
+    https://insecure-website.com/robots.txt
+
+Ngay cả khi URL không được tiết lộ ở bất kỳ đâu, kẻ tấn công vẫn có thể sử dụng `danh sách từ` (wordlist) để `dò tìm`(brute-force) vị trí của chức năng nhạy cảm.
+
+#### Lab: Unprotected admin functionality
+
+![img](6)
+
+Access the lab: 
+
+![img](7)
+
+Thử truy cập `/robots.txt`:
+
+![img](8)
+
+-> Tìm được URL dẫn đến trang quản trị viên là `/administrator-panel`. Truy cập URL này: 
+
+![img](9)
+
+Xóa user carlos và solve the lab!
+
+![img](10)
 
 
 
