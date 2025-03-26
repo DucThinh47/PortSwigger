@@ -24,6 +24,10 @@
 
     - [Lab: User role controlled by request parameter](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-role-controlled-by-request-parameter)
 
+    - [Horizontal privilege escalation]()
+
+    - [Lab: User ID controlled by request parameter, with unpredictable user IDs]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -230,6 +234,54 @@ Request yêu cầu trang thông tin account của `wiener`:
 Xóa user `carlos`, Solve the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image22.png?raw=true)
+
+#### Horizontal privilege escalation
+
+`Nâng cấp đặc quyền theo chiều ngang` xảy ra khi một người dùng có thể truy cập vào tài nguyên của người dùng khác, thay vì chỉ truy cập vào tài nguyên của chính họ thuộc loại đó. Ví dụ, nếu một nhân viên có thể `truy cập vào hồ sơ của các nhân viên khác` ngoài hồ sơ của chính mình, thì đó là nâng cấp đặc quyền theo chiều ngang.
+
+Các cuộc tấn công nâng cấp đặc quyền theo chiều ngang có thể sử dụng các phương pháp khai thác `tương tự` như nâng cấp đặc quyền theo chiều dọc. Chẳng hạn, một người dùng có thể `truy cập trang tài khoản của chính mình` bằng URL sau:
+
+    https://insecure-website.com/myaccount?id=123
+
+Nếu kẻ tấn công thay đổi giá trị `tham số id` sang giá trị của một người dùng khác, họ có thể truy cập vào trang tài khoản của người dùng đó, cùng với dữ liệu và chức năng liên quan.
+
+*Note*: 
+
+Đây là một ví dụ về lỗ hổng `tham chiếu đối tượng trực tiếp không an toàn` (Insecure Direct Object Reference - IDOR). Loại lỗ hổng này xuất hiện khi các giá trị tham số do người dùng kiểm soát được sử dụng để `truy cập trực tiếp` vào tài nguyên hoặc chức năng.
+
+Trong một số ứng dụng, tham số có thể khai thác `không có giá trị dễ dự đoán`. Ví dụ, thay vì sử dụng số tăng dần, một ứng dụng có thể sử dụng các `định danh duy nhất toàn cầu` (GUIDs) để xác định người dùng. Điều này có thể ngăn kẻ tấn công đoán hoặc dự đoán định danh của người dùng khác. Tuy nhiên, các `GUID` thuộc về người dùng khác có thể bị tiết lộ `ở những nơi khác` trong ứng dụng, chẳng hạn như trong `tin nhắn của người dùng` hoặc `phần đánh giá`.
+
+#### Lab: User ID controlled by request parameter, with unpredictable user IDs
+
+![img](23)
+
+Access the lab: 
+
+![img](24)
+
+Đăng nhập vào account `wiener:peter`:
+
+![img](25)
+
+Tìm được blog được đăng bởi `carlos`: 
+
+![img](26)
+
+Click vào `carlos`:
+
+![img](27)
+
+-> Tìm được `GUID` của carlos là `fcbbd428-424a-4c99-b58c-2278803d399e`
+
+Click `My account` và thay đổi giá trị tham số `id` hiện tại của `wiener` thành `GUID` của `carlos`: 
+
+![img](28)
+
+-> Truy cập thành công account `carlos`, submit API key, solve the lab!
+
+![img](29)
+
+
 
 
 

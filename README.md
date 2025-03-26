@@ -159,3 +159,5 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Unprotected admin functionality with unpredictable URL](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-unprotected-admin-functionality-with-unpredictable-url)
 
 - [Lab: User role controlled by request parameter](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-role-controlled-by-request-parameter)
+
+- [Lab: User ID controlled by request parameter, with unpredictable user IDs]()
