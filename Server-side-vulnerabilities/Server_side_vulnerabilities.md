@@ -24,9 +24,9 @@
 
     - [Lab: User role controlled by request parameter](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-role-controlled-by-request-parameter)
 
-    - [Horizontal privilege escalation]()
+    - [Horizontal privilege escalation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#horizontal-privilege-escalation)
 
-    - [Lab: User ID controlled by request parameter, with unpredictable user IDs]()
+    - [Lab: User ID controlled by request parameter, with unpredictable user IDs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-id-controlled-by-request-parameter-with-unpredictable-user-ids)
 
 ### Path traversal
 
@@ -253,33 +253,33 @@ Trong một số ứng dụng, tham số có thể khai thác `không có giá t
 
 #### Lab: User ID controlled by request parameter, with unpredictable user IDs
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image23.png?raw=true)
 
 Access the lab: 
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image24.png?raw=true)
 
 Đăng nhập vào account `wiener:peter`:
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image25.png?raw=true)
 
 Tìm được blog được đăng bởi `carlos`: 
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image26.png?raw=true)
 
 Click vào `carlos`:
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image27.png?raw=true)
 
 -> Tìm được `GUID` của carlos là `fcbbd428-424a-4c99-b58c-2278803d399e`
 
 Click `My account` và thay đổi giá trị tham số `id` hiện tại của `wiener` thành `GUID` của `carlos`: 
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image28.png?raw=true)
 
 -> Truy cập thành công account `carlos`, submit API key, solve the lab!
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image29.png?raw=true)
 
 
 
