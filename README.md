@@ -155,3 +155,5 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: File path traversal, simple case](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-file-path-traversal-simple-case)
 
 - [Lab: Unprotected admin functionality](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-unprotected-admin-functionality)
+
+- [Lab: Unprotected admin functionality with unpredictable URL]()

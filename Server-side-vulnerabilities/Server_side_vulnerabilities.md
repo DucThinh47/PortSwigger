@@ -16,6 +16,8 @@
 
     - [Lab: Unprotected admin functionality](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-unprotected-admin-functionality)
 
+    - [Unprotected functionality - Continued]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -135,6 +137,53 @@ Thử truy cập `/robots.txt`:
 Xóa user carlos và solve the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image10.png?raw=true)
+
+#### Unprotected functionality - Continued
+
+Trong một số trường hợp, chức năng nhạy cảm được che giấu bằng cách sử dụng một `URL khó dự đoán hơn`. Đây là một ví dụ về cái gọi là `"bảo mật bằng cách che giấu"` (security by obscurity). Tuy nhiên, việc ẩn chức năng nhạy cảm `không cung cấp kiểm soát truy cập hiệu quả`, vì người dùng có thể phát hiện ra URL được che giấu theo nhiều cách khác nhau.
+
+Tưởng tượng một ứng dụng lưu trữ các chức năng quản trị tại URL sau:
+
+    https://insecure-website.com/administrator-panel-yb556
+
+URL này có thể không dễ dàng bị kẻ tấn công đoán ra. Tuy nhiên, ứng dụng vẫn có thể `vô tình để lộ URL` cho người dùng. URL có thể bị tiết lộ trong `mã JavaScript` dùng để xây dựng giao diện người dùng `dựa trên vai trò` của người dùng:
+
+    <script>
+        var isAdmin = false;
+        if (isAdmin) {
+            ...
+            var adminPanelTag = document.createElement('a');
+            adminPanelTag.setAttribute('href', 'https://insecure-website.com/administrator-panel-yb556');
+            adminPanelTag.innerText = 'Admin panel';
+            ...
+        }
+    </script>
+
+Mã script này `thêm một liên kết` vào giao diện người dùng nếu người dùng là quản trị viên. Tuy nhiên, đoạn script chứa URL này lại `hiển thị cho tất cả người dùng`, bất kể vai trò của họ là gì.
+
+#### Lab: Unprotected admin functionality with unpredictable URL
+
+![img](11)
+
+Access the lab: 
+
+![img](12)
+
+Xem source code của page: 
+
+![img](13)
+
+-> Tìm ra URL truy cập trang admin là `/admin-5cxugs`. Truy cập URL: 
+
+![img](14)
+
+Xóa user carlos, solve the lab!
+
+![img](15)
+
+
+
+
 
 
 
