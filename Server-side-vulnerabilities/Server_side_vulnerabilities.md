@@ -16,7 +16,9 @@
 
     - [Lab: Unprotected admin functionality](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-unprotected-admin-functionality)
 
-    - [Unprotected functionality - Continued]()
+    - [Unprotected functionality - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#unprotected-functionality---continued)
+
+    - [Lab: Unprotected admin functionality with unpredictable URL](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-unprotected-admin-functionality-with-unpredictable-url)
 
 ### Path traversal
 
@@ -163,23 +165,23 @@ Mã script này `thêm một liên kết` vào giao diện người dùng nếu 
 
 #### Lab: Unprotected admin functionality with unpredictable URL
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image11.png?raw=true)
 
 Access the lab: 
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image12.png?raw=true)
 
 Xem source code của page: 
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image13.png?raw=true)
 
 -> Tìm ra URL truy cập trang admin là `/admin-5cxugs`. Truy cập URL: 
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image14.png?raw=true)
 
 Xóa user carlos, solve the lab!
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image15.png?raw=true)
 
 
 
