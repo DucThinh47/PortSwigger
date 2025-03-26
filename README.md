@@ -162,4 +162,4 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: User ID controlled by request parameter, with unpredictable user IDs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-id-controlled-by-request-parameter-with-unpredictable-user-ids)
 
-- [Lab: User ID controlled by request parameter with password disclosure]()
+- [Lab: User ID controlled by request parameter with password disclosure](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-id-controlled-by-request-parameter-with-password-disclosure)

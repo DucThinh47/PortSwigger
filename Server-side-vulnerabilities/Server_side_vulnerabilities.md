@@ -28,9 +28,9 @@
 
     - [Lab: User ID controlled by request parameter, with unpredictable user IDs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-id-controlled-by-request-parameter-with-unpredictable-user-ids)
 
-    - [Horizontal to vertical privilege escalation]()
+    - [Horizontal to vertical privilege escalation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#horizontal-to-vertical-privilege-escalation)
 
-    - [Lab: User ID controlled by request parameter with password disclosure]()
+    - [Lab: User ID controlled by request parameter with password disclosure](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-id-controlled-by-request-parameter-with-password-disclosure)
 
 ### Path traversal
 
@@ -297,31 +297,31 @@ Nếu người dùng mục tiêu là một quản trị viên ứng dụng, thì
 
 #### Lab: User ID controlled by request parameter with password disclosure
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image30.png?raw=true)
 
 Access the lab: 
 
-![img](31)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image31.png?raw=true)
 
 Đăng nhập vào account `wiener:peter`:
 
-![img](32)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image32.png?raw=true)
 
 Thử thay đổi giá trị tham số `id` thành `administrator`:
 
-![img](33)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image33.png?raw=true)
 
 -> Truy cập thành công trang my account của `administrator`. Request yêu cầu trang my account của `administrator`: 
 
-![img](34)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image34.png?raw=true)
 
 -> Tìm được mật khẩu của `administrator` là `y1aq7w5lie7ev014szja`. Đăng nhập vào tài khoản `administrator`:
 
-![img](35)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image35.png?raw=true)
 
 Xóa user `carlos`, solved the lab!
 
-![img](36)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image36.png?raw=true)
 
 
 
