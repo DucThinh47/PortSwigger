@@ -20,6 +20,10 @@
 
     - [Lab: Unprotected admin functionality with unpredictable URL](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-unprotected-admin-functionality-with-unpredictable-url)
 
+    - [Parameter-based access control methods]()
+
+    - [Lab: User role controlled by request parameter]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -182,6 +186,55 @@ Xem source code của page:
 Xóa user carlos, solve the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image15.png?raw=true)
+
+#### Parameter-based access control methods
+
+Một số ứng dụng xác định quyền truy cập hoặc vai trò của người dùng `khi đăng nhập`, sau đó lưu trữ thông tin này ở một vị trí mà người dùng có thể kiểm soát. Điều này có thể là:
+
+- Một trường ẩn (hidden field).
+- Một cookie.
+- Một tham số chuỗi truy vấn được đặt trước (preset query string parameter).
+
+Ứng dụng đưa ra quyết định kiểm soát truy cập dựa trên `giá trị được gửi lên`. Ví dụ:
+
+    https://insecure-website.com/login/home.jsp?admin=true
+    
+    https://insecure-website.com/login/home.jsp?role=1
+
+Cách tiếp cận này `không an toàn` vì người dùng có thể thay đổi giá trị và truy cập vào các chức năng mà họ không được phép, chẳng hạn như các chức năng quản trị.
+
+#### Lab: User role controlled by request parameter
+
+![img](16)
+
+Access the lab: 
+
+![img](17)
+
+Đăng nhập vào account `wiener:peter`:
+
+![img](18)
+
+Request yêu cầu trang thông tin account của `wiener`:
+
+![img](19)
+
+-> Tìm được cookie tên `Admin` có giá trị đang là `false`. Thay đổi giá trị này thành `true` và refresh lại page: 
+
+![img](20)
+
+-> Click vào `Admin panel`: 
+
+![img](21)
+
+Xóa user `carlos`, Solve the lab!
+
+![img](22)
+
+
+
+
+
 
 
 
