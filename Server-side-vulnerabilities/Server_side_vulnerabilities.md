@@ -10,11 +10,11 @@
 
     - [What is access control?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-is-access-control)
 
-    - [Vertical privilege escalation]()
+    - [Vertical privilege escalation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#vertical-privilege-escalation)
 
-    - [Unprotected functionality]()
+    - [Unprotected functionality](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#unprotected-functionality)
 
-    - [Lab: Unprotected admin functionality]()
+    - [Lab: Unprotected admin functionality](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-unprotected-admin-functionality)
 
 ### Path traversal
 
@@ -118,23 +118,23 @@ Ngay cả khi URL không được tiết lộ ở bất kỳ đâu, kẻ tấn c
 
 #### Lab: Unprotected admin functionality
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image6.png?raw=true)
 
 Access the lab: 
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image7.png?raw=true)
 
 Thử truy cập `/robots.txt`:
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image8.png?raw=true)
 
 -> Tìm được URL dẫn đến trang quản trị viên là `/administrator-panel`. Truy cập URL này: 
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image9.png?raw=true)
 
 Xóa user carlos và solve the lab!
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image10.png?raw=true)
 
 
 
