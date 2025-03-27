@@ -54,6 +54,16 @@
 
     - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-2fa-simple-bypass)
 
+- [Server-side request forgery (SSRF)]()
+
+    - [What is SSRF?]()
+
+    - [SSRF attacks against the server]()
+
+    - [SSRF attacks against the server - Continued]()
+
+    - [Lab: Basic SSRF against the local server]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -470,6 +480,106 @@ Access the lab:
 Đăng nhập vào tài khoản wiener -> Đăng xuất -> Đăng nhập tài khoản carlos -> Khi yêu cầu nhập mã xác nhận -> Thay đổi URL thành `/my-account`.
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image50.png?raw=true)
+
+### Server-side request forgery (SSRF)
+
+#### What is SSRF?
+
+`Server-side request forgery` (giả mạo yêu cầu phía máy chủ) là một lỗ hổng bảo mật web cho phép kẻ tấn công khiến `ứng dụng phía máy chủ` thực hiện các yêu cầu tới `một vị trí không mong muốn`.
+
+Trong một cuộc tấn công SSRF điển hình, kẻ tấn công có thể khiến máy chủ kết nối với `các dịch vụ chỉ dành cho nội bộ` trong cơ sở hạ tầng của tổ chức. Trong các trường hợp khác, họ có thể buộc máy chủ kết nối với `các hệ thống bên ngoài bất kỳ`. Điều này có thể làm rò rỉ dữ liệu nhạy cảm, chẳng hạn như thông tin xác thực ủy quyền.
+
+![img](51)
+
+#### SSRF attacks against the server
+
+Trong một cuộc tấn công SSRF nhắm vào máy chủ, kẻ tấn công khiến ứng dụng thực hiện một `yêu cầu HTTP quay lại chính máy chủ đang lưu trữ ứng dụng`, thông qua giao diện mạng `loopback` của nó. Điều này thường liên quan đến việc cung cấp một URL với tên máy chủ như `127.0.0.1` (một địa chỉ IP dành sẵn `trỏ đến bộ điều hợp loopback`) hoặc `localhost` (một tên thường được sử dụng cho cùng bộ điều hợp đó).
+
+Ví dụ, một ứng dụng mua sắm cho phép người dùng xem liệu một mặt hàng `có còn trong kho tại một cửa hàng cụ thể hay không`. Để cung cấp thông tin tồn kho, ứng dụng phải truy vấn các `API REST` phía sau khác nhau. Nó thực hiện điều này bằng cách truyền URL tới `điểm cuối API phía sau` liên quan thông qua một yêu cầu HTTP từ phía trước. Khi người dùng xem trạng thái tồn kho của một mặt hàng, trình duyệt của họ gửi yêu cầu sau:
+
+    POST /product/stock HTTP/1.0
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 118
+
+    stockApi=http://stock.weliketoshop.net:8080/product/stock/check%3FproductId%3D6%26storeId%3D1
+
+Điều này khiến máy chủ thực hiện một yêu cầu tới URL được chỉ định, lấy trạng thái tồn kho và trả lại thông tin này cho người dùng.
+
+Trong ví dụ này, kẻ tấn công có thể `sửa đổi yêu cầu` để chỉ định một `URL cục bộ` trên máy chủ:
+
+    POST /product/stock HTTP/1.0
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 118
+
+    stockApi=http://localhost/admin
+
+Máy chủ sẽ lấy nội dung của URL `/admin` và trả lại cho người dùng.
+
+Kẻ tấn công có thể truy cập URL `/admin`, nhưng chức năng quản trị thường chỉ dành cho người dùng đã xác thực. Điều này có nghĩa là kẻ tấn công sẽ không thấy bất kỳ điều gì đáng chú ý. Tuy nhiên, nếu yêu cầu tới URL `/admin` đến từ chính `máy cục bộ`, các biện pháp kiểm soát truy cập thông thường sẽ bị vượt qua. Ứng dụng cấp quyền truy cập đầy đủ vào chức năng quản trị, bởi vì yêu cầu dường như xuất phát từ `một vị trí đáng tin cậy`.
+
+#### SSRF attacks against the server - Continued
+
+Tại sao các ứng dụng lại hoạt động theo cách này và `ngầm tin tưởng các yêu cầu đến từ máy cục bộ`? Điều này có thể xảy ra vì nhiều lý do khác nhau:
+
+- Kiểm tra kiểm soát truy cập có thể được triển khai trong một thành phần khác `nằm trước` máy chủ ứng dụng. Khi một kết nối được thực hiện trở lại máy chủ, kiểm tra này bị bỏ qua.
+
+- Vì mục đích `khôi phục sau thảm họa`, ứng dụng có thể cho phép truy cập quản trị mà `không cần đăng nhập`, đối với bất kỳ người dùng nào đến từ `máy cục bộ`. Điều này cung cấp một cách để quản trị viên khôi phục hệ thống nếu họ mất thông tin đăng nhập. Giả định ở đây là chỉ có người dùng hoàn toàn đáng tin cậy mới có thể đến trực tiếp từ máy chủ.
+
+- Giao diện quản trị có thể lắng nghe trên `một số cổng khác` với ứng dụng chính và có thể `không thể truy cập trực tiếp` bởi người dùng.
+
+Những mối quan hệ tin cậy kiểu này, nơi các `yêu cầu xuất phát từ máy cục bộ` được `xử lý khác biệt` so với các `yêu cầu thông thường`, thường khiến `SSRF` trở thành một lỗ hổng nghiêm trọng.
+
+#### Lab: Basic SSRF against the local server
+
+![img](52)
+
+Access the lab: 
+
+![img](53)
+
+Click vào 1 sản phẩm bất kỳ:
+
+![img](54)
+
+Sản phẩm có chức năng check stock. POST request trông như sau: 
+
+![img](55)
+
+-> Request được gửi đến endpoint `/product/stock`, ứng dụng phía máy chủ sẽ sử dụng URL này để gửi một yêu cầu tới API tồn kho (stock.weliketoshop.net) và lấy thông tin về trạng thái tồn kho.
+
+-> Tham số `stockApi` cho phép truyền một URL tùy ý, kẻ tấn công có thể thay đổi giá trị này để buộc máy chủ gửi yêu cầu tới một địa chỉ khác.
+
+Thử thay giá trị tham số `stockApi` thành:
+
+    http://localhost/admin
+
+![img](56)
+
+Send request:
+
+![img](57)
+
+-> Truy cập thành công trang admin. Đồng thời tìm được URL để xóa user `carlos`: `/admin/delete?username=carlos`
+
+![img](58)
+
+Thay giá trị tham số `stockApi` thành:
+
+    http://localhost/admin/delete?username=carlos
+
+![img](59)
+
+Solved the lab!
+
+![img](60)
+
+
+
+
+
+
+
+
 
 
 
