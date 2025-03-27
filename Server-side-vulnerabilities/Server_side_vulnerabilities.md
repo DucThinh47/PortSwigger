@@ -32,7 +32,7 @@
 
     - [Lab: User ID controlled by request parameter with password disclosure](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-id-controlled-by-request-parameter-with-password-disclosure)
 
-- [Authentication]()
+- [Authentication](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#authentication)
 
     - [Authentication vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#authentication-vulnerabilities)
 
@@ -49,6 +49,10 @@
     - [Username enumeration](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#username-enumeration)
 
     - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-username-enumeration-via-different-responses)
+
+    - [Bypassing two-factor authentication]()
+
+    - [Lab: 2FA simple bypass]()
 
 ### Path traversal
 
@@ -448,6 +452,27 @@ Tiếp tục brute-force password với username này. Tìm được 1 password 
 Login vào account, solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image47.png?raw=true)
+
+#### Bypassing two-factor authentication
+
+Đôi khi, việc triển khai xác thực hai yếu tố `có sai sót` đến mức nó có thể bị vượt qua hoàn toàn.
+
+Nếu người dùng được yêu cầu `nhập mật khẩu trước`, sau đó được nhắc `nhập mã xác minh trên một trang riêng biệt`, thì thực tế người dùng đã ở `trạng thái "đã đăng nhập"` trước khi họ nhập mã xác minh. Trong trường hợp này, nên thử nghiệm để xem liệu có thể `trực tiếp chuyển đến các trang "chỉ dành cho người đã đăng nhập"` sau khi hoàn thành bước xác thực đầu tiên hay không. Thỉnh thoảng, sẽ phát hiện ra rằng một trang web `không thực sự kiểm tra` xem đã hoàn thành bước thứ hai hay chưa trước khi tải trang.
+
+#### Lab: 2FA simple bypass
+
+![img](48)
+
+Access the lab:
+
+![img](49)
+
+Đăng nhập vào tài khoản wiener -> Đăng xuất -> Đăng nhập tài khoản carlos -> Khi yêu cầu nhập mã xác nhận -> Thay đổi URL thành `/my-account`.
+
+![img](50)
+
+
+
 
 
 
