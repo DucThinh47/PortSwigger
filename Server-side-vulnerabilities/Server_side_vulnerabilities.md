@@ -78,15 +78,15 @@
 
     - [Lab: Remote code execution via web shell upload](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-remote-code-execution-via-web-shell-upload)
 
-    - [Exploiting flawed validation of file uploads]()
+    - [Exploiting flawed validation of file uploads](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#exploiting-flawed-validation-of-file-uploads)
 
-    - [Flawed file type validation]()
+    - [Flawed file type validation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#flawed-file-type-validation)
 
-    - [Flawed file type validation - Continued]()
+    - [Flawed file type validation - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#flawed-file-type-validation---continued)
 
-    - [Flawed file type validation - Continued]()
+    - [Flawed file type validation - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#flawed-file-type-validation---continued-1)
 
-    - [Lab: Web shell upload via Content-Type restriction bypass]()
+    - [Lab: Web shell upload via Content-Type restriction bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-web-shell-upload-via-content-type-restriction-bypass)
 
 ### Path traversal
 
@@ -789,23 +789,23 @@ Tuy nhiên, vấn đề phát sinh khi máy chủ `tin tưởng mù quáng` vào
 
 #### Lab: Web shell upload via Content-Type restriction bypass
 
-![img](82)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image82.png?raw=true)
 
 Access the lab: 
 
-![img](83)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image83.png?raw=true)
 
 Đăng nhập vào account `wiener:peter`:
 
-![img](84)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image84.png?raw=true)
 
 Thử upload 1 file ảnh hợp lệ: 
 
-![img](85)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image85.png?raw=true)
 
 Request tìm nạp image này sẽ trông như sau:
 
-![img](87)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image87.png?raw=true)
 
 Tạo file `my_shell.php` có nội dung như sau: 
 
@@ -813,29 +813,29 @@ Tạo file `my_shell.php` có nội dung như sau:
 
 Thử upload file này: 
 
-![img](86)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image86.png?raw=true)
 
 Thông báo lỗi cho thấy chỉ hỗ trợ MIME type là `image/jpeg` hoặc `image/png`.
 
 Request submit shell sẽ trông như sau:
 
-![img](88)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image88.png?raw=true)
 
 Thử thay đổi Content-Type header từ `application/octet-stream` thành `image/jpeg`:
 
-![img](89)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image89.png?raw=true)
 
 Send request này:
 
-![img](90)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image90.png?raw=true)
 
 -> Thông báo upload file thành công. Quay lại request tìm nạp image, thay đổi tên image thành `my_shell.php`:
 
-![img](91)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image91.png?raw=true)
 
 -> Tìm được nội dung file `/home/carlos/secret` là `rRvsUSvG9Qh6yptMDvrD8SqeM0JaGmDz`. Submit và solved the lab!
 
-![img](92)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image92.png?raw=true)
 
 
 
