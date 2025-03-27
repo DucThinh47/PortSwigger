@@ -110,9 +110,9 @@
 
     - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
 
-    - [Subverting application logic]()
+    - [Subverting application logic](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#subverting-application-logic)
 
-    - [Lab: SQL injection vulnerability allowing login bypass]()
+    - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-sql-injection-vulnerability-allowing-login-bypass)
 
 ### Path traversal
 
@@ -1085,19 +1085,19 @@ Trong truy vấn này:
 
 #### Lab: SQL injection vulnerability allowing login bypass
 
-![img](106)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image106.png?raw=true)
 
 Access the lab:
 
-![img](107)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image107.png?raw=true)
 
 Click My account, thử nhập `username` là `administrator'--` và `password` nhập bất kỳ:
 
-![img](108)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image108.png?raw=true)
 
 Đăng nhập thành công, solved the lab!
 
-![img](109)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image109.png?raw=true)
 
 
 
