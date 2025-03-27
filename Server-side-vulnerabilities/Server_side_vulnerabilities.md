@@ -88,15 +88,15 @@
 
     - [Lab: Web shell upload via Content-Type restriction bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-web-shell-upload-via-content-type-restriction-bypass)
 
-- [OS command injection]()
+- [OS command injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#os-command-injection)
 
-    - [What is OS command injection?]()
+    - [What is OS command injection?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-is-os-command-injection)
 
-    - [Useful commands]()
+    - [Useful commands](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#useful-commands)
 
-    - [Injecting OS commands]()
+    - [Injecting OS commands](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#injecting-os-commands)
 
-    - [Lab: OS command injection, simple case]()
+    - [Lab: OS command injection, simple case](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-os-command-injection-simple-case)
 
 ### Path traversal
 
@@ -922,27 +922,27 @@ Việc đặt ký tự `&` sau lệnh tiêm giúp tách biệt lệnh tiêm vớ
 
 #### Lab: OS command injection, simple case
 
-![img](93)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image93.png?raw=true)
 
 Access the lab: 
 
-![img](94)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image94.png?raw=true)
 
 Theo mô tả bài lab, lỗ hổng `OS command injection` tồn tại trong chức năng kiểm tra hàng tồn kho. Click vào 1 sản phẩm bất kỳ:
 
-![img](95)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image95.png?raw=true)
 
 POST request trông như sau:
 
-![img](96)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image96.png?raw=true)
 
 Thử thêm `|whoami` vào sau tham số `storeId` và send request: 
 
-![img](97)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image97.png?raw=true)
 
 -> Tìm được user hiện tại là `peter-4yOFO7`. Solved the lab!
 
-![img](98)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image98.png?raw=true)
 
 
 
