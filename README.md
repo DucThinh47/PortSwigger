@@ -175,3 +175,5 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Remote code execution via web shell upload](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-remote-code-execution-via-web-shell-upload)
 
 - [Lab: Web shell upload via Content-Type restriction bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-web-shell-upload-via-content-type-restriction-bypass)
+
+- [Lab: OS command injection, simple case]()

@@ -88,6 +88,16 @@
 
     - [Lab: Web shell upload via Content-Type restriction bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-web-shell-upload-via-content-type-restriction-bypass)
 
+- [OS command injection]()
+
+    - [What is OS command injection?]()
+
+    - [Useful commands]()
+
+    - [Injecting OS commands]()
+
+    - [Lab: OS command injection, simple case]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -836,6 +846,117 @@ Send request này:
 -> Tìm được nội dung file `/home/carlos/secret` là `rRvsUSvG9Qh6yptMDvrD8SqeM0JaGmDz`. Submit và solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image92.png?raw=true)
+
+### OS command injection
+
+#### What is OS command injection?
+
+`Lệnh tiêm OS` (OS command injection) còn được gọi là `tiêm shell` (shell injection). Đây là một lỗ hổng bảo mật cho phép kẻ tấn công `thực thi các lệnh hệ điều hành` (OS) trên máy chủ đang chạy ứng dụng, từ đó có thể `chiếm quyền kiểm soát` hoàn toàn ứng dụng và dữ liệu của nó. Thông thường, kẻ tấn công có thể lợi dụng lỗ hổng này để `xâm nhập` vào các phần khác của hạ tầng lưu trữ, `khai thác` mối quan hệ tin cậy để `mở rộng cuộc tấn công` sang các hệ thống khác trong tổ chức.
+
+#### Useful commands
+
+Sau khi phát hiện lỗ hổng `OS command injection`, có thể thực thi một số `lệnh ban đầu` để thu thập thông tin về hệ thống. Dưới đây là một số lệnh hữu ích trên nền tảng `Linux` và `Windows`:
+
+| Mục đích                | Linux       | Windows       |
+|-------------------------|-------------|---------------|
+| Tên người dùng hiện tại | whoami      | whoami        |
+| Hệ điều hành            | uname -a    | ver           |
+| Cấu hình mạng           | ifconfig    | ipconfig /all |
+| Kết nối mạng            | netstat -an | netstat -an   |
+| Tiến trình đang chạy    | ps -ef      | tasklist      |
+
+#### Injecting OS commands
+
+Trong ví dụ này, một ứng dụng mua sắm cho phép người dùng kiểm tra xem một `mặt hàng có còn trong kho` của một cửa hàng cụ thể hay không. Thông tin này được truy cập thông qua URL:
+
+    https://insecure-website.com/stockStatus?productID=381&storeID=29
+
+Để cung cấp thông tin về hàng tồn kho, ứng dụng cần truy vấn `nhiều hệ thống cũ`. Vì lý do lịch sử, chức năng này được triển khai bằng cách gọi một `lệnh shell` với `ID sản phẩm` và `ID cửa hàng` làm tham số:
+
+    stockreport.pl 381 29
+
+Lệnh này sẽ xuất ra trạng thái tồn kho của mặt hàng được chỉ định và trả kết quả về cho người dùng.
+
+Ứng dụng không có cơ chế bảo vệ chống lại `OS command injection`, vì vậy kẻ tấn công có thể gửi đầu vào sau để thực thi một lệnh tùy ý:
+
+    & echo aiwefwlguh &
+
+Nếu chuỗi này được chèn vào tham số `productID`, lệnh thực thi trong ứng dụng sẽ là:
+
+    stockreport.pl & echo aiwefwlguh & 29
+
+Lệnh `echo` sẽ in chuỗi "aiwefwlguh" ra màn hình. Đây là một cách hữu ích để kiểm tra xem ứng dụng có bị lỗ hổng `OS command injection` hay không.
+
+Ký tự `&` là một dấu phân tách lệnh trong shell, do đó nó sẽ khiến ba lệnh riêng biệt thực thi lần lượt:
+
+1. `stockreport.pl` mà không có đối số hợp lệ → Gây lỗi.
+
+2. `echo aiwefwlguh` → In chuỗi kiểm tra ra đầu ra.
+
+3. `29` được hiểu như một lệnh riêng lẻ → Gây lỗi vì `29` không phải là một lệnh hợp lệ.
+
+Hoặc có thể sử dụng ký tự `|`, một toán tử trong shell cho phép nối nhiều lệnh. Ví dụ:
+
+    stockreport.pl 1 | whoami
+
+Trong đó: 
+
+- `stockreport.pl 1` có thể là lệnh hợp lệ của ứng dụng.
+- `| whoami` chuyển đầu ra của lệnh trước thành đầu vào của `whoami`, nhưng vì `whoami` không yêu cầu đầu vào, nó sẽ tự chạy và trả về tên người dùng của server.
+
+**Kết quả trả về cho người dùng**:
+
+    Error - productID was not provided
+    aiwefwlguh
+    29: command not found
+
+**Phân tích**:
+
+- *Dòng 1*: Ứng dụng thực thi `stockreport.pl` nhưng thiếu tham số hợp lệ, dẫn đến lỗi.
+- *Dòng 2*: Lệnh `echo` đã được thực thi và hiển thị chuỗi "aiwefwlguh".
+- *Dòng 3*: Shell cố gắng thực thi `29` như một lệnh, gây ra lỗi "command not found".
+
+**Lưu ý**:
+
+Việc đặt ký tự `&` sau lệnh tiêm giúp tách biệt lệnh tiêm với phần còn lại của lệnh gốc, giúp giảm nguy cơ lỗi làm lệnh không thực thi được.
+
+#### Lab: OS command injection, simple case
+
+![img](93)
+
+Access the lab: 
+
+![img](94)
+
+Theo mô tả bài lab, lỗ hổng `OS command injection` tồn tại trong chức năng kiểm tra hàng tồn kho. Click vào 1 sản phẩm bất kỳ:
+
+![img](95)
+
+POST request trông như sau:
+
+![img](96)
+
+Thử thêm `|whoami` vào sau tham số `storeId` và send request: 
+
+![img](97)
+
+-> Tìm được user hiện tại là `peter-4yOFO7`. Solved the lab!
+
+![img](98)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
