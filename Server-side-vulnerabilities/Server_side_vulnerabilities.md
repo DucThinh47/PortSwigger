@@ -98,17 +98,17 @@
 
     - [Lab: OS command injection, simple case](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-os-command-injection-simple-case)
 
-- [SQL injection]()
+- [SQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#sql-injection)
 
-    - [What is SQL injection (SQLi)?]()
+    - [What is SQL injection (SQLi)?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-is-sql-injection-sqli)
 
-    - [How to detect SQL injection vulnerabilities]()
+    - [How to detect SQL injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#how-to-detect-sql-injection-vulnerabilities)
 
-    - [Retrieving hidden data]()
+    - [Retrieving hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#retrieving-hidden-data)
 
-    - [Retrieving hidden data - Continued]()
+    - [Retrieving hidden data - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#retrieving-hidden-data---continued)
 
-    - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data]()
+    - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
 
 ### Path traversal
 
@@ -1026,27 +1026,27 @@ Hãy cẩn thận khi chèn điều kiện `OR 1=1` vào `truy vấn SQL`. Ngay 
 
 #### Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
 
-![img](99)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image99.png?raw=true)
 
 Access the lab: 
 
-![img](100)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image100.png?raw=true)
 
 Chọn category `Pets`:
 
-![img](101)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image101.png?raw=true)
 
 GET request sẽ trông như sau: 
 
-![img](102)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image102.png?raw=true)
 
 Thêm `'--` vào sau tham số `category` và send request:
 
-![img](104)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image104.png?raw=true)
 
 Solved the lab!
 
-![img](105)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image105.png?raw=true)
 
 
 
