@@ -179,3 +179,5 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: OS command injection, simple case](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-os-command-injection-simple-case)
 
 - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
+
+- [Lab: SQL injection vulnerability allowing login bypass]()

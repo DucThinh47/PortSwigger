@@ -110,6 +110,10 @@
 
     - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
 
+    - [Subverting application logic]()
+
+    - [Lab: SQL injection vulnerability allowing login bypass]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -1047,6 +1051,57 @@ Thêm `'--` vào sau tham số `category` và send request:
 Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image105.png?raw=true)
+
+#### Subverting application logic
+
+Tưởng tượng một ứng dụng cho phép người dùng đăng nhập bằng `tên người dùng` (username) và `mật khẩu` (password). Nếu một người dùng nhập:
+
+- `Username`: wiener
+
+- `Password`: bluecheese
+
+Ứng dụng sẽ kiểm tra thông tin đăng nhập bằng cách thực hiện `truy vấn SQL` sau:
+
+    SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'
+
+Nếu truy vấn trả về thông tin của một người dùng, quá trình đăng nhập sẽ thành công. Nếu không, đăng nhập sẽ bị từ chối.
+
+**Tấn công bỏ qua xác thực**
+
+Kẻ tấn công có thể `đăng nhập vào bất kỳ tài khoản nào` mà không cần mật khẩu bằng cách sử dụng `ký tự chú thích SQL` (--) để loại bỏ kiểm tra mật khẩu khỏi mệnh đề `WHERE`.
+
+Ví dụ: nếu kẻ tấn công nhập vào ô `username`:
+
+    administrator'--
+
+Và để trống ô `password`, `truy vấn SQL` được thực thi sẽ là:
+
+    SELECT * FROM users WHERE username = 'administrator'--' AND password = ''
+
+Trong truy vấn này:
+
+- `-- `biến phần còn lại của câu lệnh `SQL` thành chú thích, khiến điều kiện `AND password = ''` bị bỏ qua.
+- Truy vấn chỉ kiểm tra điều kiện `username = 'administrator'`, nếu tài khoản này tồn tại trong hệ thống, kẻ tấn công sẽ đăng nhập thành công mà không cần mật khẩu.
+
+#### Lab: SQL injection vulnerability allowing login bypass
+
+![img](106)
+
+Access the lab:
+
+![img](107)
+
+Click My account, thử nhập `username` là `administrator'--` và `password` nhập bất kỳ:
+
+![img](108)
+
+Đăng nhập thành công, solved the lab!
+
+![img](109)
+
+
+
+
 
 
 
