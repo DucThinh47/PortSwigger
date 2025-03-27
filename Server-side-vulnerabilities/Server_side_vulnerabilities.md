@@ -54,15 +54,15 @@
 
     - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-2fa-simple-bypass)
 
-- [Server-side request forgery (SSRF)]()
+- [Server-side request forgery (SSRF)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#server-side-request-forgery-ssrf)
 
-    - [What is SSRF?]()
+    - [What is SSRF?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-is-ssrf)
 
-    - [SSRF attacks against the server]()
+    - [SSRF attacks against the server](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#ssrf-attacks-against-the-server)
 
-    - [SSRF attacks against the server - Continued]()
+    - [SSRF attacks against the server - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#ssrf-attacks-against-the-server---continued)
 
-    - [Lab: Basic SSRF against the local server]()
+    - [Lab: Basic SSRF against the local server](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-the-local-server)
 
 ### Path traversal
 
@@ -489,7 +489,7 @@ Access the lab:
 
 Trong một cuộc tấn công SSRF điển hình, kẻ tấn công có thể khiến máy chủ kết nối với `các dịch vụ chỉ dành cho nội bộ` trong cơ sở hạ tầng của tổ chức. Trong các trường hợp khác, họ có thể buộc máy chủ kết nối với `các hệ thống bên ngoài bất kỳ`. Điều này có thể làm rò rỉ dữ liệu nhạy cảm, chẳng hạn như thông tin xác thực ủy quyền.
 
-![img](51)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image51.png?raw=true)
 
 #### SSRF attacks against the server
 
@@ -531,19 +531,19 @@ Những mối quan hệ tin cậy kiểu này, nơi các `yêu cầu xuất phá
 
 #### Lab: Basic SSRF against the local server
 
-![img](52)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image52.png?raw=true)
 
 Access the lab: 
 
-![img](53)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image53.png?raw=true)
 
 Click vào 1 sản phẩm bất kỳ:
 
-![img](54)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image54.png?raw=true)
 
 Sản phẩm có chức năng check stock. POST request trông như sau: 
 
-![img](55)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image55.png?raw=true)
 
 -> Request được gửi đến endpoint `/product/stock`, ứng dụng phía máy chủ sẽ sử dụng URL này để gửi một yêu cầu tới API tồn kho (stock.weliketoshop.net) và lấy thông tin về trạng thái tồn kho.
 
@@ -553,25 +553,25 @@ Thử thay giá trị tham số `stockApi` thành:
 
     http://localhost/admin
 
-![img](56)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image56.png?raw=true)
 
 Send request:
 
-![img](57)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image57.png?raw=true)
 
 -> Truy cập thành công trang admin. Đồng thời tìm được URL để xóa user `carlos`: `/admin/delete?username=carlos`
 
-![img](58)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image58.png?raw=true)
 
 Thay giá trị tham số `stockApi` thành:
 
     http://localhost/admin/delete?username=carlos
 
-![img](59)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image59.png?raw=true)
 
 Solved the lab!
 
-![img](60)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image60.png?raw=true)
 
 
 
