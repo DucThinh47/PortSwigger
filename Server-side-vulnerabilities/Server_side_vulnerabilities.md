@@ -34,21 +34,21 @@
 
 - [Authentication]()
 
-    - [Authentication vulnerabilities]()
+    - [Authentication vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#authentication-vulnerabilities)
 
-    - [What is the difference between authentication and authorization?]()
+    - [What is the difference between authentication and authorization?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-is-the-difference-between-authentication-and-authorization)
 
-    - [Brute-force attacks]()
+    - [Brute-force attacks](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#brute-force-attacks)
 
-    - [Brute-forcing usernames]()
+    - [Brute-forcing usernames](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#brute-forcing-usernames)
 
-    - [Brute-forcing passwords]()
+    - [Brute-forcing passwords](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#brute-forcing-passwords)
 
-    - [Brute-forcing passwords - Continued]()
+    - [Brute-forcing passwords - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#brute-forcing-passwords---continued)
 
-    - [Username enumeration]()
+    - [Username enumeration](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#username-enumeration)
 
-    - [Lab: Username enumeration via different responses]()
+    - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-username-enumeration-via-different-responses)
 
 ### Path traversal
 
@@ -357,7 +357,7 @@ Trong phần này, giải thích:
 - Các lỗ hổng điển hình xuất hiện do việc triển khai không đúng cách.
 - Cách có thể làm cho cơ chế xác thực trở nên mạnh mẽ nhất có thể.
 
-![img](37)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image37.png?raw=true)
 
 #### What is the difference between authentication and authorization?
 
@@ -403,37 +403,37 @@ Việc `liệt kê tên người dùng` thường xảy ra trên `trang đăng n
 
 #### Lab: Username enumeration via different responses
 
-![img](38)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image38.png?raw=true)
 
 Access the lab: 
 
-![img](39)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image39.png?raw=true)
 
 Nhập 1 username và password bất kỳ: 
 
-![img](40)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image40.png?raw=true)
 
 POST request `/login` sẽ như sau: 
 
-![img](41)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image41.png?raw=true)
 
 Send request này sang Burp Intruder: 
 
-![img](42)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image42.png?raw=true)
 
 Chọn 2 payload positions là username và password -> Chọn Cluster bomb attack.
 
 Payload options cho username: 
 
-![img](43)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image43.png?raw=true)
 
 Payload options cho password: 
 
-![img](44)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image44.png?raw=true)
 
 Start attack!
 
-![img](45)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image45.png?raw=true)
 
 Tìm được username trả về response "Incorrect password".
 
@@ -441,13 +441,13 @@ Tìm được username trả về response "Incorrect password".
 
 Tiếp tục brute-force password với username này. Tìm được 1 password có Status code là 302:
 
-![img](46)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image46.png?raw=true)
 
 -> Password: `dallas`
 
 Login vào account, solved the lab!
 
-![img](47)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image47.png?raw=true)
 
 
 
