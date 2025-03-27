@@ -68,15 +68,16 @@
 
     - [Lab: Basic SSRF against another back-end system](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-another-back-end-system)
 
-- [File upload vulnerabilities]()
+- [File upload vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#file-upload-vulnerabilities)
 
-    - [What are file upload vulnerabilities?]()
+    - [What are file upload vulnerabilities?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#what-are-file-upload-vulnerabilities)
 
-    - [How do file upload vulnerabilities arise?]()
+    - [How do file upload vulnerabilities arise?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#how-do-file-upload-vulnerabilities-arise)
 
-    - [Exploiting unrestricted file uploads to deploy a web shell]()
+    - [Exploiting unrestricted file uploads to deploy a web shell](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#exploiting-unrestricted-file-uploads-to-deploy-a-web-shell)
 
-    - [Lab: Remote code execution via web shell upload]()
+    - [Lab: Remote code execution via web shell upload](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-remote-code-execution-via-web-shell-upload)
+
 ### Path traversal
 
 #### What is path traversal?
@@ -704,35 +705,35 @@ Mã kịch bản này cho phép `truyền một lệnh hệ thống tùy ý` th�
 
 #### Lab: Remote code execution via web shell upload
 
-![img](74)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image74.png?raw=true)
 
 Access the lab: 
 
-![img](75)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image75.png?raw=true)
 
 Đăng nhập vào tài khoản `wiener:peter`:
 
-![img](76)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image76.png?raw=true)
 
 Thử upload 1 file .jpg đơn giản: 
 
-![img](78)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image78.png?raw=true)
 
 Theo mô tả bài lab, cần đọc nội dung của file `/home/carlos/secret`. Tạo 1 file `my_shell.php` đơn giản:
 
-![img](77)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image77.png?raw=true)
 
 Thay đổi GET request tìm nạp avatar thành: 
 
-![img](79)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image79.png?raw=true)
 
 Send request, quan sát response: 
 
-![img](80)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image80.png?raw=true)
 
 -> Tìm được nội dung file `/home/carlos/secret` là `D4rB4LKzG2lxVeHrzWrcyNUOK6mQV4nU`. Submit nội dung và solved the lab!
 
-![img](81)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image81.png?raw=true)
 
 
 
