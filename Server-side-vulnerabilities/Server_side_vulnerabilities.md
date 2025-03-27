@@ -98,6 +98,18 @@
 
     - [Lab: OS command injection, simple case](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-os-command-injection-simple-case)
 
+- [SQL injection]()
+
+    - [What is SQL injection (SQLi)?]()
+
+    - [How to detect SQL injection vulnerabilities]()
+
+    - [Retrieving hidden data]()
+
+    - [Retrieving hidden data - Continued]()
+
+    - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -943,6 +955,107 @@ Thử thêm `|whoami` vào sau tham số `storeId` và send request:
 -> Tìm được user hiện tại là `peter-4yOFO7`. Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image98.png?raw=true)
+
+### SQL injection
+
+#### What is SQL injection (SQLi)?
+
+`SQL Injection` (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công `can thiệp vào các truy vấn` mà ứng dụng gửi đến cơ sở dữ liệu. Điều này có thể dẫn đến:
+
+- `Xem dữ liệu trái phép`: Kẻ tấn công có thể truy cập dữ liệu mà bình thường họ không thể xem được, bao gồm thông tin người dùng khác hoặc dữ liệu nhạy cảm của ứng dụng.
+- `Chỉnh sửa hoặc xóa dữ liệu`: Tấn công SQLi có thể thay đổi hoặc xóa dữ liệu trong cơ sở dữ liệu, làm thay đổi nội dung hoặc hành vi của ứng dụng.
+- `Tấn công leo thang` (Privilege Escalation): Kẻ tấn công có thể khai thác SQLi để chiếm quyền kiểm soát máy chủ hoặc hệ thống backend.
+- `Tấn công từ chối dịch vụ` (DoS): Có thể thực hiện các truy vấn nặng khiến hệ thống bị quá tải và ngừng hoạt động.
+
+Hậu quả của `SQL Injection` có thể rất nghiêm trọng, dẫn đến rò rỉ dữ liệu, chiếm quyền hệ thống, và phá hủy toàn bộ ứng dụng.
+
+#### How to detect SQL injection vulnerabilities
+
+Có thể phát hiện `SQL Injection` theo cách thủ công bằng cách sử dụng một tập hợp các `thử nghiệm có hệ thống` trên từng điểm nhập dữ liệu của ứng dụng. Để làm điều này, thường sẽ gửi:
+
+- Ký tự dấu nháy đơn `'` và quan sát lỗi hoặc các bất thường khác.
+- Một số `cú pháp SQL cụ thể` để so sánh giá trị gốc (ban đầu) của điểm nhập với một giá trị khác và tìm kiếm sự khác biệt có hệ thống trong phản hồi của ứng dụng.
+- Các điều kiện Boolean như `OR 1=1` và `OR 1=2`, rồi quan sát sự khác biệt trong phản hồi của ứng dụng.
+- Các `payload` được thiết kế để `tạo độ trễ` khi thực thi trong truy vấn SQL và kiểm tra sự khác biệt trong thời gian phản hồi.
+- Các `payload OAST` được thiết kế để kích hoạt một `tương tác mạng ngoài băng tần` khi thực thi trong truy vấn SQL và theo dõi các tương tác kết quả.
+
+#### Retrieving hidden data
+
+Tưởng tượng một ứng dụng mua sắm hiển thị các sản phẩm trong `các danh mục khác nhau`. Khi người dùng nhấp vào danh mục `Gifts`, trình duyệt của họ sẽ gửi yêu cầu đến URL sau:
+
+    https://insecure-website.com/products?category=Gifts
+
+Điều này khiến ứng dụng thực hiện một `truy vấn SQL` để lấy thông tin chi tiết về các sản phẩm liên quan từ cơ sở dữ liệu:
+
+    SELECT * FROM products WHERE category = 'Gifts' AND released = 1
+
+Truy vấn `SQL` này yêu cầu cơ sở dữ liệu trả về:
+
+- Tất cả thông tin `(*)`
+- Từ bảng `products`
+- Với điều kiện `category` là "Gifts"
+- Và `released = 1`
+
+Điều kiện `released = 1` được sử dụng để ẩn các sản phẩm chưa được phát hành. Có thể giả định rằng đối với các sản phẩm chưa phát hành, giá trị của `released là 0`.
+
+#### Retrieving hidden data - Continued
+
+Ứng dụng không triển khai bất kỳ biện pháp bảo vệ nào chống lại các cuộc tấn công `SQL Injection`. Điều này có nghĩa là kẻ tấn công có thể thực hiện cuộc tấn công như sau:
+
+    https://insecure-website.com/products?category=Gifts'--
+
+Điều này dẫn đến truy vấn SQL sau:
+
+    SELECT * FROM products WHERE category = 'Gifts'--' AND released = 1
+
+*Lưu ý quan trọng*: `--` là ký hiệu `chú thích` trong `SQL`, có nghĩa là phần còn lại của truy vấn sẽ bị bỏ qua. Trong ví dụ này, điều kiện `AND released = 1` bị loại bỏ, dẫn đến việc hiển thị tất cả sản phẩm, bao gồm cả những sản phẩm chưa được phát hành.
+
+Ngoài ra, kẻ tấn công có thể sử dụng một kỹ thuật tương tự để hiển thị tất cả sản phẩm từ bất kỳ danh mục nào, bao gồm cả những danh mục mà họ không biết:
+
+    https://insecure-website.com/products?category=Gifts'+OR+1=1--
+
+Điều này tạo ra `truy vấn SQL` sau:
+
+    SELECT * FROM products WHERE category = 'Gifts' OR 1=1--' AND released = 1
+
+Truy vấn đã chỉnh sửa sẽ trả về tất cả sản phẩm vì điều kiện `1=1` luôn đúng, khiến tất cả dữ liệu trong bảng được hiển thị.
+
+**Cảnh báo**
+
+Hãy cẩn thận khi chèn điều kiện `OR 1=1` vào `truy vấn SQL`. Ngay cả khi nó có vẻ vô hại trong ngữ cảnh hiện tại, nhiều ứng dụng có thể sử dụng dữ liệu từ một yêu cầu duy nhất trong nhiều truy vấn khác nhau. Nếu điều kiện này ảnh hưởng đến một câu lệnh `UPDATE` hoặc `DELETE`, nó có thể dẫn đến `mất dữ liệu ngoài ý muốn`.
+
+#### Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
+
+![img](99)
+
+Access the lab: 
+
+![img](100)
+
+Chọn category `Pets`:
+
+![img](101)
+
+GET request sẽ trông như sau: 
+
+![img](102)
+
+Thêm `'--` vào sau tham số `category` và send request:
+
+![img](104)
+
+Solved the lab!
+
+![img](105)
+
+
+
+
+
+
+
+
+
 
 
 
