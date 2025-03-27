@@ -68,6 +68,15 @@
 
     - [Lab: Basic SSRF against another back-end system](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-another-back-end-system)
 
+- [File upload vulnerabilities]()
+
+    - [What are file upload vulnerabilities?]()
+
+    - [How do file upload vulnerabilities arise?]()
+
+    - [Exploiting unrestricted file uploads to deploy a web shell]()
+
+    - [Lab: Remote code execution via web shell upload]()
 ### Path traversal
 
 #### What is path traversal?
@@ -650,6 +659,89 @@ Thay giá trị tham số `stockApi` thành `http://192.168.0.55:8080/admin/dele
 Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image73.png?raw=true)
+
+### File upload vulnerabilities
+
+#### What are file upload vulnerabilities?
+
+Các lỗ hổng tải tệp lên xảy ra khi một máy chủ web cho phép người dùng tải tệp lên hệ thống tệp của nó mà `không kiểm tra đầy đủ các yếu tố` như `tên`, `loại`, `nội dung` hoặc `kích thước` của tệp. Việc không áp dụng các hạn chế một cách nghiêm ngặt đối với những yếu tố này có thể dẫn đến việc ngay cả một `chức năng tải ảnh` cơ bản cũng có thể `bị lợi dụng` để tải lên các tệp tùy ý và tiềm ẩn nguy hiểm. Điều này thậm chí có thể bao gồm `các tệp mã kịch bản` phía máy chủ, cho phép `thực thi mã từ xa`.
+
+Trong một số trường hợp, chỉ riêng hành động tải tệp lên đã đủ để gây thiệt hại. Các cuộc tấn công khác có thể liên quan đến một yêu cầu HTTP tiếp theo để truy cập tệp, thường nhằm kích hoạt việc thực thi tệp đó bởi máy chủ.
+
+#### How do file upload vulnerabilities arise?
+
+Với những nguy cơ khá rõ ràng, hiếm có trang web nào trong thực tế lại không áp dụng bất kỳ hạn chế nào đối với loại tệp mà người dùng được phép tải lên. Thường thì các nhà phát triển triển khai những gì họ tin là biện pháp xác thực mạnh mẽ, nhưng những biện pháp này hoặc là `có lỗ hổng cố hữu`, hoặc `có thể dễ dàng bị qua mặt`.
+
+Ví dụ, họ có thể cố gắng chặn các loại tệp nguy hiểm bằng `danh sách đen`, nhưng không tính đến sự khác biệt trong cách phân tích khi kiểm tra `phần mở rộng của tệp`. Như với bất kỳ danh sách đen nào, việc `vô tình bỏ sót các loại tệp ít phổ biến` hơn nhưng vẫn tiềm ẩn nguy hiểm là điều dễ xảy ra.
+
+Trong các trường hợp khác, trang web có thể cố gắng kiểm tra loại tệp bằng cách xác minh `các thuộc tính` mà kẻ tấn công có thể `dễ dàng thao túng` bằng các công cụ như `Burp Proxy` hoặc `Repeater`.
+
+Cuối cùng, ngay cả những biện pháp xác thực mạnh mẽ cũng có thể được `áp dụng không đồng đều` trên mạng lưới các máy chủ và thư mục tạo nên trang web, dẫn đến những khác biệt mà kẻ tấn công có thể khai thác.
+
+#### Exploiting unrestricted file uploads to deploy a web shell
+
+Từ góc độ bảo mật, kịch bản `tồi tệ nhất` có thể xảy ra là khi một trang web cho phép tải lên `các tệp mã kịch bản phía máy chủ`, chẳng hạn như tệp `PHP`, `Java` hoặc `Python`, và đồng thời được cấu hình để `thực thi chúng như mã lệnh`. Điều này khiến việc tạo ra một `web shell` của trên máy chủ trở nên cực kỳ đơn giản.
+
+**Web shell**
+
+`Web shell` là một `mã kịch bản độc hại` cho phép kẻ tấn công `thực thi các lệnh tùy ý` trên máy chủ web `từ xa` chỉ bằng cách gửi các yêu cầu HTTP đến đúng điểm cuối (endpoint).
+
+Nếu thành công trong việc tải lên một `web shell`, gần như có toàn quyền kiểm soát máy chủ. Điều này có nghĩa là có thể đọc và ghi các tệp tùy ý, trích xuất dữ liệu nhạy cảm, thậm chí sử dụng máy chủ để làm bàn đạp tấn công vào cả cơ sở hạ tầng nội bộ lẫn các máy chủ khác bên ngoài mạng. Chẳng hạn, đoạn mã `PHP` một dòng sau có thể được dùng để đọc các tệp tùy ý từ hệ thống tệp của máy chủ:
+
+    <?php echo file_get_contents('/path/to/target/file'); ?>
+
+Sau khi tải lên, việc gửi một yêu cầu đến tệp độc hại này sẽ trả về `nội dung của tệp mục tiêu` trong phản hồi.
+
+Một `web shell` linh hoạt hơn có thể trông như thế này:
+
+    <?php echo system($_GET['command']); ?>
+
+Mã kịch bản này cho phép `truyền một lệnh hệ thống tùy ý` thông qua tham số truy vấn như sau:
+
+    GET /example/exploit.php?command=id HTTP/1.1
+
+*(Khi đó, lệnh "id" sẽ được thực thi trên máy chủ, và kết quả sẽ được trả về trong phản hồi.)*
+
+#### Lab: Remote code execution via web shell upload
+
+![img](74)
+
+Access the lab: 
+
+![img](75)
+
+Đăng nhập vào tài khoản `wiener:peter`:
+
+![img](76)
+
+Thử upload 1 file .jpg đơn giản: 
+
+![img](78)
+
+Theo mô tả bài lab, cần đọc nội dung của file `/home/carlos/secret`. Tạo 1 file `my_shell.php` đơn giản:
+
+![img](77)
+
+Thay đổi GET request tìm nạp avatar thành: 
+
+![img](79)
+
+Send request, quan sát response: 
+
+![img](80)
+
+-> Tìm được nội dung file `/home/carlos/secret` là `D4rB4LKzG2lxVeHrzWrcyNUOK6mQV4nU`. Submit nội dung và solved the lab!
+
+![img](81)
+
+
+
+
+
+
+
+
+
 
 
 
