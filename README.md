@@ -170,4 +170,4 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: Basic SSRF against the local server](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-the-local-server)
 
-- [Lab: Basic SSRF against another back-end system]()
+- [Lab: Basic SSRF against another back-end system](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-another-back-end-system)

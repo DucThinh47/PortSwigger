@@ -64,9 +64,9 @@
 
     - [Lab: Basic SSRF against the local server](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-the-local-server)
 
-    - [SSRF attacks against other back-end systems]()
+    - [SSRF attacks against other back-end systems](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#ssrf-attacks-against-other-back-end-systems)
 
-    - [Lab: Basic SSRF against another back-end system]()
+    - [Lab: Basic SSRF against another back-end system](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-another-back-end-system)
 
 ### Path traversal
 
@@ -591,19 +591,19 @@ Trong ví dụ trước, tưởng tượng có một giao diện quản trị t�
 
 #### Lab: Basic SSRF against another back-end system
 
-![img](61)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image61.png?raw=true)
 
 Access the lab: 
 
-![img](62)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image62.png?raw=true)
 
 Click vào 1 sản phẩm bất kỳ: 
 
-![img](63)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image63.png?raw=true)
 
 Website có chức năng check stock. POST request trông như sau: 
 
-![img](64)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image64.png?raw=true)
 
 Theo mô tả thử thách, trang admin có thể truy cập qua URL:
 
@@ -613,43 +613,43 @@ Thử thay giá trị tham số `stockApi` thành:
 
     http://192.168.0.10:8080
 
-![img](65)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image65.png?raw=true)
 
 -> Cần tìm ra giá trị của `octet` cuối cùng. 
 
 Send request tới Burp Intruder:
 
-![img](66)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image66.png?raw=true)
 
 -> Chọn payload position ở octet cuối cùng. Payload option: 
 
-![img](67)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image67.png?raw=true)
 
 Start attack!
 
-![img](68)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image68.png?raw=true)
 
 Tìm được địa chỉ ip `192.168.0.55` trả về status code `404`:
 
-![img](69)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image69.png?raw=true)
 
 Có thể là địa chỉ IP nội bộ của hệ thống back-end mà người dùng bình thường không thể tìm thấy hay truy cập trực tiếp. 
 
 Thử gửi request với giá trị tham số `stockApi` là `http://192.168.0.55:8080/admin`:
 
-![img](70)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image70.png?raw=true)
 
 -> Truy cập thành công trang admin. Tìm được URL dẫn đến việc xóa user `carlos`:
 
-![img](71)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image71.png?raw=true)
 
 Thay giá trị tham số `stockApi` thành `http://192.168.0.55:8080/admin/delete?username=carlos`:
 
-![img](72)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image72.png?raw=true)
 
 Solved the lab!
 
-![img](73)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image73.png?raw=true)
 
 
 
