@@ -64,6 +64,10 @@
 
     - [Lab: Basic SSRF against the local server](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-the-local-server)
 
+    - [SSRF attacks against other back-end systems]()
+
+    - [Lab: Basic SSRF against another back-end system]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -572,6 +576,83 @@ Thay giá trị tham số `stockApi` thành:
 Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image60.png?raw=true)
+
+#### SSRF attacks against other back-end systems
+
+Trong một số trường hợp, máy chủ ứng dụng có thể tương tác với `các hệ thống back-end` mà người dùng không thể truy cập trực tiếp. Những hệ thống này thường sử dụng `các địa chỉ IP riêng` không thể định tuyến được (non-routable private IP addresses). Các hệ thống back-end thường được bảo vệ bởi `cấu trúc mạng`, do đó chúng thường có `tư thế bảo mật yếu hơn`. Trong nhiều trường hợp, các hệ thống back-end nội bộ chứa các chức năng nhạy cảm mà bất kỳ ai có khả năng tương tác với hệ thống đều có thể truy cập mà `không cần xác thực`.
+
+Trong ví dụ trước, tưởng tượng có một giao diện quản trị tại URL back-end `https://192.168.0.68/admin`. Kẻ tấn công có thể gửi yêu cầu sau để khai thác lỗ hổng SSRF và truy cập vào giao diện quản trị:
+
+    POST /product/stock HTTP/1.0
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 118
+
+    stockApi=http://192.168.0.68/admin
+
+#### Lab: Basic SSRF against another back-end system
+
+![img](61)
+
+Access the lab: 
+
+![img](62)
+
+Click vào 1 sản phẩm bất kỳ: 
+
+![img](63)
+
+Website có chức năng check stock. POST request trông như sau: 
+
+![img](64)
+
+Theo mô tả thử thách, trang admin có thể truy cập qua URL:
+
+    http://192.168.0.X:8080
+
+Thử thay giá trị tham số `stockApi` thành:
+
+    http://192.168.0.10:8080
+
+![img](65)
+
+-> Cần tìm ra giá trị của `octet` cuối cùng. 
+
+Send request tới Burp Intruder:
+
+![img](66)
+
+-> Chọn payload position ở octet cuối cùng. Payload option: 
+
+![img](67)
+
+Start attack!
+
+![img](68)
+
+Tìm được địa chỉ ip `192.168.0.55` trả về status code `404`:
+
+![img](69)
+
+Có thể là địa chỉ IP nội bộ của hệ thống back-end mà người dùng bình thường không thể tìm thấy hay truy cập trực tiếp. 
+
+Thử gửi request với giá trị tham số `stockApi` là `http://192.168.0.55:8080/admin`:
+
+![img](70)
+
+-> Truy cập thành công trang admin. Tìm được URL dẫn đến việc xóa user `carlos`:
+
+![img](71)
+
+Thay giá trị tham số `stockApi` thành `http://192.168.0.55:8080/admin/delete?username=carlos`:
+
+![img](72)
+
+Solved the lab!
+
+![img](73)
+
+
+
 
 
 

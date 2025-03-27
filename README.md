@@ -169,3 +169,5 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-2fa-simple-bypass)
 
 - [Lab: Basic SSRF against the local server](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-basic-ssrf-against-the-local-server)
+
+- [Lab: Basic SSRF against another back-end system]()
