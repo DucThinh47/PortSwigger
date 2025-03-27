@@ -78,6 +78,16 @@
 
     - [Lab: Remote code execution via web shell upload](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-remote-code-execution-via-web-shell-upload)
 
+    - [Exploiting flawed validation of file uploads]()
+
+    - [Flawed file type validation]()
+
+    - [Flawed file type validation - Continued]()
+
+    - [Flawed file type validation - Continued]()
+
+    - [Lab: Web shell upload via Content-Type restriction bypass]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -734,6 +744,105 @@ Send request, quan sát response:
 -> Tìm được nội dung file `/home/carlos/secret` là `D4rB4LKzG2lxVeHrzWrcyNUOK6mQV4nU`. Submit nội dung và solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image81.png?raw=true)
+
+#### Exploiting flawed validation of file uploads
+
+Trong thực tế, `hiếm có` trang web nào `hoàn toàn không có biện pháp bảo vệ` chống lại các cuộc tấn công tải tệp đã thấy trong phần trước. Tuy nhiên, việc có các biện pháp bảo vệ không đồng nghĩa với việc chúng đủ mạnh mẽ. Đôi khi `vẫn có thể khai thác` những lỗ hổng trong các cơ chế này để tạo ra một `web shell` nhằm `thực thi mã từ xa`.
+
+#### Flawed file type validation
+
+Khi gửi các `biểu mẫu HTML`, trình duyệt thường gửi dữ liệu được cung cấp trong một `POST request` với `content-type header` là `application/x-www-form-urlencoded`. Điều này phù hợp để gửi các `văn bản đơn giản` như tên hoặc địa chỉ. Tuy nhiên, nó không thích hợp để gửi lượng lớn dữ liệu nhị phân, chẳng hạn như `toàn bộ tệp hình ảnh` hoặc `tài liệu PDF`. Trong trường hợp này, `multipart/form-data` được ưu tiên sử dụng.
+
+#### Flawed file type validation - Continued
+
+Xem xét một biểu mẫu bao gồm các trường để `tải lên một hình ảnh`, `mô tả nội dung` và `nhập tên người dùng`. Khi gửi biểu mẫu này, yêu cầu HTTP có thể trông như sau:
+
+    POST /images HTTP/1.1  
+    Host: normal-website.com  
+    Content-Length: 12345  
+    Content-Type: multipart/form-data; boundary=---------------------------012345678901234567890123456  
+
+    ---------------------------012345678901234567890123456  
+    Content-Disposition: form-data; name="image"; filename="example.jpg"  
+    Content-Type: image/jpeg  
+
+    [...nội dung nhị phân của example.jpg...]  
+
+    ---------------------------012345678901234567890123456  
+    Content-Disposition: form-data; name="description"  
+
+    This is an interesting description of my image.  
+
+    ---------------------------012345678901234567890123456  
+    Content-Disposition: form-data; name="username"  
+
+    wiener  
+    ---------------------------012345678901234567890123456--  
+
+Như có thể thấy, phần thân thông điệp được `chia thành nhiều phần riêng biệt` tương ứng với từng trường trong biểu mẫu. Mỗi phần chứa một tiêu đề `Content-Disposition`, cung cấp `thông tin cơ bản` về trường dữ liệu tương ứng. Các phần này cũng có thể chứa tiêu đề `Content-Type` riêng, giúp máy chủ xác định loại dữ liệu (MIME type) được gửi từ trường đó.
+
+#### Flawed file type validation - Continued
+
+Một cách mà các trang web có thể sử dụng để kiểm tra tệp tải lên là xác minh xem tiêu đề `Content-Type` (đặc thù cho từng trường) có khớp với `MIME type` được mong đợi hay không. Ví dụ, nếu máy chủ chỉ chấp nhận `tệp hình ảnh`, nó có thể chỉ cho phép các loại như `image/jpeg` hoặc `image/png`.
+
+Tuy nhiên, vấn đề phát sinh khi máy chủ `tin tưởng mù quáng` vào giá trị của tiêu đề này. Nếu không có thêm bước kiểm tra để đảm bảo nội dung tệp thực sự khớp với loại MIME được khai báo, cơ chế bảo vệ này có thể dễ dàng bị bỏ qua bằng các công cụ như `Burp Repeater`.
+
+#### Lab: Web shell upload via Content-Type restriction bypass
+
+![img](82)
+
+Access the lab: 
+
+![img](83)
+
+Đăng nhập vào account `wiener:peter`:
+
+![img](84)
+
+Thử upload 1 file ảnh hợp lệ: 
+
+![img](85)
+
+Request tìm nạp image này sẽ trông như sau:
+
+![img](87)
+
+Tạo file `my_shell.php` có nội dung như sau: 
+
+    <?php echo file_get_contents('/home/carlos/secret'); ?>
+
+Thử upload file này: 
+
+![img](86)
+
+Thông báo lỗi cho thấy chỉ hỗ trợ MIME type là `image/jpeg` hoặc `image/png`.
+
+Request submit shell sẽ trông như sau:
+
+![img](88)
+
+Thử thay đổi Content-Type header từ `application/octet-stream` thành `image/jpeg`:
+
+![img](89)
+
+Send request này:
+
+![img](90)
+
+-> Thông báo upload file thành công. Quay lại request tìm nạp image, thay đổi tên image thành `my_shell.php`:
+
+![img](91)
+
+-> Tìm được nội dung file `/home/carlos/secret` là `rRvsUSvG9Qh6yptMDvrD8SqeM0JaGmDz`. Submit và solved the lab!
+
+![img](92)
+
+
+
+
+
+
+
 
 
 
