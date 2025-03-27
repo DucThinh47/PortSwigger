@@ -50,9 +50,9 @@
 
     - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-username-enumeration-via-different-responses)
 
-    - [Bypassing two-factor authentication]()
+    - [Bypassing two-factor authentication](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#bypassing-two-factor-authentication)
 
-    - [Lab: 2FA simple bypass]()
+    - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-2fa-simple-bypass)
 
 ### Path traversal
 
@@ -461,15 +461,15 @@ Nếu người dùng được yêu cầu `nhập mật khẩu trước`, sau đ�
 
 #### Lab: 2FA simple bypass
 
-![img](48)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image48.png?raw=true)
 
 Access the lab:
 
-![img](49)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image49.png?raw=true)
 
 Đăng nhập vào tài khoản wiener -> Đăng xuất -> Đăng nhập tài khoản carlos -> Khi yêu cầu nhập mã xác nhận -> Thay đổi URL thành `/my-account`.
 
-![img](50)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image50.png?raw=true)
 
 
 
