@@ -32,6 +32,24 @@
 
     - [Lab: User ID controlled by request parameter with password disclosure](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-user-id-controlled-by-request-parameter-with-password-disclosure)
 
+- [Authentication]()
+
+    - [Authentication vulnerabilities]()
+
+    - [What is the difference between authentication and authorization?]()
+
+    - [Brute-force attacks]()
+
+    - [Brute-forcing usernames]()
+
+    - [Brute-forcing passwords]()
+
+    - [Brute-forcing passwords - Continued]()
+
+    - [Username enumeration]()
+
+    - [Lab: Username enumeration via different responses]()
+
 ### Path traversal
 
 #### What is path traversal?
@@ -322,6 +340,132 @@ Thử thay đổi giá trị tham số `id` thành `administrator`:
 Xóa user `carlos`, solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/images/image36.png?raw=true)
+
+### Authentication
+
+#### Authentication vulnerabilities
+
+Về mặt khái niệm, các lỗ hổng xác thực khá dễ hiểu. Tuy nhiên, chúng thường rất nghiêm trọng vì mối liên hệ rõ ràng giữa xác thực và bảo mật.
+
+Các lỗ hổng xác thực có thể cho phép kẻ tấn công truy cập vào dữ liệu nhạy cảm và các chức năng quan trọng. Chúng cũng `mở ra thêm bề mặt tấn công` để khai thác sâu hơn. Vì lý do này, việc học cách nhận diện và khai thác các lỗ hổng xác thực, cũng như cách vượt qua các biện pháp bảo vệ phổ biến, là rất quan trọng.
+
+Trong phần này, giải thích:
+
+- Các cơ chế xác thực phổ biến nhất được sử dụng bởi các trang web.
+- Các lỗ hổng tiềm ẩn trong những cơ chế này.
+- Các lỗ hổng vốn có trong các cơ chế xác thực khác nhau.
+- Các lỗ hổng điển hình xuất hiện do việc triển khai không đúng cách.
+- Cách có thể làm cho cơ chế xác thực trở nên mạnh mẽ nhất có thể.
+
+![img](37)
+
+#### What is the difference between authentication and authorization?
+
+`Xác thực` là quá trình `xác minh` rằng một người dùng `thực sự là người mà họ tuyên bố`. `Phân quyền` liên quan đến việc `xác minh` liệu một người dùng có `được phép thực hiện` điều gì đó hay không.
+
+Ví dụ, xác thực xác định liệu một người đang cố gắng truy cập vào một trang web với tên người dùng `Carlos123` có thực sự `là người đã tạo tài khoản` đó hay không.
+
+Khi `Carlos123` đã được xác thực, `các quyền` của họ sẽ quyết định những gì họ `được phép làm`. Chẳng hạn, họ có thể được phép truy cập thông tin cá nhân của người dùng khác hoặc thực hiện các hành động như xóa tài khoản của người dùng khác.
+
+#### Brute-force attacks
+
+`Tấn công vét cạn` là khi kẻ tấn công sử dụng phương pháp `thử và sai` để `đoán thông tin` đăng nhập hợp lệ của người dùng. Các cuộc tấn công này thường được `tự động hóa` bằng cách sử dụng `danh sách từ` (wordlists) chứa tên người dùng và mật khẩu. Việc tự động hóa quá trình này, đặc biệt khi sử dụng các công cụ chuyên dụng, có thể cho phép kẻ tấn công thực hiện một số lượng lớn các lần thử đăng nhập với tốc độ cao.
+
+Việc vét cạn không phải lúc nào cũng chỉ là đoán ngẫu nhiên hoàn toàn về tên người dùng và mật khẩu. Bằng cách kết hợp logic cơ bản hoặc kiến thức công khai có sẵn, kẻ tấn công có thể tinh chỉnh các cuộc `tấn công vét cạn` để đưa ra những `phỏng đoán có cơ sở` hơn nhiều. Điều này làm tăng đáng kể hiệu quả của các cuộc tấn công như vậy. Các trang web `chỉ dựa vào đăng nhập bằng mật khẩu` làm phương pháp xác thực duy nhất có thể `rất dễ bị tổn thương` nếu không triển khai các biện pháp bảo vệ đầy đủ chống lại `tấn công vét cạn`.
+
+#### Brute-forcing usernames
+
+Tên người dùng `đặc biệt dễ đoán` nếu chúng tuân theo một `mô hình dễ nhận biết`, chẳng hạn như `địa chỉ email`. Ví dụ, rất phổ biến khi thấy các thông tin đăng nhập doanh nghiệp có định dạng `firstname.lastname@somecompany.com`. Tuy nhiên, ngay cả khi không có mô hình rõ ràng, đôi khi các `tài khoản có đặc quyền cao` vẫn được tạo bằng những `tên người dùng dễ dự đoán`, như `admin` hoặc `administrator`.
+
+Trong quá trình kiểm tra, hãy xem xét liệu trang web có công khai tiết lộ `tên người dùng tiềm năng` hay không. Chẳng hạn, có thể truy cập hồ sơ người dùng mà `không cần đăng nhập` không? Ngay cả khi nội dung thực tế của hồ sơ bị ẩn, `tên được sử dụng trong hồ sơ` đôi khi `trùng với tên người dùng đăng nhập`. Cũng nên kiểm tra các `phản hồi HTTP` để xem liệu có `địa chỉ email` nào bị tiết lộ hay không. Thỉnh thoảng, các phản hồi chứa địa chỉ email của những người dùng có đặc quyền cao, chẳng hạn như quản trị viên hoặc bộ phận hỗ trợ IT.
+
+#### Brute-forcing passwords
+
+Mật khẩu cũng có thể bị vét cạn tương tự, với độ khó tùy thuộc vào độ mạnh của mật khẩu. Nhiều trang web áp dụng một số hình thức `chính sách mật khẩu`, buộc người dùng phải tạo mật khẩu có `entropy cao`, ít nhất về mặt lý thuyết, khó bị bẻ khóa chỉ bằng vét cạn. Điều này thường bao gồm việc yêu cầu mật khẩu có:
+
+- Số ký tự tối thiểu
+- Sự kết hợp giữa chữ cái in thường và in hoa
+- Ít nhất một ký tự đặc biệt
+
+#### Brute-forcing passwords - Continued
+
+Tuy nhiên, mặc dù mật khẩu có entropy cao khó bị máy tính bẻ khóa chỉ bằng cách vét cạn, có thể sử dụng kiến thức cơ bản về hành vi con người để khai thác những lỗ hổng mà người dùng vô tình tạo ra trong hệ thống này. Thay vì tạo một mật khẩu mạnh với sự kết hợp ngẫu nhiên của các ký tự, người dùng thường chọn một mật khẩu mà họ có thể nhớ và cố gắng điều chỉnh nó để phù hợp với chính sách mật khẩu. Ví dụ, nếu `mypassword` không được chấp nhận, người dùng có thể thử biến nó thành `Mypassword1!` hoặc `Myp4$$w0rd`.
+
+Trong trường hợp chính sách yêu cầu người dùng `thay đổi mật khẩu định kỳ`, cũng rất phổ biến khi người dùng chỉ thực hiện những thay đổi nhỏ, dễ đoán đối với mật khẩu ưa thích của họ. Chẳng hạn, `Mypassword1!` có thể trở thành `Mypassword1?` hoặc `Mypassword2!`.
+
+Kiến thức về các thông tin đăng nhập có khả năng xảy ra và các mô hình dễ đoán này có nghĩa là các cuộc tấn công vét cạn thường có thể `tinh vi hơn nhiều`, và do đó hiệu quả hơn, so với việc chỉ đơn thuần lặp qua mọi tổ hợp ký tự có thể.
+
+#### Username enumeration
+
+`Liệt kê tên người dùng` là khi kẻ tấn công có thể quan sát `sự thay đổi trong hành vi` của trang web để xác định liệu một `tên người dùng cụ thể có hợp lệ` hay không.
+
+Việc `liệt kê tên người dùng` thường xảy ra trên `trang đăng nhập`, chẳng hạn khi nhập một `tên người dùng hợp lệ` nhưng `mật khẩu không chính xác`, hoặc trên các biểu mẫu đăng ký khi bạn nhập một `tên người dùng đã được sử dụng`. Điều này giúp giảm đáng kể thời gian và công sức cần thiết để vét cạn thông tin đăng nhập, bởi vì kẻ tấn công có thể nhanh chóng tạo ra một `danh sách ngắn các tên người dùng hợp lệ`.
+
+#### Lab: Username enumeration via different responses
+
+![img](38)
+
+Access the lab: 
+
+![img](39)
+
+Nhập 1 username và password bất kỳ: 
+
+![img](40)
+
+POST request `/login` sẽ như sau: 
+
+![img](41)
+
+Send request này sang Burp Intruder: 
+
+![img](42)
+
+Chọn 2 payload positions là username và password -> Chọn Cluster bomb attack.
+
+Payload options cho username: 
+
+![img](43)
+
+Payload options cho password: 
+
+![img](44)
+
+Start attack!
+
+![img](45)
+
+Tìm được username trả về response "Incorrect password".
+
+-> Username: `announcements`
+
+Tiếp tục brute-force password với username này. Tìm được 1 password có Status code là 302:
+
+![img](46)
+
+-> Password: `dallas`
+
+Login vào account, solved the lab!
+
+![img](47)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
