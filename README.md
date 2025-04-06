@@ -24,7 +24,7 @@ Thực hành các bài labs trên Portswigger.
 
 - [Server-side vulnerabilities](https://github.com/DucThinh47/PortSwigger/tree/main#server-side-vulnerabilities)
 
-- [Race conditions]()
+- [Race conditions](https://github.com/DucThinh47/PortSwigger/tree/main#race-conditions)
 
 ### API Testing
 
