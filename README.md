@@ -187,4 +187,4 @@ Thực hành các bài labs trên Portswigger.
 ### Race conditions
 
 - [Lab: Limit overrun race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-limit-overrun-race-conditions)
-- [Lab: Bypassing rate limits via race conditions]()
+- [Lab: Bypassing rate limits via race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-bypassing-rate-limits-via-race-conditions)

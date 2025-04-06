@@ -13,11 +13,11 @@
     - [Detecting and exploiting limit overrun race conditions with Burp Repeater - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-burp-repeater---continued)
     - [Lab: Limit overrun race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-limit-overrun-race-conditions)
 
-- [Detecting and exploiting limit overrun race conditions with Turbo Intruder]()
+- [Detecting and exploiting limit overrun race conditions with Turbo Intruder](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-turbo-intruder)
 
-    - [Detecting and exploiting limit overrun race conditions with Turbo Intruder]()
-    - [Detecting and exploiting limit overrun race conditions with Turbo Intruder - Continued]()
-    - [Lab: Bypassing rate limits via race conditions]()
+    - [Detecting and exploiting limit overrun race conditions with Turbo Intruder](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-turbo-intruder-1)
+    - [Detecting and exploiting limit overrun race conditions with Turbo Intruder - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-turbo-intruder---continued)
+    - [Lab: Bypassing rate limits via race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-bypassing-rate-limits-via-race-conditions)
 
 
 ### Limit overrun race conditions
@@ -179,23 +179,23 @@ Cách sử dụng `single-packet attack` trong Turbo Intruder:
 
 #### Lab: Bypassing rate limits via race conditions
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image19.png?raw=true)
 
 Access the lab:
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image20.png?raw=true)
 
 Truy cập trang `My account` và đăng nhập tài khoản `carlos` với password bất kỳ. request `/login` sẽ như sau:
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image23.png?raw=true)
 
 Send request này tới `Turbo Intruder` (Right click -> Extensions -> Send to Turbo Intruer):
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image24.png?raw=true)
 
 Chọn `examples/race-single-packet-attack.py`:
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image25.png?raw=true)
 
 Chỉnh sửa code thành như sau:
 
@@ -226,21 +226,21 @@ Chỉnh sửa code thành như sau:
 
 Chọn vị trí cần brute-force là ở password, vì là string nên thay thành `%s`:
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image26.png?raw=true)
 
 Click Attack:
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image27.png?raw=true)
 
 Tìm được password cho carlos, tiến hành đăng nhập. 
 
 Admin panel, chọn xóa carlos:
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image21.png?raw=true)
 
 Solved the lab!
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image22.png?raw=true)
 
 
 
