@@ -24,6 +24,8 @@ Thực hành các bài labs trên Portswigger.
 
 - [Server-side vulnerabilities](https://github.com/DucThinh47/PortSwigger/tree/main#server-side-vulnerabilities)
 
+- [Race conditions]()
+
 ### API Testing
 
 - [Lab: Exploiting an API endpoint using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/API_testing/API_documentation.md#lab-exploiting-an-api-endpoint-using-documentation)
@@ -181,3 +183,5 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
 
 - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side-vulnerabilities/Server_side_vulnerabilities.md#lab-sql-injection-vulnerability-allowing-login-bypass)
+
+### Race conditions
