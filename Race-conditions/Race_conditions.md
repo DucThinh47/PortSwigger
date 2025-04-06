@@ -2,11 +2,16 @@
 
 ## Content
 
-- [Limit overrun race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#limit-overrun-race-conditions):
+- [Limit overrun race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#limit-overrun-race-conditions)
 
     - [Limit overrun race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#limit-overrun-race-conditions-1)
     - [Limit overrun race conditions - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#limit-overrun-race-conditions---continued)
     - [Limit overrun race conditions - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#limit-overrun-race-conditions---continued-1)
+
+- [Detecting and exploiting limit overrun race conditions with Burp Repeater]()
+
+    - [Detecting and exploiting limit overrun race conditions with Burp Repeater - Continued]()
+    - [Lab: Limit overrun race conditions]()
 
 ### Limit overrun race conditions
 
@@ -41,5 +46,95 @@ Có nhiều biến thể khác nhau của kiểu tấn công này, bao gồm:
 - Rút hoặc chuyển tiền vượt quá số dư tài khoản
 - Tái sử dụng một mã CAPTCHA duy nhất
 - Vượt qua giới hạn tốc độ chống brute-force
+
+### Detecting and exploiting limit overrun race conditions with Burp Repeater
+
+Quy trình phát hiện và khai thác các điều kiện `tranh chấp vượt giới hạn` (limit overrun race conditions) tương đối đơn giản. Ở cấp độ tổng quát, chỉ cần:
+
+- Xác định một `endpoint` chỉ được `sử dụng một lần` hoặc bị giới hạn `tần suất truy cập`, và có ảnh hưởng đến bảo mật hoặc mang lại lợi ích nào đó.
+- Gửi nhiều yêu cầu tới `endpoint` đó một cách `liên tiếp` và `thật nhanh` để xem liệu có thể vượt qua giới hạn hay không.
+
+Thách thức chính nằm ở việc `căn thời gian` sao cho ít nhất hai "cửa sổ tranh chấp" (race window) trùng nhau, gây ra xung đột. Khoảng thời gian này thường chỉ kéo dài `vài mili-giây`, thậm chí còn ngắn hơn.
+
+Ngay cả khi gửi tất cả các yêu cầu cùng một lúc, thì trong thực tế vẫn tồn tại nhiều yếu tố bên ngoài không thể kiểm soát hoặc dự đoán được, ảnh hưởng đến thời điểm và thứ tự máy chủ xử lý từng yêu cầu.
+
+![img](2)
+
+#### Detecting and exploiting limit overrun race conditions with Burp Repeater - Continued
+
+`Burp Suite 2023.9` bổ sung các tính năng mạnh mẽ mới cho `Burp Repeater`, cho phép dễ dàng `gửi một nhóm các yêu cầu song song` theo cách giúp giảm đáng kể ảnh hưởng của một yếu tố thường gặp – đó là độ trễ mạng không ổn định `(network jitter)`. Burp sẽ tự động điều chỉnh kỹ thuật gửi phù hợp với `phiên bản HTTP` mà máy chủ hỗ trợ:
+
+- Với `HTTP/1`, Burp sử dụng kỹ thuật đồng bộ byte cuối cổ điển `(last-byte synchronization)`.
+- Với `HTTP/2`, Burp áp dụng kỹ thuật `single-packet attack`, lần đầu được nhóm PortSwigger Research trình bày tại hội nghị Black Hat USA 2023.
+
+Kỹ thuật `single-packet attack` cho phép `loại bỏ hoàn toàn sự can thiệp từ jitter mạng` bằng cách sử dụng một gói `TCP` duy nhất để hoàn tất `20–30` yêu cầu cùng lúc.
+
+![img](3)
+
+Mặc dù, thông thường chỉ cần `hai yêu cầu` là có thể kích hoạt một lỗ hổng, nhưng việc gửi số lượng lớn yêu cầu như trên giúp giảm thiểu `độ trễ nội bộ` – còn gọi là `jitter phía máy chủ` (server-side jitter). Điều này đặc biệt hữu ích trong giai đoạn khám phá ban đầu. 
+
+#### Lab: Limit overrun race conditions
+
+![img](4)
+
+Access the lab: 
+
+![img](5)
+
+Đăng nhập vào account được cung cấp `wiener:peter`: 
+
+![img](6)
+
+Hiện tại có $50.00 trong tài khoản. Sản phẩm cần mua là:
+
+![img](7)
+
+Áp dụng mã giảm giá `PROMO20`:
+
+![img](8)
+
+Thử áp dụng mã giảm giá một lần nữa:
+
+![img](9)
+
+-> Website thông báo mã đã được sử dụng. 
+
+Request khi áp dụng mã giảm giá lần 2:
+
+![img](10)
+
+Request nếu áp dụng mã giảm giá thành công:
+
+![img](11)
+
+Send request này tới repeater, ý tưởng để khai thác lỗ hổng `race conditions` là gửi nhiều request liên tiếp trong một khoảng thời gian ngắn, chọn `Create tab group`:
+
+![img](12)
+
+![img](13)
+
+Click chuột phải vào request và chọn Send to repeater liên tục:
+
+![img](14)
+
+Để gửi 32 request này cùng một lúc, chọn `Send group in parallel`:
+
+![img](15)
+
+Tiếp tục gửi lại cho đến khi nào đạt mức giá mong muốn:
+
+![img](16)
+
+![img](17)
+
+Mua sản phẩm và solved the lab!
+
+![img](18)
+
+
+
+
+
+
 
 
