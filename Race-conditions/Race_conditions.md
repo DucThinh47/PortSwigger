@@ -8,10 +8,10 @@
     - [Limit overrun race conditions - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#limit-overrun-race-conditions---continued)
     - [Limit overrun race conditions - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#limit-overrun-race-conditions---continued-1)
 
-- [Detecting and exploiting limit overrun race conditions with Burp Repeater]()
+- [Detecting and exploiting limit overrun race conditions with Burp Repeater](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-burp-repeater)
 
-    - [Detecting and exploiting limit overrun race conditions with Burp Repeater - Continued]()
-    - [Lab: Limit overrun race conditions]()
+    - [Detecting and exploiting limit overrun race conditions with Burp Repeater - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-burp-repeater---continued)
+    - [Lab: Limit overrun race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-limit-overrun-race-conditions)
 
 ### Limit overrun race conditions
 
@@ -58,7 +58,7 @@ Thách thức chính nằm ở việc `căn thời gian` sao cho ít nhất hai 
 
 Ngay cả khi gửi tất cả các yêu cầu cùng một lúc, thì trong thực tế vẫn tồn tại nhiều yếu tố bên ngoài không thể kiểm soát hoặc dự đoán được, ảnh hưởng đến thời điểm và thứ tự máy chủ xử lý từng yêu cầu.
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image2.png?raw=true)
 
 #### Detecting and exploiting limit overrun race conditions with Burp Repeater - Continued
 
@@ -69,67 +69,67 @@ Ngay cả khi gửi tất cả các yêu cầu cùng một lúc, thì trong th�
 
 Kỹ thuật `single-packet attack` cho phép `loại bỏ hoàn toàn sự can thiệp từ jitter mạng` bằng cách sử dụng một gói `TCP` duy nhất để hoàn tất `20–30` yêu cầu cùng lúc.
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image3.png?raw=true)
 
 Mặc dù, thông thường chỉ cần `hai yêu cầu` là có thể kích hoạt một lỗ hổng, nhưng việc gửi số lượng lớn yêu cầu như trên giúp giảm thiểu `độ trễ nội bộ` – còn gọi là `jitter phía máy chủ` (server-side jitter). Điều này đặc biệt hữu ích trong giai đoạn khám phá ban đầu. 
 
 #### Lab: Limit overrun race conditions
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image4.png?raw=true)
 
 Access the lab: 
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image5.png?raw=true)
 
 Đăng nhập vào account được cung cấp `wiener:peter`: 
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image6.png?raw=true)
 
 Hiện tại có $50.00 trong tài khoản. Sản phẩm cần mua là:
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image7.png?raw=true)
 
 Áp dụng mã giảm giá `PROMO20`:
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image8.png?raw=true)
 
 Thử áp dụng mã giảm giá một lần nữa:
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image9.png?raw=true)
 
 -> Website thông báo mã đã được sử dụng. 
 
 Request khi áp dụng mã giảm giá lần 2:
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image10.png?raw=true)
 
 Request nếu áp dụng mã giảm giá thành công:
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image11.png?raw=true)
 
 Send request này tới repeater, ý tưởng để khai thác lỗ hổng `race conditions` là gửi nhiều request liên tiếp trong một khoảng thời gian ngắn, chọn `Create tab group`:
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image12.png?raw=true)
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image13.png?raw=true)
 
 Click chuột phải vào request và chọn Send to repeater liên tục:
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image14.png?raw=true)
 
 Để gửi 32 request này cùng một lúc, chọn `Send group in parallel`:
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image15.png?raw=true)
 
 Tiếp tục gửi lại cho đến khi nào đạt mức giá mong muốn:
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image16.png?raw=true)
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image17.png?raw=true)
 
 Mua sản phẩm và solved the lab!
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image18.png?raw=true)
 
 
 
