@@ -28,6 +28,9 @@
 
 - [Multi-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#multi-endpoint-race-conditions)
 
+    - [Aligning multi-endpoint race windows]()
+    - [Connection warming]()
+
 ### Limit overrun race conditions
 
 #### Limit overrun race conditions
@@ -302,6 +305,56 @@ Cố gắng hiểu những gì đang xảy ra, loại bỏ các requests không 
 Các điều kiện đua nâng cao có thể tạo ra các nguyên lý bất thường và độc đáo, vì vậy con đường để đạt được tác động tối đa không phải lúc nào cũng rõ ràng ngay lập tức. Có thể giúp ích khi nghĩ về mỗi điều kiện đua như một điểm yếu cấu trúc thay vì một lỗ hổng đơn lẻ.
 
 ### Multi-endpoint race conditions
+
+Một trong những dạng điều kiện tranh chấp (race condition) dễ hiểu nhất là khi gửi các `request` đến `nhiều endpoint` cùng lúc.
+
+Hãy nghĩ đến một lỗi logic kinh điển trong các cửa hàng trực tuyến: thêm một sản phẩm vào giỏ hàng, thanh toán cho nó, rồi `nhanh chóng thêm thêm sản phẩm khác` vào giỏ trước khi cố ý truy cập thẳng vào trang xác nhận đơn hàng.
+
+**Lưu ý**: Nếu chưa quen với kiểu tấn công này, hãy xem phần "Insufficient workflow validation" trong chủ đề "Business logic vulnerabilities".
+
+Một biến thể của lỗ hổng này có thể xảy ra khi quá trình `xác thực thanh toán` và `xác nhận đơn hàng` được xử lý trong `cùng một request`. Khi đó, sơ đồ trạng thái (state machine) của đơn hàng có thể trông như sau:
+
+![img](30)
+
+Trong trường hợp này, có thể thêm nhiều sản phẩm vào giỏ hàng `trong khoảng thời gian ngắn` (race window) `giữa lúc` thanh toán được xác thực và lúc đơn hàng được xác nhận cuối cùng.
+
+#### Aligning multi-endpoint race windows - Căn chỉnh thời điểm race giữa các endpoint
+
+Khi kiểm thử điều kiện tranh chấp trên nhiều `endpoint`, có thể gặp khó khăn trong việc căn chỉnh "race window" của từng request — ngay cả khi đã gửi tất cả chúng cùng lúc bằng kỹ thuật `"single-packet"`.
+
+![img](31)
+
+Vấn đề phổ biến này chủ yếu bắt nguồn từ hai nguyên nhân sau:
+
+- `Độ trễ do kiến trúc mạng gây ra` – Ví dụ, có thể xảy ra độ trễ khi `server front-end` thiết lập kết nối mới với `back-end`. Giao thức sử dụng cũng có thể ảnh hưởng đáng kể đến độ trễ này.
+- `Độ trễ do quá trình xử lý riêng của từng endpoint` – Mỗi endpoint có thời gian xử lý khác nhau, đôi khi chênh lệch rất lớn, tùy thuộc vào các thao tác mà nó thực hiện.
+
+May mắn, vẫn có những cách để khắc phục hoặc giảm thiểu cả hai vấn đề này.
+
+#### Connection warming
+
+Độ trễ khi kết nối với `back-end` thường không gây trở ngại cho các cuộc tấn công `race condition`, vì những độ trễ này thường ảnh hưởng đến các `request song song` một cách tương đương, giúp chúng vẫn được xử lý đồng bộ.
+
+Tuy nhiên, điều quan trọng là phải phân biệt được những độ trễ do `kết nối mạng` với những độ trễ phát sinh từ `chính các endpoint`. Một cách để làm điều này là `"làm nóng"` kết nối bằng một hoặc vài `request không quan trọng` để xem liệu điều này có giúp thời gian xử lý còn lại trở nên ổn định hơn hay không. Trong `Burp Repeater`, có thể thử thêm một `request GET` tới trang chủ ở đầu nhóm tab, rồi sử dụng tùy chọn `Send group in sequence (single connection)`.
+
+Nếu request đầu tiên vẫn có thời gian `xử lý lâu hơn`, nhưng các request còn lại được `xử lý gần như cùng lúc` trong một khoảng thời gian ngắn, thì có thể bỏ qua độ trễ ban đầu đó và tiếp tục kiểm thử như bình thường.
+
+Tuy nhiên, nếu vẫn thấy thời gian phản hồi không ổn định trên một endpoint, ngay cả khi đã dùng kỹ thuật `single-packet`, điều này cho thấy `độ trễ từ back-end` đang ảnh hưởng đến cuộc tấn công. Lúc này, có thể sử dụng `Turbo Intruder` để gửi một vài request "làm nóng" trước khi gửi các request tấn công chính.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
