@@ -19,14 +19,14 @@
     - [Detecting and exploiting limit overrun race conditions with Turbo Intruder - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-turbo-intruder---continued)
     - [Lab: Bypassing rate limits via race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-bypassing-rate-limits-via-race-conditions)
 
-- [Hidden multi-step sequences]()
-- [Methodology]()
+- [Hidden multi-step sequences](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#hidden-multi-step-sequences)
+- [Methodology](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#methodology)
 
-    - [Predict potential collisions]()
-    - [Probe for clues]()
-    - [Prove the concept]()
+    - [Predict potential collisions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#predict-potential-collisions)
+    - [Probe for clues](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#probe-for-clues)
+    - [Prove the concept](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#prove-the-concept)
 
-- [Multi-endpoint race conditions]()
+- [Multi-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#multi-endpoint-race-conditions)
 
 ### Limit overrun race conditions
 
@@ -274,7 +274,8 @@ Dưới đây là mã giả mô phỏng cách một website có thể dễ bị 
 
 Để phát hiện và khai thác `các chuỗi nhiều bước ẩn`, khuyến nghị sử dụng phương pháp luận sau, được tóm tắt từ bài báo trắng Smashing the state machine: The true potential of web race conditions của PortSwigger Research.
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image28.png?raw=true)
+
 
 #### Predict potential collisions
 
@@ -283,7 +284,8 @@ Việc kiểm tra từng điểm cuối là `không thực tế`. Sau khi lập 
 - `Điểm cuối này có quan trọng về mặt bảo mật không?` Nhiều điểm cuối không tác động đến chức năng quan trọng, vì vậy chúng không đáng để kiểm tra.
 - `Có khả năng va chạm nào không?` Để xảy ra va chạm thành công, thường cần hai hoặc nhiều request kích hoạt các thao tác trên cùng một bản ghi. Ví dụ, xem xét các biến thể sau của một phương thức khôi phục mật khẩu:
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image29.png?raw=true)
+
 
 Với ví dụ đầu tiên, việc yêu cầu `khôi phục mật khẩu song song` cho hai người dùng khác nhau khó có thể gây ra va chạm vì nó dẫn đến thay đổi hai bản ghi khác nhau. Tuy nhiên, phương thức thứ hai cho phép `chỉnh sửa cùng một bản ghi` với các yêu cầu từ `hai người dùng khác nhau`.
 
