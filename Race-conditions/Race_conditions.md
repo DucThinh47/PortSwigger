@@ -19,6 +19,14 @@
     - [Detecting and exploiting limit overrun race conditions with Turbo Intruder - Continued](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#detecting-and-exploiting-limit-overrun-race-conditions-with-turbo-intruder---continued)
     - [Lab: Bypassing rate limits via race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-bypassing-rate-limits-via-race-conditions)
 
+- [Hidden multi-step sequences]()
+- [Methodology]()
+
+    - [Predict potential collisions]()
+    - [Probe for clues]()
+    - [Prove the concept]()
+
+- [Multi-endpoint race conditions]()
 
 ### Limit overrun race conditions
 
@@ -241,6 +249,68 @@ Admin panel, chọn xóa carlos:
 Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image22.png?raw=true)
+
+### Hidden multi-step sequences
+
+Trong thực tế, một `request` duy nhất có thể bắt đầu một chuỗi nhiều bước ẩn sau hậu trường, chuyển ứng dụng qua nhiều trạng thái ẩn mà nó sẽ vào và rồi thoát ra trước khi quá trình xử lý `request` hoàn tất. Gọi chúng là `"sub-states"` (trạng thái phụ).
+
+Nếu có thể xác định một hoặc nhiều `HTTP request` gây ra sự tương tác với cùng một dữ liệu, có thể lợi dụng các trạng thái phụ này để lộ ra những biến thể nhạy cảm về thời gian của các lỗi logic mà thường gặp trong các quy trình làm việc nhiều bước. Điều này tạo ra các lỗ hổng điều kiện đua (race condition) vượt xa các lỗi tràn giới hạn.
+
+Ví dụ, với các quy trình `xác thực đa yếu tố` (MFA) bị lỗi, cho phép thực hiện `phần đầu tiên` của `quá trình đăng nhập` bằng thông tin đăng nhập đã biết, sau đó điều hướng trực tiếp đến ứng dụng qua trình duyệt cưỡng chế, qua đó bỏ qua hoàn toàn `MFA`.
+
+**Lưu ý**: Nếu không quen thuộc với lỗ hổng này, hãy xem thử bài tập bỏ qua 2FA đơn giản trong chủ đề Lỗ hổng xác thực.
+
+Dưới đây là mã giả mô phỏng cách một website có thể dễ bị tấn công với một biến thể `race condition` của cuộc tấn công này:
+
+    session['userid'] = user.userid
+    if user.mfa_enabled:
+        session['enforce_mfa'] = True
+        # tạo mã MFA và gửi cho người dùng
+        # chuyển hướng trình duyệt đến biểu mẫu nhập mã MFA
+
+Đây thực sự là một chuỗi nhiều bước trong phạm vi của một request duy nhất. Quan trọng nhất, nó chuyển qua một `trạng thái phụ` trong đó người dùng `tạm thời có một phiên đăng nhập hợp lệ`, nhưng `MFA` chưa được thực thi. Kẻ tấn công có thể lợi dụng điều này bằng cách gửi một `request` đăng nhập cùng với `request` đến một điểm cuối nhạy cảm, đã được xác thực.
+
+### Methodology
+
+Để phát hiện và khai thác `các chuỗi nhiều bước ẩn`, khuyến nghị sử dụng phương pháp luận sau, được tóm tắt từ bài báo trắng Smashing the state machine: The true potential of web race conditions của PortSwigger Research.
+
+![img](28)
+
+#### Predict potential collisions
+
+Việc kiểm tra từng điểm cuối là `không thực tế`. Sau khi lập bản đồ trang web mục tiêu như bình thường, có thể giảm số lượng điểm cuối cần kiểm tra bằng cách tự hỏi những câu hỏi sau:
+
+- `Điểm cuối này có quan trọng về mặt bảo mật không?` Nhiều điểm cuối không tác động đến chức năng quan trọng, vì vậy chúng không đáng để kiểm tra.
+- `Có khả năng va chạm nào không?` Để xảy ra va chạm thành công, thường cần hai hoặc nhiều request kích hoạt các thao tác trên cùng một bản ghi. Ví dụ, xem xét các biến thể sau của một phương thức khôi phục mật khẩu:
+
+![img](29)
+
+Với ví dụ đầu tiên, việc yêu cầu `khôi phục mật khẩu song song` cho hai người dùng khác nhau khó có thể gây ra va chạm vì nó dẫn đến thay đổi hai bản ghi khác nhau. Tuy nhiên, phương thức thứ hai cho phép `chỉnh sửa cùng một bản ghi` với các yêu cầu từ `hai người dùng khác nhau`.
+
+#### Probe for clues
+
+Để nhận diện dấu hiệu, trước tiên cần xác định cách điểm cuối hoạt động `trong điều kiện bình thường`. Có thể làm điều này trong `Burp Repeater` bằng cách `nhóm tất cả request` của mình và sử dụng tùy chọn `"Send group in sequence"` (kết nối riêng biệt).
+
+Sau đó, `gửi cùng một nhóm request cùng lúc` bằng cách sử dụng `single-packet attack` (hoặc `last-byte sync `nếu `HTTP/2` không được hỗ trợ) để giảm thiểu độ nhiễu mạng. Có thể làm điều này trong `Burp Repeater` bằng cách chọn tùy chọn `"Send group in parallel"`. 
+
+`Bất kỳ điều gì` cũng có thể là `dấu hiệu`. Hãy tìm kiếm bất kỳ sự thay đổi nào so với những gì quan sát được trong quá trình `benchmark`. Điều này bao gồm sự thay đổi trong một hoặc nhiều phản hồi, nhưng đừng quên các tác động thứ cấp như thay đổi nội dung email hoặc sự thay đổi có thể thấy được trong hành vi của ứng dụng sau đó.
+
+#### Prove the concept
+
+Cố gắng hiểu những gì đang xảy ra, loại bỏ các requests không cần thiết và đảm bảo rằng vẫn có thể tái tạo lại các tác động.
+
+Các điều kiện đua nâng cao có thể tạo ra các nguyên lý bất thường và độc đáo, vì vậy con đường để đạt được tác động tối đa không phải lúc nào cũng rõ ràng ngay lập tức. Có thể giúp ích khi nghĩ về mỗi điều kiện đua như một điểm yếu cấu trúc thay vì một lỗ hổng đơn lẻ.
+
+### Multi-endpoint race conditions
+
+
+
+
+
+
+
+
+
 
 
 
