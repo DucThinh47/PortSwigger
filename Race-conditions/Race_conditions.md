@@ -276,7 +276,6 @@ Dưới đây là mã giả mô phỏng cách một website có thể dễ bị 
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image28.png?raw=true)
 
-
 #### Predict potential collisions
 
 Việc kiểm tra từng điểm cuối là `không thực tế`. Sau khi lập bản đồ trang web mục tiêu như bình thường, có thể giảm số lượng điểm cuối cần kiểm tra bằng cách tự hỏi những câu hỏi sau:
@@ -285,7 +284,6 @@ Việc kiểm tra từng điểm cuối là `không thực tế`. Sau khi lập 
 - `Có khả năng va chạm nào không?` Để xảy ra va chạm thành công, thường cần hai hoặc nhiều request kích hoạt các thao tác trên cùng một bản ghi. Ví dụ, xem xét các biến thể sau của một phương thức khôi phục mật khẩu:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image29.png?raw=true)
-
 
 Với ví dụ đầu tiên, việc yêu cầu `khôi phục mật khẩu song song` cho hai người dùng khác nhau khó có thể gây ra va chạm vì nó dẫn đến thay đổi hai bản ghi khác nhau. Tuy nhiên, phương thức thứ hai cho phép `chỉnh sửa cùng một bản ghi` với các yêu cầu từ `hai người dùng khác nhau`.
 
