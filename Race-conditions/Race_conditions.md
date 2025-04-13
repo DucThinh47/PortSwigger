@@ -31,6 +31,7 @@
     - [Aligning multi-endpoint race windows](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#aligning-multi-endpoint-race-windows---c%C4%83n-ch%E1%BB%89nh-th%E1%BB%9Di-%C4%91i%E1%BB%83m-race-gi%E1%BB%AFa-c%C3%A1c-endpoint)
     - [Connection warming](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#connection-warming)
     - [Lab: Multi-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-multi-endpoint-race-conditions)
+    - [Abusing rate or resource limits]()
 
 ### Limit overrun race conditions
 
@@ -435,6 +436,25 @@ Request `check-out` lúc này sẽ trông như sau:
 Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image51.png?raw=true)
+
+#### Abusing rate or resource limits
+
+Nếu việc `“hâm nóng”` kết nối không mang lại khác biệt, có một số giải pháp khác cho vấn đề này.
+
+Khi sử dụng `Turbo Intruder`, có thể thêm một `khoảng trễ ngắn`ở phía client. Tuy nhiên, điều này sẽ khiến các yêu cầu tấn công bị chia thành `nhiều gói TCP`, do đó sẽ `không thể` sử dụng kỹ thuật tấn công bằng một gói tin duy nhất. Kết quả là, đối với các mục tiêu có độ trễ cao không ổn định, cuộc tấn công khó có thể thực hiện một cách đáng tin cậy bất kể thiết lập khoảng trễ như thế nào.
+
+![img](53)
+
+Thay vào đó, có thể giải quyết vấn đề này bằng cách lợi dụng một tính năng bảo mật phổ biến.
+
+Máy chủ web thường trì hoãn việc xử lý yêu cầu nếu có `quá nhiều yêu cầu được gửi quá nhanh`. Bằng cách gửi một lượng lớn `yêu cầu giả` (dummy requests) để cố tình kích hoạt giới hạn tốc độ hoặc tài nguyên, có thể tạo ra một khoảng trễ phù hợp từ phía máy chủ. Điều này giúp cho kỹ thuật tấn công bằng một gói tin trở nên khả thi ngay cả khi cần thực thi có độ trễ.
+
+![img](54)
+
+
+
+
+
 
 
 
