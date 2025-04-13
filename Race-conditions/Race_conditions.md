@@ -30,6 +30,7 @@
 
     - [Aligning multi-endpoint race windows]()
     - [Connection warming]()
+    - [Lab: Multi-endpoint race conditions]()
 
 ### Limit overrun race conditions
 
@@ -340,6 +341,110 @@ Tuy nhiên, điều quan trọng là phải phân biệt được những độ 
 Nếu request đầu tiên vẫn có thời gian `xử lý lâu hơn`, nhưng các request còn lại được `xử lý gần như cùng lúc` trong một khoảng thời gian ngắn, thì có thể bỏ qua độ trễ ban đầu đó và tiếp tục kiểm thử như bình thường.
 
 Tuy nhiên, nếu vẫn thấy thời gian phản hồi không ổn định trên một endpoint, ngay cả khi đã dùng kỹ thuật `single-packet`, điều này cho thấy `độ trễ từ back-end` đang ảnh hưởng đến cuộc tấn công. Lúc này, có thể sử dụng `Turbo Intruder` để gửi một vài request "làm nóng" trước khi gửi các request tấn công chính.
+
+#### Lab: Multi-endpoint race conditions
+
+![img](32)
+
+Access the lab:
+
+![img](33)
+
+Đăng nhập bằng account `wiener:peter`:
+
+![img](34)
+
+Thử thêm 1 món đồ vào giỏ hàng:
+
+![img](35)
+
+![img](36)
+
+Request thêm vào giỏ hàng:
+
+![img](37)
+
+Thử mua món hàng này:
+
+![img](38)
+
+Tìm được 1 đoạn code: `sA5GxpRuFF`, ở phần My account cũng xuất hiện đoạn code này:
+
+![img](39)
+
+Đồng thời xuất hiện request `Checkout`:
+
+![img](40)
+
+Thử sử dụng đoạn code `sA5GxpRuFF` và dán vào phần Gift cards trong trang My account:
+
+![img](41)
+
+Click `Redeem`:
+
+![img](42)
+
+Đoạn code đã biến mất và số `Store credit` trở lại là `100$`. 
+
+Mục tiêu là mua được `Lightweight L33t Leather Jacket`, thêm sản phẩm này vào giỏ hàng:
+
+![img](43)
+
+Request khi thêm `Lighweight L33t Leather Jacket` vào giỏ hàng:
+
+![img](44)
+
+Trong `Burp Repeater`, thử gửi lại request `check-out`:
+
+![img](45)
+
+->Mất 1 khoảng thời gian để nhận response, có thể lợi dụng lỗ hổng `race condition`.
+
+Quá trình hoạt động của website: 
+
+Tính toán tổng tiền của tất cả sản phẩm trong giỏ hàng --> So sánh với số tiền hiện có của tài khoản --> Nếu đủ, chuyển đến mục confirmation
+
+Trong khoảng giữa lúc confirmation và verification số tiền trong tài khoản và tổng số tiền phải thanh toán, có thể thử thêm `Lighweight L33t Leather Jacket` vào giỏ hàng.
+
+Thử gửi lại request `add gift card` vào giỏ hàng:
+
+![img](46)
+
+Refresh lại trang:
+
+![img](47)
+
+Mục tiêu là mua `Lighweight L33t Leather Jacket` chỉ với 10$. 
+
+Tạo nhóm request:
+
+![img](48)
+
+Thêm 1 request `add-jacket` ở phía trước request `check-out`:
+
+![img](49)
+
+Gửi group request này:
+
+![img](50)
+
+Request `check-out` lúc này sẽ trông như sau:
+
+![img](52)
+
+Solved the lab!
+
+![img](51)
+
+
+
+
+
+
+
+
+
+
 
 
 
