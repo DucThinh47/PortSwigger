@@ -356,7 +356,7 @@ Access the lab:
 
 Thử thêm 1 món đồ vào giỏ hàng:
 
-![img](htts://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image35.png?raw=true)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image35.png?raw=true)
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image36.png?raw=true)
 
