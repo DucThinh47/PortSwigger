@@ -28,9 +28,9 @@
 
 - [Multi-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#multi-endpoint-race-conditions)
 
-    - [Aligning multi-endpoint race windows]()
-    - [Connection warming]()
-    - [Lab: Multi-endpoint race conditions]()
+    - [Aligning multi-endpoint race windows](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#aligning-multi-endpoint-race-windows---c%C4%83n-ch%E1%BB%89nh-th%E1%BB%9Di-%C4%91i%E1%BB%83m-race-gi%E1%BB%AFa-c%C3%A1c-endpoint)
+    - [Connection warming](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#connection-warming)
+    - [Lab: Multi-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-multi-endpoint-race-conditions)
 
 ### Limit overrun race conditions
 
@@ -315,7 +315,7 @@ Hãy nghĩ đến một lỗi logic kinh điển trong các cửa hàng trực t
 
 Một biến thể của lỗ hổng này có thể xảy ra khi quá trình `xác thực thanh toán` và `xác nhận đơn hàng` được xử lý trong `cùng một request`. Khi đó, sơ đồ trạng thái (state machine) của đơn hàng có thể trông như sau:
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image30.png?raw=true)
 
 Trong trường hợp này, có thể thêm nhiều sản phẩm vào giỏ hàng `trong khoảng thời gian ngắn` (race window) `giữa lúc` thanh toán được xác thực và lúc đơn hàng được xác nhận cuối cùng.
 
@@ -323,7 +323,7 @@ Trong trường hợp này, có thể thêm nhiều sản phẩm vào giỏ hàn
 
 Khi kiểm thử điều kiện tranh chấp trên nhiều `endpoint`, có thể gặp khó khăn trong việc căn chỉnh "race window" của từng request — ngay cả khi đã gửi tất cả chúng cùng lúc bằng kỹ thuật `"single-packet"`.
 
-![img](31)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image31.png?raw=true)
 
 Vấn đề phổ biến này chủ yếu bắt nguồn từ hai nguyên nhân sau:
 
@@ -344,59 +344,59 @@ Tuy nhiên, nếu vẫn thấy thời gian phản hồi không ổn định trê
 
 #### Lab: Multi-endpoint race conditions
 
-![img](32)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image32.png?raw=true)
 
 Access the lab:
 
-![img](33)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image33.png?raw=true)
 
 Đăng nhập bằng account `wiener:peter`:
 
-![img](34)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image34.png?raw=true)
 
 Thử thêm 1 món đồ vào giỏ hàng:
 
-![img](35)
+![img](htts://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image35.png?raw=true)
 
-![img](36)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image36.png?raw=true)
 
 Request thêm vào giỏ hàng:
 
-![img](37)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image37.png?raw=true)
 
 Thử mua món hàng này:
 
-![img](38)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image38.png?raw=true)
 
 Tìm được 1 đoạn code: `sA5GxpRuFF`, ở phần My account cũng xuất hiện đoạn code này:
 
-![img](39)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image39.png?raw=true)
 
 Đồng thời xuất hiện request `Checkout`:
 
-![img](40)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image40.png?raw=true)
 
 Thử sử dụng đoạn code `sA5GxpRuFF` và dán vào phần Gift cards trong trang My account:
 
-![img](41)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image41.png?raw=true)
 
 Click `Redeem`:
 
-![img](42)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image42.png?raw=true)
 
 Đoạn code đã biến mất và số `Store credit` trở lại là `100$`. 
 
 Mục tiêu là mua được `Lightweight L33t Leather Jacket`, thêm sản phẩm này vào giỏ hàng:
 
-![img](43)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image43.png?raw=true)
 
 Request khi thêm `Lighweight L33t Leather Jacket` vào giỏ hàng:
 
-![img](44)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image44.png?raw=true)
 
 Trong `Burp Repeater`, thử gửi lại request `check-out`:
 
-![img](45)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image45.png?raw=true)
 
 ->Mất 1 khoảng thời gian để nhận response, có thể lợi dụng lỗ hổng `race condition`.
 
@@ -408,33 +408,33 @@ Trong khoảng giữa lúc confirmation và verification số tiền trong tài 
 
 Thử gửi lại request `add gift card` vào giỏ hàng:
 
-![img](46)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image46.png?raw=true)
 
 Refresh lại trang:
 
-![img](47)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image47.png?raw=true)
 
 Mục tiêu là mua `Lighweight L33t Leather Jacket` chỉ với 10$. 
 
 Tạo nhóm request:
 
-![img](48)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image48.png?raw=true)
 
 Thêm 1 request `add-jacket` ở phía trước request `check-out`:
 
-![img](49)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image49.png?raw=true)
 
 Gửi group request này:
 
-![img](50)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image50.png?raw=true)
 
 Request `check-out` lúc này sẽ trông như sau:
 
-![img](52)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image52.png?raw=true)
 
 Solved the lab!
 
-![img](51)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image51.png?raw=true)
 
 
 
