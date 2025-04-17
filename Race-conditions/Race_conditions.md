@@ -33,6 +33,10 @@
     - [Lab: Multi-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-multi-endpoint-race-conditions)
     - [Abusing rate or resource limits](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#abusing-rate-or-resource-limits)
 
+- [Single-endpoint race conditions]()
+
+    - [Lab: Single-endpoint race conditions]()
+
 ### Limit overrun race conditions
 
 #### Limit overrun race conditions
@@ -450,6 +454,45 @@ Thay vào đó, có thể giải quyết vấn đề này bằng cách lợi d�
 Máy chủ web thường trì hoãn việc xử lý yêu cầu nếu có `quá nhiều yêu cầu được gửi quá nhanh`. Bằng cách gửi một lượng lớn `yêu cầu giả` (dummy requests) để cố tình kích hoạt giới hạn tốc độ hoặc tài nguyên, có thể tạo ra một khoảng trễ phù hợp từ phía máy chủ. Điều này giúp cho kỹ thuật tấn công bằng một gói tin trở nên khả thi ngay cả khi cần thực thi có độ trễ.
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image54.png?raw=true)
+
+### Single-endpoint race conditions
+
+Việc gửi các request song song với các giá trị khác nhau đến một điểm cuối đơn lẻ đôi khi có thể kích hoạt các tình trạng `race condition` mạnh mẽ.
+
+Hãy xem xét cơ chế đặt lại mật khẩu lưu trữ ID người dùng và token đặt lại trong phiên của người dùng.
+
+Trong trường hợp này, việc gửi hai request đặt lại mật khẩu song song từ cùng một phiên, nhưng với hai username khác nhau, có thể gây ra xung đột như sau:
+
+![img](55)
+
+Lưu ý trạng thái cuối cùng khi tất cả các thao tác hoàn tất:
+
+    session['reset-user'] = victim  
+    session['reset-token'] = 1234  
+
+Phiên làm việc (session) lúc này chứa ID người dùng của nạn nhân, nhưng token đặt lại hợp lệ lại được gửi đến kẻ tấn công.
+
+**Lưu ý**
+
+Để cuộc tấn công này thành công, các thao tác khác nhau được thực hiện bởi từng tiến trình phải xảy ra theo đúng thứ tự. Điều này có thể đòi hỏi nhiều lần thử hoặc một chút may mắn để đạt được kết quả mong muốn.
+
+Các thao tác liên quan đến `xác nhận email` hoặc `bất kỳ quy trình nào dựa trên email` thường là mục tiêu lý tưởng cho `race condition` một điểm cuối. Lý do là email thường được gửi trong một luồng xử lý nền (background thread) sau khi máy chủ phản hồi HTTP cho client, khiến `race condition` dễ xảy ra hơn.
+
+#### Lab: Single-endpoint race conditions
+
+![img](56)
+
+Access the lab:
+
+
+
+
+
+
+
+
+
+
 
 
 
