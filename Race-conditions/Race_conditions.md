@@ -33,9 +33,9 @@
     - [Lab: Multi-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-multi-endpoint-race-conditions)
     - [Abusing rate or resource limits](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#abusing-rate-or-resource-limits)
 
-- [Single-endpoint race conditions]()
+- [Single-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#single-endpoint-race-conditions)
 
-    - [Lab: Single-endpoint race conditions]()
+    - [Lab: Single-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-single-endpoint-race-conditions)
 
 ### Limit overrun race conditions
 
@@ -463,7 +463,7 @@ Hãy xem xét cơ chế đặt lại mật khẩu lưu trữ ID người dùng v
 
 Trong trường hợp này, việc gửi hai request đặt lại mật khẩu song song từ cùng một phiên, nhưng với hai username khác nhau, có thể gây ra xung đột như sau:
 
-![img](55)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image55.png?raw=true)
 
 Lưu ý trạng thái cuối cùng khi tất cả các thao tác hoàn tất:
 
@@ -480,7 +480,7 @@ Các thao tác liên quan đến `xác nhận email` hoặc `bất kỳ quy trì
 
 #### Lab: Single-endpoint race conditions
 
-![img](56)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/images/image56.png?raw=true)
 
 Access the lab:
 
