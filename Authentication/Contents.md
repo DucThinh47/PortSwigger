@@ -12,7 +12,7 @@
     - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
     - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)
     - [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
-    - [Lab: Username enumeration via subtly different responses]()
+    - [Lab: Username enumeration via subtly different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-subtly-different-responses)
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -209,21 +209,21 @@ Bài lab cung cấp sẵn 2 danh sách tài khoản và mật khẩu người d�
 
 Thử login vào 1 tài khoản bất kì: 
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image23.png?raw=true)
 
 Request login trông như sau: 
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image24.png?raw=true)
 
 Thử brute-force username thông qua Bupe Intruder:
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image25.png?raw=true)
 
 Khác với bài lab trước, lần này thông báo trả về không rõ ràng là sai username hay password
 
 Sử dụng setting `Grep-Extract` trong Burp Intruder, có thể bypass vấn đề này:
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image26.png?raw=true)
 
 Bôi đen `Invalid username or password.` trong response > OK. Sắp xếp theo cột mới được thêm và để ý sẽ có một username trả về giá trị khác với các cột còn lại
 
@@ -231,7 +231,7 @@ Sau khi tìm được username là `adsl`, brute-force password như bình thư�
 
 => Tài khoản tìm được `adsl:123qwe`:
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image27.png?raw=true)
 
 
 
