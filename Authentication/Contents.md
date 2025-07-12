@@ -1,15 +1,15 @@
 # Contents
 
-- [Authentication vulnerabilities]()
-- [What is authentication?]()
-    - [What is the difference between authentication and authorization?]()
-- [How do authentication vulnerabilities arise?]()
-- [What is the impact of vulnerable authentication?]()
-- [Vulnerabilities in authentication mechanisms]()
-    - [Vulnerabilities in third-party authentication mechanisms]()
-- [Preventing attacks on your own authentication mechanisms]()
-- [Labs]()
-    - [Lab: Username enumeration via different responses]()
+- [Authentication vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#authentication-vulnerabilities)
+- [What is authentication?](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#what-is-authentication)
+    - [What is the difference between authentication and authorization?](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#what-is-the-difference-between-authentication-and-authorization)
+- [How do authentication vulnerabilities arise?](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#how-do-authentication-vulnerabilities-arise)
+- [What is the impact of vulnerable authentication?](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#what-is-the-impact-of-vulnerable-authentication)
+- [Vulnerabilities in authentication mechanisms](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#vulnerabilities-in-authentication-mechanisms)
+    - [Vulnerabilities in third-party authentication mechanisms](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#vulnerabilities-in-third-party-authentication-mechanisms)
+- [Preventing attacks on your own authentication mechanisms](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#preventing-attacks-on-your-own-authentication-mechanisms)
+- [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#labs)
+    - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -24,7 +24,7 @@ Trong phần này, tập trung vào tìm hiểu:
 - Các `lỗ hổng điển hình` được tạo ra do việc triển khai không đúng cách.
 - Cách có thể tạo ra các cơ chế xác thực của riêng mình `chắc chắn nhất` có thể.
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image0.png?raw=true)
 
 # What is authentication?
 `Xác thực` là quá trình `xác minh danh tính` của người dùng hoặc máy khách. Các trang web có khả năng bị lộ diện với bất kỳ ai kết nối internet, điều này khiến `các cơ chế xác thực mạnh mẽ` trở thành yếu tố không thể thiếu đối với `bảo mật web hiệu quả`.
@@ -82,53 +82,53 @@ Phòng lab này đang tồn tại lỗ hổng liệt kê username và brute-forc
 
 Truy cập bài lab: 
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image1.png?raw=true)
 
 Lab đã cung cấp cho tôi danh sách các username và password phổ biến.
 
 Trang login: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image2.png?raw=true)
 
 Với 2 danh sách username và password mà labs đã cung cấp, tôi có thể sử dụng Burp Intruder để brute-force. 
 
 Thử login vào 1 tài khoản bất kì: 
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image3.png?raw=true)
 
 Request login sẽ trông như sau: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image4.png?raw=true)
 
 Send request này sang tab Intruder, trước tiên sẽ brute-force username trước: 
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image5.png?raw=true)
 
 Chọn Attack mode là Sniper attack, cấu hình Payloads là danh sách usernames lab cung cấp: 
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image6.png?raw=true)
 
 Start attack!
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image7.png?raw=true)
 
 Tìm kiếm response nào có độ dài khác biệt so với các response khác: 
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image8.png?raw=true)
 
 => Username `affiliates` trả về response `Incorrect password`
 
 Tiếp theo brute-force password:
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image9.png?raw=true)
 
 Tìm ra được password là `password`: 
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image10.png?raw=true)
 
 Thử login account có username là `affiliates` và password là `password`:
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image11.png?raw=true)
 
 
 

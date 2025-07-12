@@ -15,7 +15,7 @@ Thực hành các bài labs trên Portswigger.
 - [Server-side request forgery (SSRF) attacks](https://github.com/DucThinh47/PortSwigger#server-side-request-forgery-ssrf-attacks)
 - [Server-side vulnerabilities](https://github.com/DucThinh47/PortSwigger/tree/main#server-side-vulnerabilities)
 - [Race conditions](https://github.com/DucThinh47/PortSwigger/tree/main#race-conditions)
-- [Authentication]()
+- [Authentication](https://github.com/DucThinh47/PortSwigger/tree/main#authentication)
 
 ### API Testing
 
@@ -123,8 +123,8 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Limit overrun race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-limit-overrun-race-conditions)
 - [Lab: Bypassing rate limits via race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-bypassing-rate-limits-via-race-conditions)
 - [Lab: Multi-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-multi-endpoint-race-conditions)
-- [Lab: Single-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-single-endpoint-race-conditions)\
+- [Lab: Single-endpoint race conditions](https://github.com/DucThinh47/PortSwigger/blob/main/Race-conditions/Race_conditions.md#lab-single-endpoint-race-conditions)
 
 ### Authentication
 
-- [Lab: Username enumeration via different responses]()
+- [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
