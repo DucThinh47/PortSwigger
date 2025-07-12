@@ -11,7 +11,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#labs)
     - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
     - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)
-    - [Lab: Password reset broken logic]()
+    - [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -169,29 +169,29 @@ Tên người dùng của nạn nhân: `carlos`
 
 Thử tính năng `Forgot password` của tài khoản `wiener`:
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image16.png?raw=true)
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image17.png?raw=true)
 
 Click Submit và kiểm tra email:
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image18.png?raw=true)
 
 Click vào link reset password: 
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image19.png?raw=true)
 
 Để ý POST request forgot-password có các tham số bao gồm cả `username`: 
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image20.png?raw=true)
 
 Thử thay `username` thành `carlos` và send request: 
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image21.png?raw=true)
 
 Có vẻ như đã thành công, thử đăng nhập `carlos:peter`:
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image22.png?raw=true)
 
 => Có thể thay đổi tham số trong POST request trỏ đến tài khoản mình muốn bypass
 

@@ -129,4 +129,4 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
 - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)
-- [Lab: Password reset broken logic]()
+- [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
