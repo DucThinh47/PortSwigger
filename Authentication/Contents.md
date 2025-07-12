@@ -11,6 +11,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#labs)
     - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
     - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)
+    - [Lab: Password reset broken logic]()
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -156,6 +157,45 @@ Sau khi nhập đúng mã xác thực 2FA:
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image15.png?raw=true)
 
 => Đăng nhập thành công mà không cần mã xác thực 2FA
+
+## Lab: Password reset broken logic
+**1. Yêu cầu**
+Chức năng đặt lại mật khẩu của phòng lab này đang có lỗ hổng. Để giải quyết, hãy đặt lại mật khẩu của Carlos, sau đó đăng nhập và truy cập trang "Tài khoản của tôi" của anh ấy.
+
+Thông tin đăng nhập của bạn: `wiener:peter`<br>
+Tên người dùng của nạn nhân: `carlos`
+
+**2. Thực hiện**
+
+Thử tính năng `Forgot password` của tài khoản `wiener`:
+
+![img](16)
+
+![img](17)
+
+Click Submit và kiểm tra email:
+
+![img](18)
+
+Click vào link reset password: 
+
+![img](19)
+
+Để ý POST request forgot-password có các tham số bao gồm cả `username`: 
+
+![img](20)
+
+Thử thay `username` thành `carlos` và send request: 
+
+![img](21)
+
+Có vẻ như đã thành công, thử đăng nhập `carlos:peter`:
+
+![img](22)
+
+=> Có thể thay đổi tham số trong POST request trỏ đến tài khoản mình muốn bypass
+
+
 
 
 
