@@ -12,6 +12,7 @@
     - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
     - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)
     - [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
+    - [Lab: Username enumeration via subtly different responses]()
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -195,8 +196,42 @@ Có vẻ như đã thành công, thử đăng nhập `carlos:peter`:
 
 => Có thể thay đổi tham số trong POST request trỏ đến tài khoản mình muốn bypass
 
+## Lab: Username enumeration via subtly different responses
+**1. Yêu cầu**
 
+Phòng lab này có lỗ hổng tinh vi cho phép liệt kê tên người dùng và tấn công vét cạn mật khẩu. Có một tài khoản với tên người dùng và mật khẩu dễ đoán.
 
+Để giải quyết bài lab, bạn cần liệt kê một tên người dùng hợp lệ, sau đó tấn công vét cạn mật khẩu của người dùng này và cuối cùng truy cập vào trang tài khoản của họ.
+
+**2. Thực hiện**
+
+Bài lab cung cấp sẵn 2 danh sách tài khoản và mật khẩu người dùng
+
+Thử login vào 1 tài khoản bất kì: 
+
+![img](23)
+
+Request login trông như sau: 
+
+![img](24)
+
+Thử brute-force username thông qua Bupe Intruder:
+
+![img](25)
+
+Khác với bài lab trước, lần này thông báo trả về không rõ ràng là sai username hay password
+
+Sử dụng setting `Grep-Extract` trong Burp Intruder, có thể bypass vấn đề này:
+
+![img](26)
+
+Bôi đen `Invalid username or password.` trong response > OK. Sắp xếp theo cột mới được thêm và để ý sẽ có một username trả về giá trị khác với các cột còn lại
+
+Sau khi tìm được username là `adsl`, brute-force password như bình thường
+
+=> Tài khoản tìm được `adsl:123qwe`:
+
+![img](27)
 
 
 
