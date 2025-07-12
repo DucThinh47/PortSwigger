@@ -128,4 +128,4 @@ Thực hành các bài labs trên Portswigger.
 ### Authentication
 
 - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
-- [Lab: 2FA simple bypass]()
+- [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)

@@ -10,7 +10,7 @@
 - [Preventing attacks on your own authentication mechanisms](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#preventing-attacks-on-your-own-authentication-mechanisms)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#labs)
     - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
-    - [Lab: 2FA simple bypass]()
+    - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -143,19 +143,19 @@ Thông tin đăng nhập của nạn nhân: `carlos:montoya`
 
 Thử login vào tài khoản `wiener` được cung cấp, yêu cầu nhập mã xác thực gửi về email:
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image12.png?raw=true)
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image13.png?raw=true)
 
 Sau khi nhập đúng mã xác thực 2FA: 
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image14.png?raw=true)
 
 Đăng xuất và đăng nhập vào tài khoản carlos, khi yêu cầu nhập mã xác thực 2FA, thử thay đổi địa chỉ URL từ `/login2`thành `/my-account`:
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image15.png?raw=true)
 
-
+=> Đăng nhập thành công mà không cần mã xác thực 2FA
 
 
 
