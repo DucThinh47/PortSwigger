@@ -10,6 +10,7 @@
 - [Preventing attacks on your own authentication mechanisms](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#preventing-attacks-on-your-own-authentication-mechanisms)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#labs)
     - [Lab: Username enumeration via different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-different-responses)
+    - [Lab: 2FA simple bypass]()
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -129,6 +130,37 @@ Tìm ra được password là `password`:
 Thử login account có username là `affiliates` và password là `password`:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image11.png?raw=true)
+
+## Lab: 2FA simple bypass
+**1. Yêu cầu**
+
+Phòng lab này có thể bị vượt qua xác thực hai yếu tố (2FA). Bạn đã có được tên người dùng và mật khẩu hợp lệ, nhưng không có quyền truy cập vào mã xác minh 2FA của người dùng. Để giải quyết phòng lab, hãy truy cập trang tài khoản của Carlos.
+
+Thông tin đăng nhập của bạn: `wiener:peter`<br>
+Thông tin đăng nhập của nạn nhân: `carlos:montoya`
+
+**2. Thực hiện**
+
+Thử login vào tài khoản `wiener` được cung cấp, yêu cầu nhập mã xác thực gửi về email:
+
+![img](12)
+
+![img](13)
+
+Sau khi nhập đúng mã xác thực 2FA: 
+
+![img](14)
+
+Đăng xuất và đăng nhập vào tài khoản carlos, khi yêu cầu nhập mã xác thực 2FA, thử thay đổi địa chỉ URL từ `/login2`thành `/my-account`:
+
+![img](15)
+
+
+
+
+
+
+
 
 
 
