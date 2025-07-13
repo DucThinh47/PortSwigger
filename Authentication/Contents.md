@@ -15,6 +15,7 @@
     - [Lab: Username enumeration via subtly different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-subtly-different-responses)
     - [Lab: Username enumeration via response timing](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-response-timing)
     - [Lab: Broken brute-force protection, IP block](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-broken-brute-force-protection-ip-block)
+    - [Lab: Username enumeration via account lock]()
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -318,6 +319,51 @@ Bắt đầu tấn công:
 => Tài khoản `carlos:ranger`
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image42.png?raw=true)
+
+## Lab: Username enumeration via account lock
+**1. Yêu cầu**
+
+Phòng lab này có lỗ hổng liệt kê tên người dùng. Nó sử dụng tính năng khóa tài khoản nhưng tính năng này lại chứa lỗi logic. Để giải quyết bài lab, bạn cần:
+- Liệt kê một tên người dùng hợp lệ.
+- Tấn công vét cạn mật khẩu của người dùng này.
+- Cuối cùng, truy cập trang tài khoản của họ.
+
+**2. Thực hiện**
+
+Login request trông như sau:
+
+![img](42)
+
+Thử brute-force username:
+
+![img](44)
+
+=> Các paylaods đều trả về response có độ dài giống nhau, không có gì đặc biệt
+
+Ý tưởng của tôi là tôi sẽ thử cấu hình mỗi payload username được lặp lại 5 lần, có thể nếu username hợp lệ, một resposne khác sẽ được phản hồi. Để làm như vậy, đặt vị trí brute-force trong Burp Intruder như sau:
+
+![img](45)
+
+Chọn attack type là Cluster bomb, vị trí đầu tiên lấy payload là danh sách username được lab cung cấp. Ở vị trí thứ hai, cấu hình payload như sau:
+
+![img](46)
+
+Bắt đầu tấn công:
+
+![img](47)
+
+=> Tìm được username `ads` trả về response khác. 
+
+Tiếp theo brute-force password của username này, cần sử dụng Grep-Extract:
+
+![img](48)
+
+=> Tìm ra mật khẩu `mobilemail` không trả về thông báo lỗi
+
+Thử login tài khoản `ads:mobilemail`:
+
+![img](49)
+
 
 
 
