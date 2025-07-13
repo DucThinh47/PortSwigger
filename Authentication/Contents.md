@@ -14,6 +14,7 @@
     - [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
     - [Lab: Username enumeration via subtly different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-subtly-different-responses)
     - [Lab: Username enumeration via response timing](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-response-timing)
+    - [Lab: Broken brute-force protection, IP block]()
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -278,6 +279,54 @@ Thử đăng nhập với `al:11111111`:
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image34.png?raw=true)
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image35.png?raw=true)
+
+## Lab: Broken brute-force protection, IP block
+**1. Yêu cầu**
+Phòng lab này có lỗ hổng do lỗi logic trong cơ chế bảo vệ chống tấn công vét cạn mật khẩu. Để giải quyết phòng lab, bạn cần tấn công vét cạn mật khẩu của nạn nhân, sau đó đăng nhập và truy cập trang tài khoản của họ.
+
+Thông tin đăng nhập của bạn: `wiener:peter` 
+Tên người dùng của nạn nhân: `carlos`
+
+**2. Thực hiện**
+
+Thử brute-force password của carlos:
+
+![img](36)
+
+=> Website đã giới hạn số lần đăng nhập sai. Thử thêm `X-Forwarded-For` header như bài lab trước:
+
+![img](37)
+
+=> Không có gì khác biệt. Không tìm được response trả về status `302`. Website có thể đã chặn cả `X-Forwarded-For` header
+
+Tôi để ý rằng website sẽ chặn truy cập sau 3 lần login sai. Tôi đã thử tìm cách đặt lại số lần giới hạn này, đó là đăng nhập vào tài khoản đúng, trước khi đạt đến số lần giới hạn. 
+
+Cấu hình Resource pool, bằng cách chỉ gửi một request tại một thời điểm, đảm bảo các lần thử đăng nhập của tôi được gửi đến máy chủ theo đúng thứ tự.
+
+![img](38)
+
+Chỉnh sửa danh sách username và password thành như sau:
+
+![img](39)
+
+![img](40)
+
+Bắt đầu tấn công:
+
+![img](41)
+
+=> Tài khoản `carlos:ranger`
+
+![img](42)
+
+
+
+
+
+
+
+
+
 
 
 

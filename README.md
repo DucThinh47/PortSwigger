@@ -132,3 +132,4 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
 - [Lab: Username enumeration via subtly different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-subtly-different-responses)
 - [Lab: Username enumeration via response timing](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-response-timing)
+- [Lab: Broken brute-force protection, IP block]()
