@@ -13,6 +13,7 @@
     - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)
     - [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
     - [Lab: Username enumeration via subtly different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-subtly-different-responses)
+    - [Lab: Username enumeration via response timing]()
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -232,6 +233,54 @@ Sau khi tìm được username là `adsl`, brute-force password như bình thư�
 => Tài khoản tìm được `adsl:123qwe`:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image27.png?raw=true)
+
+## Lab: Username enumeration via response timing
+**1. Yêu cầu**
+
+Phòng lab này có lỗ hổng liệt kê tên người dùng dựa vào thời gian phản hồi của hệ thống. Để hoàn thành bài lab, bạn cần:
+
+- Liệt kê một tên người dùng hợp lệ.
+- Tấn công vét cạn mật khẩu của người dùng này.
+- Cuối cùng, truy cập vào trang tài khoản của họ.
+
+Thông tin đăng nhập của bạn: `wiener:peter`
+
+**2. Thực hiện**
+
+Thử brute-froce username, sử dụng danh sách username được lab cung cấp: 
+
+![img](28)
+
+Không brute-force được, website đã giới hạn số lần thử đăng nhập sai:
+
+![img](29)
+
+Trong trường hợp này, có vẻ địa chỉ IP của người dùng đã bị chặn khi đăng nhập sai quá nhiều lần, như vậy có thể thử sử dụng `X-Forwarded-For` header để giả mạo địa chỉ IP. 
+
+Thêm `X-Forwarded-For` header vào Login request và brute-force giá trị header này, chọn kiểu tấn công là Pitchfork attack, đồng thời đặt password thật dài để khoảng thời gian khác biệt giữa các request rõ ràng hơn:
+
+![img](30)
+
+Cấu hình Payloads cho `X-Forwarded-For` header là các số từ 1-100 và Payloads cho username là danh sách được lab cung cấp. Bắt đầu tấn công:
+
+![img](32)
+
+=> Username: al
+
+Tiếp theo chuyển sang brute-force password:
+
+![img](33)
+
+=> Password: 11111111
+
+Thử đăng nhập với `al:11111111`:
+
+![img](34)
+
+![img](35)
+
+
+
 
 
 
