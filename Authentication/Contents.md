@@ -14,7 +14,7 @@
     - [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
     - [Lab: Username enumeration via subtly different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-subtly-different-responses)
     - [Lab: Username enumeration via response timing](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-response-timing)
-    - [Lab: Broken brute-force protection, IP block]()
+    - [Lab: Broken brute-force protection, IP block](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-broken-brute-force-protection-ip-block)
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -291,11 +291,11 @@ Tên người dùng của nạn nhân: `carlos`
 
 Thử brute-force password của carlos:
 
-![img](36)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image36.png?raw=true)
 
 => Website đã giới hạn số lần đăng nhập sai. Thử thêm `X-Forwarded-For` header như bài lab trước:
 
-![img](37)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image37.png?raw=true)
 
 => Không có gì khác biệt. Không tìm được response trả về status `302`. Website có thể đã chặn cả `X-Forwarded-For` header
 
@@ -303,21 +303,21 @@ Tôi để ý rằng website sẽ chặn truy cập sau 3 lần login sai. Tôi 
 
 Cấu hình Resource pool, bằng cách chỉ gửi một request tại một thời điểm, đảm bảo các lần thử đăng nhập của tôi được gửi đến máy chủ theo đúng thứ tự.
 
-![img](38)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image38.png?raw=true)
 
 Chỉnh sửa danh sách username và password thành như sau:
 
-![img](39)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image39.png?raw=true)
 
-![img](40)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image40.png?raw=true)
 
 Bắt đầu tấn công:
 
-![img](41)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image41.png?raw=true)
 
 => Tài khoản `carlos:ranger`
 
-![img](42)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image42.png?raw=true)
 
 
 
