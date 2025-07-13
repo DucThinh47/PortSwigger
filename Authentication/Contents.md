@@ -13,7 +13,7 @@
     - [Lab: 2FA simple bypass](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-simple-bypass)
     - [Lab: Password reset broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-password-reset-broken-logic)
     - [Lab: Username enumeration via subtly different responses](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-subtly-different-responses)
-    - [Lab: Username enumeration via response timing]()
+    - [Lab: Username enumeration via response timing](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-response-timing)
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -249,35 +249,35 @@ Thông tin đăng nhập của bạn: `wiener:peter`
 
 Thử brute-froce username, sử dụng danh sách username được lab cung cấp: 
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image28.png?raw=true)
 
 Không brute-force được, website đã giới hạn số lần thử đăng nhập sai:
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image29.png?raw=true)
 
 Trong trường hợp này, có vẻ địa chỉ IP của người dùng đã bị chặn khi đăng nhập sai quá nhiều lần, như vậy có thể thử sử dụng `X-Forwarded-For` header để giả mạo địa chỉ IP. 
 
 Thêm `X-Forwarded-For` header vào Login request và brute-force giá trị header này, chọn kiểu tấn công là Pitchfork attack, đồng thời đặt password thật dài để khoảng thời gian khác biệt giữa các request rõ ràng hơn:
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image30.png?raw=true)
 
 Cấu hình Payloads cho `X-Forwarded-For` header là các số từ 1-100 và Payloads cho username là danh sách được lab cung cấp. Bắt đầu tấn công:
 
-![img](32)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image32.png?raw=true)
 
 => Username: al
 
 Tiếp theo chuyển sang brute-force password:
 
-![img](33)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image33.png?raw=true)
 
 => Password: 11111111
 
 Thử đăng nhập với `al:11111111`:
 
-![img](34)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image34.png?raw=true)
 
-![img](35)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image35.png?raw=true)
 
 
 
