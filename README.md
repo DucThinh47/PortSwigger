@@ -139,4 +139,4 @@ Thực hành các bài labs trên Portswigger.
 
 ### Server-side template injection
 
-- [Lab: Basic server-side template injection]()
+- [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
