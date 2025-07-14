@@ -134,4 +134,4 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Username enumeration via response timing](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-response-timing)
 - [Lab: Broken brute-force protection, IP block](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-broken-brute-force-protection-ip-block)
 - [Lab: Username enumeration via account lock](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-account-lock)
-- [Lab: 2FA broken logic]()
+- [Lab: 2FA broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-broken-logic)

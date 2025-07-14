@@ -16,7 +16,7 @@
     - [Lab: Username enumeration via response timing](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-response-timing)
     - [Lab: Broken brute-force protection, IP block](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-broken-brute-force-protection-ip-block)
     - [Lab: Username enumeration via account lock](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-account-lock)
-    - [Lab: 2FA broken logic]()
+    - [Lab: 2FA broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-broken-logic)
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -379,31 +379,31 @@ Bạn cũng có quyền truy cập vào máy chủ email để nhận mã xác m
 
 Khi đăng nhập vào tài khoản `wiener`, một mã xác thực được gửi về email:
 
-![img](50)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image50.png?raw=true)
 
-![img](51)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image51.png?raw=true)
 
 Request khi nhập mã xác thực trông như sau:
 
-![img](52)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image52.png?raw=true)
 
 => Có xác thực ở Cookie header với 1 giá trị là `verify=wiener`. Thử thay thành `verify=carlos` và brute-force mã xác thực (4 chữ số), cần xóa session để không lưu lại phiên làm việc của `wiener`:
 
-![img](53)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image53.png?raw=true)
 
 Cấu hình payload: 
 
-![img](54)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image54.png?raw=true)
 
 Bắt đầu tấn công:
 
-![img](55)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image55.png?raw=true)
 
 => Mã xác thực: 0988. Thử gửi request nhập mã xác thực này:
 
-![img](56)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image56.png?raw=true)
 
-![img](57)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image57.png?raw=true)
 
 
 
