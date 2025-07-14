@@ -16,6 +16,7 @@ Thực hành các bài labs trên Portswigger.
 - [Server-side vulnerabilities](https://github.com/DucThinh47/PortSwigger/tree/main#server-side-vulnerabilities)
 - [Race conditions](https://github.com/DucThinh47/PortSwigger/tree/main#race-conditions)
 - [Authentication](https://github.com/DucThinh47/PortSwigger/tree/main#authentication)
+- [Server-side template injection]()
 
 ### API Testing
 
@@ -135,3 +136,7 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Broken brute-force protection, IP block](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-broken-brute-force-protection-ip-block)
 - [Lab: Username enumeration via account lock](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-account-lock)
 - [Lab: 2FA broken logic](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-2fa-broken-logic)
+
+### Server-side template injection
+
+- [Lab: Basic server-side template injection]()
