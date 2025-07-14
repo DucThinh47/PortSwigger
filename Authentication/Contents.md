@@ -16,6 +16,7 @@
     - [Lab: Username enumeration via response timing](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-response-timing)
     - [Lab: Broken brute-force protection, IP block](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-broken-brute-force-protection-ip-block)
     - [Lab: Username enumeration via account lock](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/Contents.md#lab-username-enumeration-via-account-lock)
+    - [Lab: 2FA broken logic]()
 
 # Authentication vulnerabilities
 Về mặt khái niệm, `các lỗ hổng xác thực` rất dễ hiểu. Tuy nhiên, chúng thường cực kỳ nghiêm trọng vì có mối quan hệ rõ ràng giữa xác thực và bảo mật.
@@ -363,6 +364,53 @@ Tiếp theo brute-force password của username này, cần sử dụng Grep-Ext
 Thử login tài khoản `ads:mobilemail`:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Authentication/images/image49.png?raw=true)
+
+## Lab: 2FA broken logic
+**1. Yêu cầu**
+
+Hệ thống xác thực hai yếu tố (2FA) của phòng thí nghiệm này dễ bị tấn công do lỗi logic. Để hoàn thành bài lab, bạn cần truy cập vào trang tài khoản của Carlos.
+
+Thông tin đăng nhập của bạn: `wiener:peter`
+Tên người dùng của nạn nhân: `carlos`
+
+Bạn cũng có quyền truy cập vào máy chủ email để nhận mã xác minh 2FA.
+
+**2. Thực hiện**
+
+Khi đăng nhập vào tài khoản `wiener`, một mã xác thực được gửi về email:
+
+![img](50)
+
+![img](51)
+
+Request khi nhập mã xác thực trông như sau:
+
+![img](52)
+
+=> Có xác thực ở Cookie header với 1 giá trị là `verify=wiener`. Thử thay thành `verify=carlos` và brute-force mã xác thực (4 chữ số), cần xóa session để không lưu lại phiên làm việc của `wiener`:
+
+![img](53)
+
+Cấu hình payload: 
+
+![img](54)
+
+Bắt đầu tấn công:
+
+![img](55)
+
+=> Mã xác thực: 0988. Thử gửi request nhập mã xác thực này:
+
+![img](56)
+
+![img](57)
+
+
+
+
+
+
+
 
 
 
