@@ -1,11 +1,11 @@
 # Content
-- [What is server-side template injection?]()
-- [What is the impact of server-side template injection?]()
-- [How do server-side template injection vulnerabilities arise?]()
-- [Constructing a server-side template injection attack]()
-- [How to prevent server-side template injection vulnerabilities]()
-- [Labs]()
-    - [Lab: Basic server-side template injection]()
+- [What is server-side template injection?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#what-is-server-side-template-injection-ssti)
+- [What is the impact of server-side template injection?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#what-is-the-impact-of-server-side-template-injection)
+- [How do server-side template injection vulnerabilities arise?](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#how-do-server-side-template-injection-vulnerabilities-arise)
+- [Constructing a server-side template injection attack](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#constructing-a-server-side-template-injection-attack)
+- [How to prevent server-side template injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#how-to-prevent-server-side-template-injection-vulnerabilities)
+- [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#labs)
+    - [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -43,7 +43,7 @@ Tuy nhiên, đôi khi hành vi này thực sự được triển khai có chủ 
 # Constructing a server-side template injection attack
 Quy trình tổng thể để xác định các `lỗ hổng SSTI` và thực hiện một cuộc tấn công thành công thường bao gồm các bước cấp cao sau:
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image0.png?raw=true)
 
 **DETECT**
 
@@ -111,7 +111,7 @@ Chỉ cần `gửi cú pháp không hợp lệ` thường là đủ vì thông b
 
 Nếu không, bạn sẽ cần `kiểm tra thủ công` các payload dành riêng cho từng ngôn ngữ khác nhau và nghiên cứu cách chúng được công cụ template diễn giải. Sử dụng quy trình loại trừ dựa trên cú pháp nào dường như hợp lệ hoặc không hợp lệ, bạn có thể thu hẹp các lựa chọn nhanh hơn bạn nghĩ. Một cách phổ biến để làm điều này là `chèn các phép toán tùy ý` bằng cách `sử dụng cú pháp từ các công cụ template khác nhau`. Sau đó, bạn có thể quan sát xem chúng có được đánh giá thành công hay không. Để hỗ trợ quá trình này, bạn có thể sử dụng một cây quyết định tương tự như sau:
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image1.png?raw=true)
 
 Bạn nên biết rằng `cùng một payload đôi khi có thể trả về phản hồi thành công trong nhiều hơn một ngôn ngữ template`. Ví dụ, payload `{{7*'7'}}` trả về `49` trong `Twig` và `7777777` trong `Jinja2`. Do đó, điều quan trọng là không nên vội vàng kết luận dựa trên một phản hồi thành công duy nhất.
 
@@ -140,21 +140,21 @@ Lab này dễ bị tấn công bởi lỗ hổng Server-side Template Injection 
 
 Khởi động bài lab:
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image2.png?raw=true)
 
 Thử click vào `View details` sản phẩm `Sprout More Brain Power`, thông báo hiển thị: `Unfortunately this product is out of stock`.
 
 Request sẽ trông như sau:
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image4.png?raw=true)
 
 Dựa vào thông tin bài lab, website này sử dụng template ERB, tài liệu về template: [ERB document](https://docs.ruby-lang.org/en/2.3.0/ERB.html). Tài liệu này nói rằng tempalte này được code bằng Ruby. Thử chèn 1 payload được tạo bằng ngôn ngữ này: `<%= 7 * 7 %>` vào tham số `message`: 
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image5.png?raw=true)
 
 Send request này:
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image6.png?raw=true)
 
 => Thành công in ra kết quả của 7*7, website có thể dính lỗ hổng `SSTI`.
 
@@ -162,6 +162,6 @@ Theo yêu cầu bài lab, cần xóa tệp `morale.txt` khỏi thư mục chính
 
     <%= system('rm /home/carlos/morale.txt') %>
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image7.png?raw=true)
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image8.png?raw=true)

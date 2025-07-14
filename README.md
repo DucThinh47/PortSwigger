@@ -16,7 +16,7 @@ Thực hành các bài labs trên Portswigger.
 - [Server-side vulnerabilities](https://github.com/DucThinh47/PortSwigger/tree/main#server-side-vulnerabilities)
 - [Race conditions](https://github.com/DucThinh47/PortSwigger/tree/main#race-conditions)
 - [Authentication](https://github.com/DucThinh47/PortSwigger/tree/main#authentication)
-- [Server-side template injection]()
+- [Server-side template injection](https://github.com/DucThinh47/PortSwigger#server-side-template-injection)
 
 ### API Testing
 
