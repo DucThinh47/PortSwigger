@@ -6,6 +6,7 @@
 - [How to prevent server-side template injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#how-to-prevent-server-side-template-injection-vulnerabilities)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#labs)
     - [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
+    - [Lab: Basic server-side template injection (code context)]()
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -165,3 +166,50 @@ Theo yêu cầu bài lab, cần xóa tệp `morale.txt` khỏi thư mục chính
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image7.png?raw=true)
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image8.png?raw=true)
+
+## Lab: Basic server-side template injection (code context)
+**1. Yêu cầu**
+Phòng lab này dễ bị tấn công lỗ hổng chèn template phía máy chủ (server-side template injection) do cách nó sử dụng template Tornado một cách không an toàn. Để giải quyết bài lab này, hãy xem lại tài liệu Tornado để khám phá cách thực thi mã tùy ý, sau đó xóa tệp `morale.txt` khỏi thư mục chính của `Carlos`.
+
+Bạn có thể đăng nhập vào tài khoản của riêng mình bằng thông tin đăng nhập sau: `wiener:peter`
+
+**2. Thực hiện**
+
+Đăng nhập vào tài khoản `wiener`:
+
+![img](9)
+
+Tính năng `Preferred name` này để làm gì? 
+
+Thử chọn 1 bài blog, tôi đã thử comment và thay đổi `Preferred name` giữa `First Name` và `Nickname` thì tên hiển thị ở phần comment trên blog sẽ hiển thị khác nhau:
+
+![img](10)
+
+![img](11)
+
+=> Website có tính năng cho phép người dùng tác động tùy ý. 
+
+Request khi thay đổi `Preferred name` trông như sau:
+
+![img](12)
+
+Theo yêu cầu bài lab, template sử dụng là [Tornado](https://www.tornadoweb.org/en/stable/template.html). Tôi sẽ thử thay thế giá trị tham số `blog-post-author-display` thành `{{7 * 7}}`, cần thêm `}}` để thoát khỏi biểu thức hiện tại:
+
+![img](13)
+
+![img](14)
+
+=> Website có thể bị tấn công `SSTI`. 
+
+Payload để xóa thư mục `morale.txt`:
+
+    {% import os %}
+    {{os.system('rm /home/carlos/morale.txt')
+
+Request sau khi thay đổi:
+
+![img](15)
+
+Send request:
+
+![img](16)
