@@ -6,6 +6,7 @@
 - [How to prevent HTTP Host header attacks](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#how-to-prevent-http-host-header-attacks)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#labs)
     - [Lab: Basic password reset poisoning](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-basic-password-reset-poisoning)
+    - [Lab: Host header authentication bypass]()
 
 # What is the HTTP Host header?
 `Header Host` là một thành phần bắt buộc trong các yêu cầu HTTP kể từ phiên bản `HTTP/1.1`. Nó dùng để xác định `tên miền` mà `client (trình duyệt)` muốn truy cập.
@@ -157,6 +158,48 @@ Kiểm tra Access log phía Exploit server:
 Thử log in vào tài khoản carlos:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image8.png?raw=true)
+
+## Lab: Host header authentication bypass
+**1. Yêu cầu**
+
+Phòng thí nghiệm này đưa ra một giả định về mức đặc quyền của người dùng dựa trên Host Header.
+
+Để giải quyết phòng thí nghiệm, truy cập bảng quản trị và xóa người dùng `Carlos`.
+
+**2. Thực hiện**
+
+Website không có gì cả, ngay cả chức năng `Forgot password`:
+
+![img](9)
+
+Làm sao để truy cập admin panel? Tôi thử truy cập `/robots.txt`:
+
+![img](10)
+
+=> Tìm thấy đường dẫn `/admin` đang bị cấm truy cập. Thử truy cập `/admin`:
+
+![img](11)
+
+=> Thông báo lỗi `Admin interface only available to local users`. Như vậy, chỉ người dùng cục bộ mới có thể truy cập Admin Panel. Sửa request thành như sau:
+
+![img](12)
+
+![img](13)
+
+Khi chọn xóa carlos, vẫn hiển thị lỗi:
+
+![img](14)
+
+Kiểm tra request: 
+
+![img](15)
+
+=> Thay đổi giá trị Host header thành `localhost` và send request:
+
+![img](16)
+
+![img](17)
+
 
 
 
