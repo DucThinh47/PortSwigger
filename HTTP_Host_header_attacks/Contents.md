@@ -6,7 +6,7 @@
 - [How to prevent HTTP Host header attacks](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#how-to-prevent-http-host-header-attacks)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#labs)
     - [Lab: Basic password reset poisoning](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-basic-password-reset-poisoning)
-    - [Lab: Host header authentication bypass]()
+    - [Lab: Host header authentication bypass](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-host-header-authentication-bypass)
 
 # What is the HTTP Host header?
 `Header Host` là một thành phần bắt buộc trong các yêu cầu HTTP kể từ phiên bản `HTTP/1.1`. Nó dùng để xác định `tên miền` mà `client (trình duyệt)` muốn truy cập.
@@ -170,35 +170,35 @@ Phòng thí nghiệm này đưa ra một giả định về mức đặc quyền
 
 Website không có gì cả, ngay cả chức năng `Forgot password`:
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image9.png?raw=true)
 
 Làm sao để truy cập admin panel? Tôi thử truy cập `/robots.txt`:
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image10.png?raw=true)
 
 => Tìm thấy đường dẫn `/admin` đang bị cấm truy cập. Thử truy cập `/admin`:
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image11.png?raw=true)
 
 => Thông báo lỗi `Admin interface only available to local users`. Như vậy, chỉ người dùng cục bộ mới có thể truy cập Admin Panel. Sửa request thành như sau:
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image12.png?raw=true)
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image13.png?raw=true)
 
 Khi chọn xóa carlos, vẫn hiển thị lỗi:
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image14.png?raw=true)
 
 Kiểm tra request: 
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image15.png?raw=true)
 
 => Thay đổi giá trị Host header thành `localhost` và send request:
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image16.png?raw=true)
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image17.png?raw=true)
 
 
 
