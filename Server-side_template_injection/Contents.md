@@ -7,6 +7,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#labs)
     - [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
     - [Lab: Basic server-side template injection (code context)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection-code-context)
+    - [Lab: Server-side template injection using documentation]()
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -213,3 +214,48 @@ Request sau khi thay đổi:
 Send request:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image16.png?raw=true)
+
+## Lab: Server-side template injection using documentation
+**1. Yêu cầu**
+Lab này chứa lỗ hổng Server-side Template Injection. Để giải quyết, bạn cần xác định công cụ template đang được sử dụng, sau đó tra cứu tài liệu để tìm cách thực thi mã tùy ý và cuối cùng là xóa tệp `morale.txt` khỏi thư mục chính của `Carlos`.
+
+Bạn có thể đăng nhập vào tài khoản của mình với thông tin sau:
+Tên đăng nhập: `content-manager`
+Mật khẩu: `C0nt3ntM4n4g3r`
+
+**2. Thực hiện**
+
+Log in vào tài khoản được cấp:
+
+![img](17)
+
+Thử click View detais 1 sản phẩm bất kì: 
+
+![img](18)
+
+Thử click vào chức năng chỉnh sửa template:
+
+![img](19)
+
+Để ý cú pháp của template như sau: 
+
+    <p>Hurry! Only ${product.stock} left of ${product.name} at ${product.price}.</p>
+
+Search trên mạng thì có thể đây là template [FreeMarker](https://freemarker.apache.org/docs/dgui_datamodel_types.html).
+
+Thử thay đổi 1 phần template thành `${7 * 7}`:
+
+![img](20)
+
+=> Thành công, website có thể bị tấn công SSTI.
+
+Search payload để xóa file `morale.txt` trên chatgpt:
+
+    <#assign ex="freemarker.template.utility.Execute"?new()> ${ex("rm /home/carlos/morale.txt")}
+
+Thử chèn payload này vào template:
+
+![img](21)
+
+
+
