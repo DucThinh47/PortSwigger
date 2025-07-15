@@ -8,7 +8,7 @@
     - [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
     - [Lab: Basic server-side template injection (code context)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection-code-context)
     - [Lab: Server-side template injection using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-using-documentation)
-    - [Lab: Server-side template injection in an unknown language with a documented exploit]()
+    - [Lab: Server-side template injection in an unknown language with a documented exploit](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-in-an-unknown-language-with-a-documented-exploit)
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -267,15 +267,15 @@ Lab này có lỗ hổng Server-side Template Injection. Để giải quyết, b
 
 Click vào xem chi tiết 1 sản phẩm thì thông báo `Unfortunately this product is out of stock` hiển thị:
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image22.png?raw=true)
 
 Kiểm tra request:
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image23.png?raw=true)
 
 Để ý đường dẫn trong Request headers có tham số `message`. Thử thay đổi giá trị của tham số này thành `${{<%[%'"}}%\` và send request:
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image24.png?raw=true)
 
 Dựa vào phản hồi lỗi từ server, tôi đã tìm hiểu đây là Handlebars template. Trên mạng có 1 blog về kỹ thuật [Handlebars template injection](https://mahmoudsec.blogspot.com/2019/04/handlebars-template-injection-and-rce.html). Sau khi tìm hiểu blog, tạo ra được payload sau:
 
@@ -301,7 +301,7 @@ Dựa vào phản hồi lỗi từ server, tôi đã tìm hiểu đây là Handl
 
 Thay giá trị tham số message thành payload này:
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image25.png?raw=true)
 
 
 
