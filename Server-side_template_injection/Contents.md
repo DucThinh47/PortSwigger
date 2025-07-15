@@ -9,7 +9,7 @@
     - [Lab: Basic server-side template injection (code context)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection-code-context)
     - [Lab: Server-side template injection using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-using-documentation)
     - [Lab: Server-side template injection in an unknown language with a documented exploit](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-in-an-unknown-language-with-a-documented-exploit)
-    - [Lab: Server-side template injection with information disclosure via user-supplied objects]()
+    - [Lab: Server-side template injection with information disclosure via user-supplied objects](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-with-information-disclosure-via-user-supplied-objects)
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -321,15 +321,15 @@ Mật khẩu: `C0nt3ntM4n4g3r`
 
 Thử xem chi tiết 1 sản phẩm:
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image26.png?raw=true)
 
 Click chọn chức năng `Edit template`:
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image28.png?raw=true)
 
 Tôi đã thử thay đổi edit thành `{{7 * 7}}` và nhận được phản hồi lỗi như sau:
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image27.png?raw=true)
 
 => Template website sử dụng là [django](https://docs.djangoproject.com/en/5.2/topics/templates/).
 
@@ -337,9 +337,9 @@ Sau khi đọc tài liệu, tôi tạo được payload để truy cập secret 
 
     {{ settings.SECRET_KEY }}
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image29.png?raw=true)
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image30.png?raw=true)
 
 
 
