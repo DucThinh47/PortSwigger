@@ -17,6 +17,7 @@ Thực hành các bài labs trên Portswigger.
 - [Race conditions](https://github.com/DucThinh47/PortSwigger/tree/main#race-conditions)
 - [Authentication](https://github.com/DucThinh47/PortSwigger/tree/main#authentication)
 - [Server-side template injection](https://github.com/DucThinh47/PortSwigger#server-side-template-injection)
+- [HTTP Host header attacks]()
 
 ### API Testing
 
@@ -144,3 +145,6 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Server-side template injection using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-using-documentation)
 - [Lab: Server-side template injection in an unknown language with a documented exploit](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-in-an-unknown-language-with-a-documented-exploit)
 - [Lab: Server-side template injection with information disclosure via user-supplied objects](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-with-information-disclosure-via-user-supplied-objects)
+
+### HTTP Host header attacks
+- [Lab: Basic password reset poisoning]()
