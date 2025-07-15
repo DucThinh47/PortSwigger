@@ -9,6 +9,7 @@
     - [Lab: Basic server-side template injection (code context)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection-code-context)
     - [Lab: Server-side template injection using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-using-documentation)
     - [Lab: Server-side template injection in an unknown language with a documented exploit](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-in-an-unknown-language-with-a-documented-exploit)
+    - [Lab: Server-side template injection with information disclosure via user-supplied objects]()
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -302,6 +303,50 @@ Dựa vào phản hồi lỗi từ server, tôi đã tìm hiểu đây là Handl
 Thay giá trị tham số message thành payload này:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image25.png?raw=true)
+
+## Lab: Server-side template injection with information disclosure via user-supplied objects
+**1. Yêu cầu**
+
+Lab này dễ bị tấn công Server-side Template Injection do cách một đối tượng được truyền vào template. Lỗ hổng này có thể bị khai thác để truy cập dữ liệu nhạy cảm.
+
+Để giải quyết lab, bạn hãy đánh cắp và gửi khóa bí mật (secret key) của framework.
+
+Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin sau:
+
+Tên đăng nhập: `content-manager`
+
+Mật khẩu: `C0nt3ntM4n4g3r`
+
+**2. Thực hiện**
+
+Thử xem chi tiết 1 sản phẩm:
+
+![img](26)
+
+Click chọn chức năng `Edit template`:
+
+![img](28)
+
+Tôi đã thử thay đổi edit thành `{{7 * 7}}` và nhận được phản hồi lỗi như sau:
+
+![img](27)
+
+=> Template website sử dụng là [django](https://docs.djangoproject.com/en/5.2/topics/templates/).
+
+Sau khi đọc tài liệu, tôi tạo được payload để truy cập secret key:
+
+    {{ settings.SECRET_KEY }}
+
+![img](29)
+
+![img](30)
+
+
+
+
+
+
+
 
 
 
