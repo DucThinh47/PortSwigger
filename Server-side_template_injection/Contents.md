@@ -6,7 +6,7 @@
 - [How to prevent server-side template injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#how-to-prevent-server-side-template-injection-vulnerabilities)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#labs)
     - [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
-    - [Lab: Basic server-side template injection (code context)]()
+    - [Lab: Basic server-side template injection (code context)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection-code-context)
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -177,27 +177,27 @@ Bạn có thể đăng nhập vào tài khoản của riêng mình bằng thông
 
 Đăng nhập vào tài khoản `wiener`:
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image9.png?raw=true)
 
 Tính năng `Preferred name` này để làm gì? 
 
 Thử chọn 1 bài blog, tôi đã thử comment và thay đổi `Preferred name` giữa `First Name` và `Nickname` thì tên hiển thị ở phần comment trên blog sẽ hiển thị khác nhau:
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image10.png?raw=true)
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image11.png?raw=true)
 
 => Website có tính năng cho phép người dùng tác động tùy ý. 
 
 Request khi thay đổi `Preferred name` trông như sau:
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image12.png?raw=true)
 
 Theo yêu cầu bài lab, template sử dụng là [Tornado](https://www.tornadoweb.org/en/stable/template.html). Tôi sẽ thử thay thế giá trị tham số `blog-post-author-display` thành `{{7 * 7}}`, cần thêm `}}` để thoát khỏi biểu thức hiện tại:
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image13.png?raw=true)
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image14.png?raw=true)
 
 => Website có thể bị tấn công `SSTI`. 
 
@@ -208,8 +208,8 @@ Payload để xóa thư mục `morale.txt`:
 
 Request sau khi thay đổi:
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image15.png?raw=true)
 
 Send request:
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image16.png?raw=true)
