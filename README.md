@@ -141,4 +141,4 @@ Thực hành các bài labs trên Portswigger.
 
 - [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
 - [Lab: Basic server-side template injection (code context)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection-code-context)
-- [Lab: Server-side template injection using documentation]()
+- [Lab: Server-side template injection using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-using-documentation)

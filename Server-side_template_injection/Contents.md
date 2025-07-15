@@ -7,7 +7,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#labs)
     - [Lab: Basic server-side template injection](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection)
     - [Lab: Basic server-side template injection (code context)](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-basic-server-side-template-injection-code-context)
-    - [Lab: Server-side template injection using documentation]()
+    - [Lab: Server-side template injection using documentation](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/Contents.md#lab-server-side-template-injection-using-documentation)
 
 # What is server-side template injection (SSTI)?
 `Server-side template injection` xảy ra khi kẻ tấn công có thể sử dụng `cú pháp template gốc` để chèn một đoạn mã độc (payload) vào template, sau đó mã này sẽ được thực thi ở phía máy chủ.
@@ -227,15 +227,15 @@ Mật khẩu: `C0nt3ntM4n4g3r`
 
 Log in vào tài khoản được cấp:
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image17.png?raw=true)
 
 Thử click View detais 1 sản phẩm bất kì: 
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image18.png?raw=true)
 
 Thử click vào chức năng chỉnh sửa template:
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image19.png?raw=true)
 
 Để ý cú pháp của template như sau: 
 
@@ -245,7 +245,7 @@ Search trên mạng thì có thể đây là template [FreeMarker](https://freem
 
 Thử thay đổi 1 phần template thành `${7 * 7}`:
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image20.png?raw=true)
 
 => Thành công, website có thể bị tấn công SSTI.
 
@@ -255,7 +255,7 @@ Search payload để xóa file `morale.txt` trên chatgpt:
 
 Thử chèn payload này vào template:
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Server-side_template_injection/images/image21.png?raw=true)
 
 
 
