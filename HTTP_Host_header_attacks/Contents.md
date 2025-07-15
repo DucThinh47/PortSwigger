@@ -1,11 +1,11 @@
 # Contents
-- [What is the HTTP Host header?]()
-- [What is the purpose of the HTTP Host header?]()
-- [What is an HTTP Host header attack?]()
-- [How do HTTP Host header vulnerabilities arise?]()
-- [How to prevent HTTP Host header attacks]()
-- [Labs]()
-    - [Lab: Basic password reset poisoning]()
+- [What is the HTTP Host header?](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#what-is-the-http-host-header)
+- [What is the purpose of the HTTP Host header?](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#what-is-the-purpose-of-the-http-host-header)
+- [What is an HTTP Host header attack?](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#what-is-an-http-host-header-attack)
+- [How do HTTP Host header vulnerabilities arise?](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#how-do-http-host-header-vulnerabilities-arise)
+- [How to prevent HTTP Host header attacks](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#how-to-prevent-http-host-header-attacks)
+- [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#labs)
+    - [Lab: Basic password reset poisoning](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-basic-password-reset-poisoning)
 
 # What is the HTTP Host header?
 `Header Host` là một thành phần bắt buộc trong các yêu cầu HTTP kể từ phiên bản `HTTP/1.1`. Nó dùng để xác định `tên miền` mà `client (trình duyệt)` muốn truy cập.
@@ -126,37 +126,37 @@ Mọi email gửi đến tài khoản này có thể được đọc thông qua 
 
 Website này có tính năng `Forgot password` để khôi phục mật khẩu. Thử khôi phục mật khẩu tài khoản `wiener`:
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image0.png?raw=true)
 
 Một đường link khôi phục password sẽ được gửi tới email của `wiener`:
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image1.png?raw=true)
 
 Có thể thấy đường link ứng với giá trị của tiêu đề `Host` trong request ứng với đường link gửi về email của `wiener`:
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image2.png?raw=true)
 
 => Nghĩa là có thể sửa đổi giá trị Host header, trỏ đến đường link mà tôi muốn:
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image3.png?raw=true)
 
 Thay đổi giá trị Host header thành đường link dẫn đến Exploit server đã được lab cung cấp, username thành `carlos` và send request:
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image4.png?raw=true)
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image5.png?raw=true)
 
 Kiểm tra Access log phía Exploit server:
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image6.png?raw=true)
 
 => Thu được forgot password token của carlos. Thay giá trị token này vào request đặt mật khẩu mới:
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image7.png?raw=true)
 
 Thử log in vào tài khoản carlos:
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image8.png?raw=true)
 
 
 
