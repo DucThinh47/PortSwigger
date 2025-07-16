@@ -149,4 +149,4 @@ Thực hành các bài labs trên Portswigger.
 ### HTTP Host header attacks
 - [Lab: Basic password reset poisoning](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-basic-password-reset-poisoning)
 - [Lab: Host header authentication bypass](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-host-header-authentication-bypass)
-- [Lab: Web cache poisoning via ambiguous requests]()
+- [Lab: Web cache poisoning via ambiguous requests](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-web-cache-poisoning-via-ambiguous-requests)

@@ -7,7 +7,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#labs)
     - [Lab: Basic password reset poisoning](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-basic-password-reset-poisoning)
     - [Lab: Host header authentication bypass](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-host-header-authentication-bypass)
-    - [Lab: Web cache poisoning via ambiguous requests]()
+    - [Lab: Web cache poisoning via ambiguous requests](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-web-cache-poisoning-via-ambiguous-requests)
 
 # What is the HTTP Host header?
 `Header Host` là một thành phần bắt buộc trong các yêu cầu HTTP kể từ phiên bản `HTTP/1.1`. Nó dùng để xác định `tên miền` mà `client (trình duyệt)` muốn truy cập.
@@ -214,11 +214,11 @@ Thử qua các chức năng của web, không có gì đặc biệt.
 
 Dựa vào tên bài lab, tôi đã để ý đến nút home, khi click sẽ làm mới trang web:
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image18.png?raw=true)
 
 Request khi click vào nút home: 
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image19.png?raw=true)
 
 Tôi để ý trong response có header `X-Cache : miss`. 
 
@@ -232,39 +232,39 @@ Cho biết `trạng thái cache` (Cache Status): Giá trị phổ biến nhất 
 
 Tôi đã thử gửi lại request 1 lần nữa bằng Burp Repeater:
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image20.png?raw=true)
 
 Đợi khoảng 30s, gửi lại request, giá trị `X-Cache` đã trở về `miss`:
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image21.png?raw=true)
 
 Kiểm tra xem website có xác thực host header không, tôi đã thử sửa giá trị header này:
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image22.png?raw=true)
 
 => Website có xác thực header.
 
 Có một kỹ thuật gọi là `cache buster` (công cụ phá bộ nhớ cache), bằng cách thêm một `tham số truy vấn tùy ý` vào request và kiểm tra xem response hợp lệ có được trả về không. VD:
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image23.png?raw=true)
 
 => Website vẫn trả về response hợp lệ. 
 
 Sau khi đã vượt qua được bộ nhớ cache, tiếp theo thử khai thác Host header. Tôi sẽ thử sử dụng kỹ thuật `Inject duplicate Host headers` - thêm 1 Host header mới:
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image24.png?raw=true)
 
 => Website ưu tiên địa chỉ của Host header thứ 2 hơn, truy cập Host header thứ 2 để nhập script `/resources/js/tracking.js`, như vậy Host header gốc đã bị ghi đè. 
 
 Truy cập exploit server, cấu hình và lưu: 
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image25.png?raw=true)
 
 Tiếp theo, thêm Host header thứ hai trỏ về địa chỉ của Exploit server, xóa `cache buster` đi để reset lại `X-Cache`, send request:
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image26.png?raw=true)
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image28.png?raw=true)
 
 
 
