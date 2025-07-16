@@ -18,6 +18,7 @@ Thực hành các bài labs trên Portswigger.
 - [Authentication](https://github.com/DucThinh47/PortSwigger/tree/main#authentication)
 - [Server-side template injection](https://github.com/DucThinh47/PortSwigger#server-side-template-injection)
 - [HTTP Host header attacks](https://github.com/DucThinh47/PortSwigger#http-host-header-attacks)
+- [JWT attacks]()
 
 ### API Testing
 
@@ -150,3 +151,6 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Basic password reset poisoning](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-basic-password-reset-poisoning)
 - [Lab: Host header authentication bypass](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-host-header-authentication-bypass)
 - [Lab: Web cache poisoning via ambiguous requests](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-web-cache-poisoning-via-ambiguous-requests)
+
+### JWT attacks
+- [Lab: JWT authentication bypass via unverified signature]()
