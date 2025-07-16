@@ -7,6 +7,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#labs)
     - [Lab: Basic password reset poisoning](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-basic-password-reset-poisoning)
     - [Lab: Host header authentication bypass](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/Contents.md#lab-host-header-authentication-bypass)
+    - [Lab: Web cache poisoning via ambiguous requests]()
 
 # What is the HTTP Host header?
 `Header Host` là một thành phần bắt buộc trong các yêu cầu HTTP kể từ phiên bản `HTTP/1.1`. Nó dùng để xác định `tên miền` mà `client (trình duyệt)` muốn truy cập.
@@ -199,6 +200,75 @@ Kiểm tra request:
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image16.png?raw=true)
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_Host_header_attacks/images/image17.png?raw=true)
+
+## Lab: Web cache poisoning via ambiguous requests
+**1. Yêu cầu**
+
+Phòng thí nghiệm này dễ bị tấn công bằng web cache poisoning do sự khác biệt trong cách bộ nhớ đệm (cache) và ứng dụng phụ trợ (back-end application) xử lý các yêu cầu không rõ ràng. Một người dùng không nghi ngờ gì thường xuyên truy cập trang chủ của trang web.
+
+Để giải quyết phòng thí nghiệm này, hãy làm nhiễm độc bộ nhớ đệm để trang chủ thực thi `alert(document.cookie)` trong trình duyệt của nạn nhân.
+
+**2. Thực hiện**
+
+Thử qua các chức năng của web, không có gì đặc biệt. 
+
+Dựa vào tên bài lab, tôi đã để ý đến nút home, khi click sẽ làm mới trang web:
+
+![img](18)
+
+Request khi click vào nút home: 
+
+![img](19)
+
+Tôi để ý trong response có header `X-Cache : miss`. 
+
+Header `X-Cache` là một `response header không chuẩn` (proprietary header), có nghĩa là nó không được định nghĩa trong các tiêu chuẩn HTTP chính thức như Cache-Control hay Expires. Thay vào đó, nó thường được thêm vào bởi `các hệ thống proxy server, CDN (Content Delivery Network)`, hoặc `các máy chủ cache` khác để cung cấp thông tin về trạng thái cache của yêu cầu.
+
+Mục đích chính của `X-Cache`:
+
+Cho biết `trạng thái cache` (Cache Status): Giá trị phổ biến nhất của X-Cache là `HIT` hoặc `MISS`:
+- `HIT`: Nghĩa là yêu cầu `đã được phục vụ` từ bộ nhớ cache (proxy, CDN, hoặc server cache) mà `không cần phải truy vấn đến máy chủ gốc` (origin server). Điều này thường cho thấy trang web đã được tải nhanh chóng vì nội dung đã có sẵn trong cache.
+- `MISS`: Nghĩa là nội dung bạn yêu cầu `không có sẵn trong bộ nhớ cache`, vì vậy yêu cầu đã được `chuyển tiếp đến máy chủ gốc` để lấy dữ liệu. Sau đó, nội dung này có thể được lưu vào cache cho các yêu cầu tiếp theo.
+
+Tôi đã thử gửi lại request 1 lần nữa bằng Burp Repeater:
+
+![img](20)
+
+Đợi khoảng 30s, gửi lại request, giá trị `X-Cache` đã trở về `miss`:
+
+![img](21)
+
+Kiểm tra xem website có xác thực host header không, tôi đã thử sửa giá trị header này:
+
+![img](22)
+
+=> Website có xác thực header.
+
+Có một kỹ thuật gọi là `cache buster` (công cụ phá bộ nhớ cache), bằng cách thêm một `tham số truy vấn tùy ý` vào request và kiểm tra xem response hợp lệ có được trả về không. VD:
+
+![img](23)
+
+=> Website vẫn trả về response hợp lệ. 
+
+Sau khi đã vượt qua được bộ nhớ cache, tiếp theo thử khai thác Host header. Tôi sẽ thử sử dụng kỹ thuật `Inject duplicate Host headers` - thêm 1 Host header mới:
+
+![img](24)
+
+=> Website ưu tiên địa chỉ của Host header thứ 2 hơn, truy cập Host header thứ 2 để nhập script `/resources/js/tracking.js`, như vậy Host header gốc đã bị ghi đè. 
+
+Truy cập exploit server, cấu hình và lưu: 
+
+![img](25)
+
+Tiếp theo, thêm Host header thứ hai trỏ về địa chỉ của Exploit server, xóa `cache buster` đi để reset lại `X-Cache`, send request:
+
+![img](26)
+
+![img](27)
+
+
+
+
 
 
 
