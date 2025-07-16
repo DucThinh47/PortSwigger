@@ -1,15 +1,15 @@
 # Contents
-- [What are JWTs?]()
-- [What are JWT attacks?]()
-- [What is the impact of JWT attacks?]()
-- [How do vulnerabilities to JWT attacks arise?]()
-- [Exploiting flawed JWT signature verification]()
-- [Brute-forcing secret keys]()
-- [JWT header parameter injections]()
-- [JWT algorithm confusion]()
-- [How to prevent JWT attacks]()
-- [Labs]()
-    - [Lab: JWT authentication bypass via unverified signature]()
+- [What are JWTs?](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#what-are-jwts)
+- [What are JWT attacks?](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#what-are-jwt-attacks)
+- [What is the impact of JWT attacks?](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#what-is-the-impact-of-jwt-attacks)
+- [How do vulnerabilities to JWT attacks arise?](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#how-do-vulnerabilities-to-jwt-attacks-arise)
+- [Exploiting flawed JWT signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#exploiting-flawed-jwt-signature-verification)
+- [Brute-forcing secret keys](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#brute-forcing-secret-keys)
+- [JWT header parameter injections](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#jwt-header-parameter-injections)
+- [JWT algorithm confusion](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#jwt-algorithm-confusion)
+- [How to prevent JWT attacks](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#how-to-prevent-jwt-attacks)
+- [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#labs)
+    - [Lab: JWT authentication bypass via unverified signature](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-unverified-signature)
 
 # What are JWTs?
 
@@ -17,7 +17,7 @@
 
 Điểm khác biệt chính so với các phiên truyền thống là `toàn bộ dữ liệu mà máy chủ cần đều được lưu trữ ở phía máy khách (client-side) ngay trong JWT`. Điều này làm cho JWT trở thành lựa chọn phổ biến cho các trang web phân tán lớn, nơi người dùng cần tương tác mượt mà với nhiều máy chủ phụ trợ (back-end servers) khác nhau.
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image0.png?raw=true)
 
 **JWT format**
 
@@ -49,7 +49,7 @@ Trong hầu hết các trường hợp, dữ liệu này có thể `dễ dàng �
 - Khi nói "`JWT`", hầu hết mọi người đều ngụ ý `JWS`.
 - `JWE` khác `JWS` ở chỗ nội dung `được mã hóa, không chỉ ký`.
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image1.png?raw=true)
 
 # What are JWT attacks?
 Các cuộc `tấn công JWT (JSON Web Token)` liên quan đến việc người dùng gửi `các JWT đã bị sửa đổi` đến máy chủ nhằm đạt được mục tiêu độc hại. Thông thường, mục tiêu này là `vượt qua cơ chế xác thực` và `kiểm soát quyền truy cập` bằng cách `mạo danh một người dùng khác` đã được xác thực trước đó.
@@ -206,41 +206,43 @@ Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin sa
 
 Sau khi đăng nhập, server trả về Cookie dưới dạng JWT để xác thực người dùng hiện tại: 
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image2.png?raw=true)
 
 Giải mã jwt này:
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image3.png?raw=true)
 
 Có thể thấy, request GET xem trang My account có chứa Cookie header với giá trị là JWT này: 
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image4.png?raw=true)
 
 Tôi đã thử sửa `wiener` thành `administrator` và send request này:
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image5.png?raw=true)
 
 Đăng nhập thành công nhưng truy cập trang `/admin` bị chặn:
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image6.png?raw=true)
 
 Tiếp tục chỉnh sửa request truy cập trang `/admin`:
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image7.png?raw=true)
 
 Truy cập thành công `/admin`:
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image8.png?raw=true)
 
 Vẫn bị chặn khi xóa user `carlos`:
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image9.png?raw=true)
 
 Tiếp tục chỉnh sửa request:
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image10.png?raw=true)
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image11.png?raw=true)
+
+=> Website không xác minh chữ ký JWT, có thể chỉnh sửa payload và thực hiện thao tác dưới quyền admin
 
 
 
