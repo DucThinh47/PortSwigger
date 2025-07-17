@@ -10,7 +10,7 @@
 - [How to prevent JWT attacks](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#how-to-prevent-jwt-attacks)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#labs)
     - [Lab: JWT authentication bypass via unverified signature](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-unverified-signature)
-    - [Lab: JWT authentication bypass via flawed signature verification]()
+    - [Lab: JWT authentication bypass via flawed signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-flawed-signature-verification)
 
 # What are JWTs?
 
@@ -257,35 +257,35 @@ Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin đ
 
 Đăng nhập vào tài khoản `wiener`:
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image12.png?raw=true)
 
 => Header cookie có giá trị JWT được sử dụng để xử lý phiên. Thử giải mã JWT này:
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image13.png?raw=true)
 
 Website sử dụng tham số `alg`, cho biết thuật toán để ký token này là `RS256`. 
 
 Tôi thử để nguyên giá trị của tham số `alg` và sửa phần body thành `administrator` thay vì `wiener`:
 
-![img](14)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image14.png?raw=true)
 
 Send request, tài khoản của tôi vẫn là `wiener`:
 
-![img](15)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image15.png?raw=true)
 
 Tiếp theo tôi thử thay `alg:none` trong JWT header và `administrator` trong JWT body, tham số `id` trong URL và xóa phần chữ ký của JWT (không xóa dấu `.`):
 
-![img](16)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image16.png?raw=true)
 
-![img](17)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image17.png?raw=true)
 
-![img](18)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image18.png?raw=true)
 
-![img](19)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image19.png?raw=true)
 
 Thành công. Làm tương tự như bài lab trước để xóa `carlos`
 
-![img](20)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image20.png?raw=true)
 
 
 
