@@ -10,6 +10,7 @@
 - [How to prevent JWT attacks](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#how-to-prevent-jwt-attacks)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#labs)
     - [Lab: JWT authentication bypass via unverified signature](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-unverified-signature)
+    - [Lab: JWT authentication bypass via flawed signature verification]()
 
 # What are JWTs?
 
@@ -243,6 +244,49 @@ Tiếp tục chỉnh sửa request:
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image11.png?raw=true)
 
 => Website không xác minh chữ ký JWT, có thể chỉnh sửa payload và thực hiện thao tác dưới quyền admin
+
+## Lab: JWT authentication bypass via flawed signature verification
+**1. Yêu cầu**
+Bài lab này sử dụng cơ chế dựa trên JWT để xử lý các phiên (session). Máy chủ được cấu hình không an toàn để chấp nhận các JWT không có chữ ký.
+
+Để giải bài lab, bạn cần sửa đổi token phiên của mình để có quyền truy cập vào bảng quản trị (admin panel) tại `/admin`, sau đó xóa người dùng `carlos`.
+
+Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin đăng nhập sau: `wiener:peter`.
+
+**2. Thực hiện**
+
+Đăng nhập vào tài khoản `wiener`:
+
+![img](12)
+
+=> Header cookie có giá trị JWT được sử dụng để xử lý phiên. Thử giải mã JWT này:
+
+![img](13)
+
+Website sử dụng tham số `alg`, cho biết thuật toán để ký token này là `RS256`. 
+
+Tôi thử để nguyên giá trị của tham số `alg` và sửa phần body thành `administrator` thay vì `wiener`:
+
+![img](14)
+
+Send request, tài khoản của tôi vẫn là `wiener`:
+
+![img](15)
+
+Tiếp theo tôi thử thay `alg:none` trong JWT header và `administrator` trong JWT body, tham số `id` trong URL và xóa phần chữ ký của JWT (không xóa dấu `.`):
+
+![img](16)
+
+![img](17)
+
+![img](18)
+
+![img](19)
+
+Thành công. Làm tương tự như bài lab trước để xóa `carlos`
+
+![img](20)
+
 
 
 
