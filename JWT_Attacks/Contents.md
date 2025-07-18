@@ -11,7 +11,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#labs)
     - [Lab: JWT authentication bypass via unverified signature](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-unverified-signature)
     - [Lab: JWT authentication bypass via flawed signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-flawed-signature-verification)
-    - [Lab: JWT authentication bypass via weak signing key]()
+    - [Lab: JWT authentication bypass via weak signing key](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-weak-signing-key)
 # What are JWTs?
 
 `JSON Web Token (JWT)` là một định dạng chuẩn hóa để `truyền dữ liệu JSON` đã được `ký mã hóa` giữa các hệ thống. Về cơ bản, chúng có thể chứa bất kỳ loại dữ liệu nào, nhưng thường được dùng để gửi thông tin (gọi là "claims") về người dùng trong các quy trình như `xác thực`, `quản lý phiên` và `kiểm soát quyền truy cập`.
@@ -299,11 +299,11 @@ Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin đ
 
 Đăng nhập tài khoản `wiener`:
 
-![img](21)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image21.png?raw=true)
 
 Thử giải mã JWT này:
 
-![img](22)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image22.png?raw=true)
 
 => JWT lần này đã được ký và xác minh bằng một khóa bí mật
 
@@ -311,25 +311,25 @@ Tôi đã truy cập [JWT secret- key list](https://github.com/wallarm/jwt-secre
 
 Tiếp theo sử dụng `hashcat` để brute-force khóa bí mật:
 
-![img](23)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image23.png?raw=true)
 
 Kết quả thu được secret key là `secret1`:
 
-![img](24)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image24.png?raw=true)
 
 Sử dụng secret key này để tạo JWT mới:
 
-![img](25)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image25.png?raw=true)
 
 Thay JWT này vào request:
 
-![img](26)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image26.png?raw=true)
 
 => Thành công.
 
 Tiếp tục làm như các bài lab trước để xóa `carlos`:
 
-![img](27)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image27.png?raw=true)
 
 
 
