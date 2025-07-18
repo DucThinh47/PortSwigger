@@ -11,7 +11,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#labs)
     - [Lab: JWT authentication bypass via unverified signature](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-unverified-signature)
     - [Lab: JWT authentication bypass via flawed signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-flawed-signature-verification)
-
+    - [Lab: JWT authentication bypass via weak signing key]()
 # What are JWTs?
 
 `JSON Web Token (JWT)` là một định dạng chuẩn hóa để `truyền dữ liệu JSON` đã được `ký mã hóa` giữa các hệ thống. Về cơ bản, chúng có thể chứa bất kỳ loại dữ liệu nào, nhưng thường được dùng để gửi thông tin (gọi là "claims") về người dùng trong các quy trình như `xác thực`, `quản lý phiên` và `kiểm soát quyền truy cập`.
@@ -287,6 +287,49 @@ Thành công. Làm tương tự như bài lab trước để xóa `carlos`
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image20.png?raw=true)
 
+## Lab: JWT authentication bypass via weak signing key
+**1. Yêu cầu**
+Bài lab này sử dụng cơ chế dựa trên JWT để quản lý các phiên. Nó dùng một khóa bí mật cực kỳ yếu để vừa ký vừa xác minh token. Điều này có thể dễ dàng bị tấn công vét cạn (brute-force) bằng cách sử dụng một danh sách các khóa bí mật thông dụng.
+
+Để giải bài lab, đầu tiên bạn cần tấn công vét cạn để tìm khóa bí mật của website. Khi đã có khóa này, hãy sử dụng nó để ký một token phiên đã sửa đổi nhằm giúp bạn truy cập vào bảng quản trị (admin panel) tại /admin, sau đó xóa người dùng carlos.
+
+Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin đăng nhập sau: `wiener:peter`.
+
+**2. Thực hiện**
+
+Đăng nhập tài khoản `wiener`:
+
+![img](21)
+
+Thử giải mã JWT này:
+
+![img](22)
+
+=> JWT lần này đã được ký và xác minh bằng một khóa bí mật
+
+Tôi đã truy cập [JWT secret- key list](https://github.com/wallarm/jwt-secrets/blob/master/jwt.secrets.list) để lấy danh sách secret key thông dụng. 
+
+Tiếp theo sử dụng `hashcat` để brute-force khóa bí mật:
+
+![img](23)
+
+Kết quả thu được secret key là `secret1`:
+
+![img](24)
+
+Sử dụng secret key này để tạo JWT mới:
+
+![img](25)
+
+Thay JWT này vào request:
+
+![img](26)
+
+=> Thành công.
+
+Tiếp tục làm như các bài lab trước để xóa `carlos`:
+
+![img](27)
 
 
 
