@@ -13,7 +13,7 @@
     - [Lab: JWT authentication bypass via flawed signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-flawed-signature-verification)
     - [Lab: JWT authentication bypass via weak signing key](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-weak-signing-key)
     - [Lab: JWT authentication bypass via jwk header injection](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-jwk-header-injection)
-    - [Lab: JWT authentication bypass via jku header injection]()
+    - [Lab: JWT authentication bypass via jku header injection](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-jku-header-injection)
 # What are JWTs?
 
 `JSON Web Token (JWT)` là một định dạng chuẩn hóa để `truyền dữ liệu JSON` đã được `ký mã hóa` giữa các hệ thống. Về cơ bản, chúng có thể chứa bất kỳ loại dữ liệu nào, nhưng thường được dùng để gửi thông tin (gọi là "claims") về người dùng trong các quy trình như `xác thực`, `quản lý phiên` và `kiểm soát quyền truy cập`.
@@ -385,27 +385,27 @@ Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin sa
 
 Thực hiện đăng nhập tài khoản `wiener`, kiểm tra request đăng nhập:
 
-![img](36)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image36.png?raw=true)
 
 Tạo RSA key mới:
 
-![img](37)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image37.png?raw=true)
 
 Cấu hình body trong exploit server như sau, pates JWK vừa tạo vào mảng key:
 
-![img](38)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image38.png?raw=true)
 
 Lưu lại, tiếp theo, trong JWT header, thêm tham số `jku` trỏ đến địa chỉ exploit server, sửa giá trị tham số `sub` trong body thành `administrator`, đồng thời cần kí lại với key đã tạo:
 
-![img](39)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image39.png?raw=true)
 
 Kiểm tra:
 
-![img](40)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image40.png?raw=true)
 
 => Thành công. Thực hiện xóa `carlos`:
 
-![img](41)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image41.png?raw=true)
 
 
 
