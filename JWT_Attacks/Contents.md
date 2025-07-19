@@ -12,7 +12,7 @@
     - [Lab: JWT authentication bypass via unverified signature](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-unverified-signature)
     - [Lab: JWT authentication bypass via flawed signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-flawed-signature-verification)
     - [Lab: JWT authentication bypass via weak signing key](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-weak-signing-key)
-    - [Lab: JWT authentication bypass via jwk header injection]()
+    - [Lab: JWT authentication bypass via jwk header injection](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-jwk-header-injection)
 # What are JWTs?
 
 `JSON Web Token (JWT)` là một định dạng chuẩn hóa để `truyền dữ liệu JSON` đã được `ký mã hóa` giữa các hệ thống. Về cơ bản, chúng có thể chứa bất kỳ loại dữ liệu nào, nhưng thường được dùng để gửi thông tin (gọi là "claims") về người dùng trong các quy trình như `xác thực`, `quản lý phiên` và `kiểm soát quyền truy cập`.
@@ -345,31 +345,31 @@ Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin sa
 
 Đăng nhập vào tài khoản `wiener`, request login trông như sau:
 
-![img](28)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image28.png?raw=true)
 
 Thử giải mã JWT này:
 
-![img](29)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image29.png?raw=true)
 
 Tiếp theo, tạo khóa RSAl, sử dụng extension `JWT Editor`:
 
-![img](30)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image30.png?raw=true)
 
 Sửa phần JWT body thành `"sub": "administrator"` và chọn `Attack`:
 
-![img](31)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image31.png?raw=true)
 
 Chọn `Embedded JWK` vừa tạo:
 
-![img](32)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image32.png?raw=true)
 
 Sau khi nhúng, phần `JWT header` đã xuất hiện tham số `jwk`, giúp nhúng trực tiếp khóa xác minh mới, qua đó có thể sửa tham số `sub` trong body thành `administrator`, kiểm tra:
 
-![img](34)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image34.png?raw=true)
 
 => Thành công. Thực hiện xóa `carlos` tương tự như các bài lab trước:
 
-![img](35)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image35.png?raw=true)
 
 
 
