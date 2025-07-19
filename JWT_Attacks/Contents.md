@@ -14,7 +14,7 @@
     - [Lab: JWT authentication bypass via weak signing key](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-weak-signing-key)
     - [Lab: JWT authentication bypass via jwk header injection](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-jwk-header-injection)
     - [Lab: JWT authentication bypass via jku header injection](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-jku-header-injection)
-    - [Lab: JWT authentication bypass via kid header path traversal]()
+    - [Lab: JWT authentication bypass via kid header path traversal](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-kid-header-path-traversal)
 # What are JWTs?
 
 `JSON Web Token (JWT)` là một định dạng chuẩn hóa để `truyền dữ liệu JSON` đã được `ký mã hóa` giữa các hệ thống. Về cơ bản, chúng có thể chứa bất kỳ loại dữ liệu nào, nhưng thường được dùng để gửi thông tin (gọi là "claims") về người dùng trong các quy trình như `xác thực`, `quản lý phiên` và `kiểm soát quyền truy cập`.
@@ -422,33 +422,33 @@ Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin sa
 Máy chủ sử dụng tham số `kid` để xác định khóa dùng xác minh JWT. Cụ thể, server lấy `kid` rồi đọc key từ hệ thống file, mà không kiểm tra, lọc giá trị này => Có thể `path traversal`
 Thực hiện log in tài khoản `wiener`, xem request:
 
-![img](42)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image42.png?raw=true)
 
 Kiểm tra giá trị JWT:
 
-![img](43)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image43.png?raw=true)
 
 Tiếp theo tạo khóa đối xứng mới:
 
-![img](44)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image44.png?raw=true)
 
 Cần thay giá trị `k` bằng giá trị base64 của `Null byte` là `AA==`, tương đương `\x00`  nhằm bypass rào cản của JWT Editor (không cho ký bằng chuỗi rỗng).
 
 Sau khi có khóa đối xứng mới, sửa lại JWT:
 
-![img](45)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image45.png?raw=true)
 
 Sửa lại `sub` và thay `kid` leo đến `/dev/null`. Kí với khóa đối xứng vừa tạo:
 
-![img](46)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image46.png?raw=true)
 
 Kiểm tra:
 
-![img](47)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image47.png?raw=true)
 
 => Thành công, thực hiện xóa `carlos` như các bài lab trước
 
-![img](48)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image48.png?raw=true)
 
 
 
