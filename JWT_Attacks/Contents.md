@@ -13,6 +13,7 @@
     - [Lab: JWT authentication bypass via flawed signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-flawed-signature-verification)
     - [Lab: JWT authentication bypass via weak signing key](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-weak-signing-key)
     - [Lab: JWT authentication bypass via jwk header injection](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-jwk-header-injection)
+    - [Lab: JWT authentication bypass via jku header injection]()
 # What are JWTs?
 
 `JSON Web Token (JWT)` là một định dạng chuẩn hóa để `truyền dữ liệu JSON` đã được `ký mã hóa` giữa các hệ thống. Về cơ bản, chúng có thể chứa bất kỳ loại dữ liệu nào, nhưng thường được dùng để gửi thông tin (gọi là "claims") về người dùng trong các quy trình như `xác thực`, `quản lý phiên` và `kiểm soát quyền truy cập`.
@@ -370,6 +371,42 @@ Sau khi nhúng, phần `JWT header` đã xuất hiện tham số `jwk`, giúp nh
 => Thành công. Thực hiện xóa `carlos` tương tự như các bài lab trước:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image35.png?raw=true)
+
+## Lab: JWT authentication bypass via jku header injection
+**1. Yêu cầu**
+
+Phòng lab này sử dụng cơ chế dựa trên JWT để quản lý phiên làm việc. Máy chủ hỗ trợ tham số `jku` trong phần header của JWT. Tuy nhiên, nó không kiểm tra xem URL được cung cấp có thuộc miền đáng tin cậy hay không trước khi lấy khóa xác minh.
+
+Để hoàn thành lab, bạn cần giả mạo một JWT để truy cập vào trang quản trị tại `/admin`, sau đó xóa người dùng `carlos`.
+
+Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin sau: `wiener:peter`.
+
+**2. Thực hiện**
+
+Thực hiện đăng nhập tài khoản `wiener`, kiểm tra request đăng nhập:
+
+![img](36)
+
+Tạo RSA key mới:
+
+![img](37)
+
+Cấu hình body trong exploit server như sau, pates JWK vừa tạo vào mảng key:
+
+![img](38)
+
+Lưu lại, tiếp theo, trong JWT header, thêm tham số `jku` trỏ đến địa chỉ exploit server, sửa giá trị tham số `sub` trong body thành `administrator`, đồng thời cần kí lại với key đã tạo:
+
+![img](39)
+
+Kiểm tra:
+
+![img](40)
+
+=> Thành công. Thực hiện xóa `carlos`:
+
+![img](41)
+
 
 
 

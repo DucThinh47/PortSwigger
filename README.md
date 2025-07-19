@@ -157,3 +157,4 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: JWT authentication bypass via flawed signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-flawed-signature-verification)
 - [Lab: JWT authentication bypass via weak signing key](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-weak-signing-key)
 - [Lab: JWT authentication bypass via jwk header injection](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-jwk-header-injection)
+- [Lab: JWT authentication bypass via jku header injection]()
