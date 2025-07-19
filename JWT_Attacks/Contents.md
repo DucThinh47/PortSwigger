@@ -12,6 +12,7 @@
     - [Lab: JWT authentication bypass via unverified signature](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-unverified-signature)
     - [Lab: JWT authentication bypass via flawed signature verification](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-flawed-signature-verification)
     - [Lab: JWT authentication bypass via weak signing key](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-weak-signing-key)
+    - [Lab: JWT authentication bypass via jwk header injection]()
 # What are JWTs?
 
 `JSON Web Token (JWT)` là một định dạng chuẩn hóa để `truyền dữ liệu JSON` đã được `ký mã hóa` giữa các hệ thống. Về cơ bản, chúng có thể chứa bất kỳ loại dữ liệu nào, nhưng thường được dùng để gửi thông tin (gọi là "claims") về người dùng trong các quy trình như `xác thực`, `quản lý phiên` và `kiểm soát quyền truy cập`.
@@ -330,6 +331,45 @@ Thay JWT này vào request:
 Tiếp tục làm như các bài lab trước để xóa `carlos`:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/images/image27.png?raw=true)
+
+## Lab: JWT authentication bypass via jwk header injection
+**1. Yêu cầu**
+
+Phòng lab này sử dụng cơ chế dựa trên JWT để quản lý phiên làm việc. Máy chủ hỗ trợ tham số `jwk` trong phần header của JWT. Tham số này đôi khi được sử dụng để `nhúng trực tiếp khóa xác minh vào trong token`. Tuy nhiên, máy chủ không kiểm tra xem khóa được cung cấp có đến từ nguồn đáng tin cậy hay không.
+
+Để hoàn thành lab, bạn cần chỉnh sửa và ký một JWT sao cho bạn có quyền truy cập vào trang quản trị tại đường dẫn /admin, sau đó xóa người dùng carlos.
+
+Bạn có thể đăng nhập vào tài khoản của mình bằng thông tin sau: `wiener:peter`.
+
+**2. Thực hiện**
+
+Đăng nhập vào tài khoản `wiener`, request login trông như sau:
+
+![img](28)
+
+Thử giải mã JWT này:
+
+![img](29)
+
+Tiếp theo, tạo khóa RSAl, sử dụng extension `JWT Editor`:
+
+![img](30)
+
+Sửa phần JWT body thành `"sub": "administrator"` và chọn `Attack`:
+
+![img](31)
+
+Chọn `Embedded JWK` vừa tạo:
+
+![img](32)
+
+Sau khi nhúng, phần `JWT header` đã xuất hiện tham số `jwk`, giúp nhúng trực tiếp khóa xác minh mới, qua đó có thể sửa tham số `sub` trong body thành `administrator`, kiểm tra:
+
+![img](34)
+
+=> Thành công. Thực hiện xóa `carlos` tương tự như các bài lab trước:
+
+![img](35)
 
 
 
