@@ -1,11 +1,11 @@
 # Contents
-- [What is HTTP request smuggling?]()
-- [What happens in an HTTP request smuggling attack?]()
-- [How do HTTP request smuggling vulnerabilities arise?]()
-- [How to perform an HTTP request smuggling attack]()
-- [How to prevent HTTP request smuggling vulnerabilities]()
-- [Labs]()
-    - [Lab: HTTP request smuggling, confirming a CL.TE vulnerability via differential responses]()
+- [What is HTTP request smuggling?](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#what-is-http-request-smuggling)
+- [What happens in an HTTP request smuggling attack?](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#what-happens-in-an-http-request-smuggling-attack)
+- [How do HTTP request smuggling vulnerabilities arise?](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#how-do-http-request-smuggling-vulnerabilities-arise)
+- [How to perform an HTTP request smuggling attack](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#how-to-perform-an-http-request-smuggling-attack)
+- [How to prevent HTTP request smuggling vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#how-to-prevent-http-request-smuggling-vulnerabilities)
+- [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#labs)
+    - [Lab: HTTP request smuggling, confirming a CL.TE vulnerability via differential responses](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-http-request-smuggling-confirming-a-clte-vulnerability-via-differential-responses)
 
 # What is HTTP request smuggling?
 `HTTP request smuggling` (kỹ thuật giấu yêu cầu HTTP) là một kỹ thuật nhằm `can thiệp` vào cách mà một trang web `xử lý chuỗi các yêu cầu HTTP` được gửi từ một hoặc nhiều người dùng. Các lỗ hổng liên quan đến `request smuggling` thường rất nghiêm trọng, cho phép kẻ tấn công vượt qua các cơ chế bảo mật, truy cập trái phép vào dữ liệu nhạy cảm, và tấn công trực tiếp người dùng khác của ứng dụng.
@@ -15,11 +15,11 @@ Request smuggling chủ yếu liên quan đến các yêu cầu `HTTP/1`. Tuy nh
 # What happens in an HTTP request smuggling attack?
 Đây là kỹ thuật lợi dụng `sự không đồng nhất` giữa `máy chủ front-end` (như `proxy` hoặc `load balancer`) và `back-end` trong việc `xác định ranh giới` các yêu cầu HTTP.
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image0.png?raw=true)
 
 Trong kiến trúc web hiện đại, front-end thường `chuyển tiếp nhiều yêu cầu qua cùng một kết nối` tới back-end. Nếu hai bên xử lý khác nhau về `điểm kết thúc yêu cầu`, kẻ tấn công có thể `chèn một yêu cầu mơ hồ` khiến back-end hiểu sai và xử lý sai lệch.
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image1.png?raw=true)
 
 # How do HTTP request smuggling vulnerabilities arise?
 Phần lớn các lỗ hổng `HTTP request smuggling` xuất phát từ việc `HTTP/1` cho phép `hai cách khác nhau để xác định điểm kết thúc của một yêu cầu`:
@@ -149,27 +149,27 @@ Mặc dù lab hỗ trợ HTTP/2, nhưng giải pháp yêu cầu sử dụng kỹ
 
 Website trông như sau:
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image2.png?raw=true)
 
 Tìm kiếm trong `Burp history` request:
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image4.png?raw=true)
 
 => Request đang sử dụng `HTTTP/2`, cần xác minh xem website có hỗ trợ `HTTP/1.1` không.
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image3.png?raw=true)
 
 => Response trả về mã 200 => website có support `HTTP/1.1`
 
 Cấu hình request smuggling, gửi lần 1:
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image5.png?raw=true)
 
 Gửi lần 2:
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image6.png?raw=true)
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image7.png?raw=true)
 
 Tại sao có thể làm như này?
 

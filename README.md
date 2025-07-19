@@ -19,7 +19,7 @@ Thực hành các bài labs trên Portswigger.
 - [Server-side template injection](https://github.com/DucThinh47/PortSwigger#server-side-template-injection)
 - [HTTP Host header attacks](https://github.com/DucThinh47/PortSwigger#http-host-header-attacks)
 - [JWT attacks](https://github.com/DucThinh47/PortSwigger/tree/main#jwt-attacks)
-- [HTTP request smuggling]()
+- [HTTP request smuggling](https://github.com/DucThinh47/PortSwigger/tree/main#http-request-smuggling)
 
 ### API Testing
 
@@ -162,4 +162,4 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: JWT authentication bypass via kid header path traversal](https://github.com/DucThinh47/PortSwigger/blob/main/JWT_Attacks/Contents.md#lab-jwt-authentication-bypass-via-kid-header-path-traversal)
 
 ### HTTP request smuggling
-- [Lab: HTTP request smuggling, confirming a CL.TE vulnerability via differential responses]()
+- [Lab: HTTP request smuggling, confirming a CL.TE vulnerability via differential responses](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-http-request-smuggling-confirming-a-clte-vulnerability-via-differential-responses)
