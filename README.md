@@ -163,3 +163,4 @@ Thực hành các bài labs trên Portswigger.
 
 ### HTTP request smuggling
 - [Lab: HTTP request smuggling, confirming a CL.TE vulnerability via differential responses](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-http-request-smuggling-confirming-a-clte-vulnerability-via-differential-responses)
+- [Lab: HTTP request smuggling, confirming a TE.CL vulnerability via differential responses]()

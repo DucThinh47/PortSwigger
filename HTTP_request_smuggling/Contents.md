@@ -6,6 +6,7 @@
 - [How to prevent HTTP request smuggling vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#how-to-prevent-http-request-smuggling-vulnerabilities)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#labs)
     - [Lab: HTTP request smuggling, confirming a CL.TE vulnerability via differential responses](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-http-request-smuggling-confirming-a-clte-vulnerability-via-differential-responses)
+    - [Lab: HTTP request smuggling, confirming a TE.CL vulnerability via differential responses]()
 
 # What is HTTP request smuggling?
 `HTTP request smuggling` (kỹ thuật giấu yêu cầu HTTP) là một kỹ thuật nhằm `can thiệp` vào cách mà một trang web `xử lý chuỗi các yêu cầu HTTP` được gửi từ một hoặc nhiều người dùng. Các lỗ hổng liên quan đến `request smuggling` thường rất nghiêm trọng, cho phép kẻ tấn công vượt qua các cơ chế bảo mật, truy cập trái phép vào dữ liệu nhạy cảm, và tấn công trực tiếp người dùng khác của ứng dụng.
@@ -177,6 +178,75 @@ Tại sao có thể làm như này?
 - Back-end dùng `Transfer-Encoding` => xử lý "chunked", cắt phần `GET /404` thành yêu cầu mới, do thấy `chunk 0` => nghĩa là kết thúc yêu cầu đầu tiên, phần sau đó được coi là yêu cầu tiếp theo
 - Khi gửi yêu cầu lần đầu => `"GET /404"` bị smuggle vào.
 - Khi gửi lần thứ hai => back-end xử lý tiếp phần `"GET /404 HTTP/1.1"`, vì nó đã được smuggle từ lần đầu, nên back-end phản hồi `404 Not Found`.
+
+## Lab: HTTP request smuggling, confirming a TE.CL vulnerability via differential responses
+**1. Yêu cầu**
+
+Bài lab này bao gồm một máy chủ front-end và một máy chủ back-end, trong đó máy chủ back-end không hỗ trợ chunked encoding.
+
+Để hoàn thành bài lab, bạn cần smuggle một request đến máy chủ back-end, sao cho request tiếp theo đến đường dẫn `/` (web root) sẽ kích hoạt phản hồi 404 Not Found.
+
+**2. Thực hiện**
+
+Request khi load trang web:
+
+![img](8)
+
+Thử thay đổi thành `HTTP/1.1` và send request:
+
+![img](9)
+
+=> Vẫn thành công, website có hỗ trợ `HTTP/1.1`
+
+Gửi request lần đầu tiên:
+
+![img](12)
+
+Request gửi lần thứ 2:
+
+![img](10)
+
+![img](11)
+
+Tại sao request lại gây ra lỗi TE.CL?
+- Request này có `Transfer-Encoding: chunked` nhưng vẫn khai báo `Content-Length: 4` => Đây chính là điểm sai và là cơ sở để khai thác TE.CL.
+
+        5e
+        POST /404 HTTP/1.1
+        Content-Type: ...
+        x=1
+        0
+- Frontend tin vào `Transfer-Encoding`, cắt chunked body đúng cách.
+- Backend lại bỏ qua `Transfer-Encoding`, chỉ dùng `Content-Length`, đọc nhầm phần còn lại của request đầu tiên như là một request thứ hai.
+- Lần gửi request đầu tiên:
+    - Frontend thấy `Transfer-Encoding: chunked` ⇒ xử lý phần body theo chunked.
+    - Body chunked là:
+
+            5e
+            POST /404 HTTP/1.1
+            Content-Type: ...
+            x=1
+            0
+    => Frontend cắt đúng tại `0\r\n`, coi đó là hết body.
+    - Sau khi xử lý xong, Frontend gửi toàn bộ request xuống backend.
+    - Backend lại không hiểu `chunked encoding`, mà nhìn thấy:
+
+            Content-Length: 4
+    - Backend chỉ đọc 4 byte tiếp theo sau header, ví dụ là `5e\r\n`.
+    - Phần còn lại (đoạn `POST /404 HTTP/1.1...`) bị coi là request thứ hai, nhưng bị giữ lại trong buffer của backend như là một `smuggled request` (request lén chèn).
+    - Do smuggled request đó là `POST /404 HTTP/1.1...` nên sẽ được xử lý trong lần request tiếp theo.
+    
+    => Do đó, request đầu tiên trả về `200 OK` vì `/` vẫn xử lý bình thường.
+- Lần gửi request thứ hai:
+    - `Smuggled request` từ lần trước (trong buffer) sẽ được dùng như thể nó là phần đầu của request mới.
+    - Backend xử lý `POST /404 HTTP/1.1` ⇒ dẫn đến 404 Not Found.
+
+
+
+
+
+
+
 
 
 
