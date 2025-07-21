@@ -6,7 +6,7 @@
 - [How to prevent HTTP request smuggling vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#how-to-prevent-http-request-smuggling-vulnerabilities)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#labs)
     - [Lab: HTTP request smuggling, confirming a CL.TE vulnerability via differential responses](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-http-request-smuggling-confirming-a-clte-vulnerability-via-differential-responses)
-    - [Lab: HTTP request smuggling, confirming a TE.CL vulnerability via differential responses]()
+    - [Lab: HTTP request smuggling, confirming a TE.CL vulnerability via differential responses](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-http-request-smuggling-confirming-a-tecl-vulnerability-via-differential-responses)
 
 # What is HTTP request smuggling?
 `HTTP request smuggling` (kỹ thuật giấu yêu cầu HTTP) là một kỹ thuật nhằm `can thiệp` vào cách mà một trang web `xử lý chuỗi các yêu cầu HTTP` được gửi từ một hoặc nhiều người dùng. Các lỗ hổng liên quan đến `request smuggling` thường rất nghiêm trọng, cho phép kẻ tấn công vượt qua các cơ chế bảo mật, truy cập trái phép vào dữ liệu nhạy cảm, và tấn công trực tiếp người dùng khác của ứng dụng.
@@ -190,23 +190,23 @@ Bài lab này bao gồm một máy chủ front-end và một máy chủ back-end
 
 Request khi load trang web:
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image8.png?raw=true)
 
 Thử thay đổi thành `HTTP/1.1` và send request:
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image9.png?raw=true)
 
 => Vẫn thành công, website có hỗ trợ `HTTP/1.1`
 
 Gửi request lần đầu tiên:
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image12.png?raw=true)
 
 Request gửi lần thứ 2:
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image10.png?raw=true)
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/images/image11.png?raw=true)
 
 Tại sao request lại gây ra lỗi TE.CL?
 - Request này có `Transfer-Encoding: chunked` nhưng vẫn khai báo `Content-Length: 4` => Đây chính là điểm sai và là cơ sở để khai thác TE.CL.
