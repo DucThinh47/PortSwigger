@@ -7,6 +7,7 @@
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#labs)
     - [Lab: HTTP request smuggling, confirming a CL.TE vulnerability via differential responses](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-http-request-smuggling-confirming-a-clte-vulnerability-via-differential-responses)
     - [Lab: HTTP request smuggling, confirming a TE.CL vulnerability via differential responses](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-http-request-smuggling-confirming-a-tecl-vulnerability-via-differential-responses)
+    - [Lab: Exploiting HTTP request smuggling to bypass front-end security controls, CL.TE vulnerability]()
 
 # What is HTTP request smuggling?
 `HTTP request smuggling` (kỹ thuật giấu yêu cầu HTTP) là một kỹ thuật nhằm `can thiệp` vào cách mà một trang web `xử lý chuỗi các yêu cầu HTTP` được gửi từ một hoặc nhiều người dùng. Các lỗ hổng liên quan đến `request smuggling` thường rất nghiêm trọng, cho phép kẻ tấn công vượt qua các cơ chế bảo mật, truy cập trái phép vào dữ liệu nhạy cảm, và tấn công trực tiếp người dùng khác của ứng dụng.
@@ -240,6 +241,94 @@ Tại sao request lại gây ra lỗi TE.CL?
 - Lần gửi request thứ hai:
     - `Smuggled request` từ lần trước (trong buffer) sẽ được dùng như thể nó là phần đầu của request mới.
     - Backend xử lý `POST /404 HTTP/1.1` ⇒ dẫn đến 404 Not Found.
+
+## Lab: Exploiting HTTP request smuggling to bypass front-end security controls, CL.TE vulnerability
+**1. Yêu cầu**
+Bài lab này bao gồm một máy chủ front-end và một máy chủ back-end. Máy chủ front-end không hỗ trợ chunked encoding. Có một bảng điều khiển quản trị (admin panel) tại /admin, nhưng máy chủ front-end chặn quyền truy cập vào đó.
+
+Để giải quyết bài lab, bạn cần tuồn (smuggle) một yêu cầu đến máy chủ back-end để truy cập bảng điều khiển quản trị và xóa người dùng carlos.
+
+**2. Thực hiện**
+
+Nhìn chung, cần chèn một request độc hại vào body của một request khác, để đánh lừa back-end xử lý 2 request, còn front-end thì nghĩ chỉ có 1.
+
+Ý tưởng khai thác bài lab:
+- Front-end không cho truy cập `/admin`.
+- Nhưng nếu giấu một request thứ hai `(GET /admin)` vào trong body của một request gửi đến back-end, thì back-end sẽ xử lý request này mà front-end không biết.
+- Do đó, có thể vượt qua kiểm soát front-end và gửi được request `GET /admin`.
+
+Thử truy cập trang `/admin`:
+
+![img](13)
+
+=> Bị chặn quyền truy cập trang `/admin`.
+
+Sửa lại request truy cập `/` thành:
+
+![img](14)
+
+Gửi request này lần thứ nhất:
+
+![img](15)
+
+Gửi request này lần thứ hai:
+
+![img](16)
+
+- Dòng `Transfer-Encoding: chunked` làm back-end xử lý phần body theo chunked encoding.
+- Chunk `"0\r\n\r\n"` kết thúc body chunked.
+- Phần còn lại `(GET /admin ...)` sẽ được coi là request tiếp theo, nhưng vì được đính kèm trong body của request đầu tiên, nó sẽ được xử lý trước cả khi client gửi tiếp.
+- Front-end nghĩ chỉ có 1 request `(POST /)`, nhưng back-end thấy có 2 request:
+    - `POST /` rỗng
+    - `GET /admin` => back-end xử lý luôn.
+
+Thông báo lỗi trả về là:
+
+![img](17)
+
+=> Back-end chỉ cho phép truy cập `/admin` nếu Host là `localhost`
+
+Tiếp tục sửa request thành như sau:
+
+![img](18)
+
+Gửi request này lần thứ nhất:
+
+![img](19)
+
+Gửi request này lần thứ hai:
+
+![img](20)
+
+=> Request vẫn bị block do header `Host: localhost` hiện diện ở phần sau => front-end đọc được => block ngay từ đầu.
+
+Sửa request thành như sau, để các header của request thứ hai được thêm vào request body được smuggle vào:
+
+![img](21)
+
+- `0` kết thúc chunked body (theo back-end).
+- Phần sau là smuggled request `GET /admin` mà front-end không hiểu là một request => không chặn.
+- `Content-Length: 10` giúp back-end hiểu đây là một request hoàn chỉnh.
+
+Gửi request này lần thứ nhất:
+
+![img](22)
+
+Gửi request này lần thứ hai:
+
+![img](23)
+
+=> Thành công truy cập admin panel. Sửa path thành path xóa user `carlos`:
+
+![img](24)
+
+Tiếp tục gửi request này 2 lần liên tiếp:
+
+![img](25)
+
+
+
+
 
 
 
