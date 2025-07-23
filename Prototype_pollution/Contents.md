@@ -1,15 +1,15 @@
 # Contents
-- [What is prototype pollution?]()
-- [How do prototype pollution vulnerabilities arise?]()
-- [Prototype pollution sources]()
-- [Prototype pollution sinks]()
-- [Prototype pollution gadgets]()
-- [Labs]()
-    - [Lab: Client-side prototype pollution via browser APIs]()
+- [What is prototype pollution?](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#what-is-prototype-pollution)
+- [How do prototype pollution vulnerabilities arise?](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#how-do-prototype-pollution-vulnerabilities-arise)
+- [Prototype pollution sources](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#prototype-pollution-sources)
+- [Prototype pollution sinks](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#prototype-pollution-sinks)
+- [Prototype pollution gadgets](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#prototype-pollution-gadgets)
+- [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#labs)
+    - [Lab: Client-side prototype pollution via browser APIs](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#lab-client-side-prototype-pollution-via-browser-apis)
 # What is prototype pollution?
 `Prototype pollution` là một `lỗ hổng JavaScript` cho phép kẻ tấn công `thêm các thuộc tính tùy ý` vào các nguyên mẫu đối tượng toàn cục (global object prototypes), sau đó các nguyên mẫu này có thể `được kế thừa` bởi các đối tượng do người dùng định nghĩa.
 
-![img](0)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image0.png?raw=true)
 
 Mặc dù `Prototype pollution` thường không thể khai thác độc lập như một lỗ hổng riêng lẻ, nhưng nó cho phép kẻ tấn công kiểm soát các thuộc tính của các đối tượng mà lẽ ra không thể truy cập được. Nếu ứng dụng sau đó xử lý một thuộc tính do kẻ tấn công kiểm soát một cách không an toàn, điều này có thể kết hợp với các lỗ hổng khác. Trong JavaScript phía client (client-side JavaScript), điều này thường dẫn đến `DOM XSS`, trong khi ô nhiễm prototype phía máy chủ (server-side prototype pollution) thậm chí có thể dẫn đến thực thi mã từ xa (remote code execution).
 # How do prototype pollution vulnerabilities arise?
@@ -127,7 +127,7 @@ Trước tiên, tôi sẽ `tìm điểm` có thể gây prototype pollution.
 
 Truy cập lab:
 
-![img](1)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image1.png?raw=true)
 
 Thử sửa URL thành:
 
@@ -135,7 +135,7 @@ Thử sửa URL thành:
 
 Kiểm tra qua dev tools:
 
-![img](2)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image2.png?raw=true)
 
 => Có thuộc tính foo: "bar" xuất hiện ⇒ Xác nhận được có prototype pollution qua query string.
 
@@ -143,7 +143,7 @@ Tiếp theo, tôi sẽ `xác định gadget` có thể khai thác.
 
 Tìm kiếm trong tab Sources, tôi tìm được file `searchLoggerConfigurable.js`:
 
-![img](3)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image3.png?raw=true)
 
 Chú ý đoạn code:
 
@@ -167,7 +167,7 @@ Tiêp theo, tôi sẽ thử khai thác, thay đổi URL thành:
 
 Kiểm tra:
 
-![img](4)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image4.png?raw=true)
 
 => Đã thành công chèn `<script>`.
 
@@ -175,9 +175,9 @@ Tiếp theo, thử thay URL bằng cách chèn payload XSS:
 
     https://0a3500e903405d928061220d001600c0.web-security-academy.net/?__proto__[value]=data:,alert(1);
 
-![img](5)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image5.png?raw=true)
 
-![img](6)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image6.png?raw=true)
 
 
 

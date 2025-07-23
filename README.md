@@ -20,7 +20,7 @@ Thực hành các bài labs trên Portswigger.
 - [HTTP Host header attacks](https://github.com/DucThinh47/PortSwigger#http-host-header-attacks)
 - [JWT attacks](https://github.com/DucThinh47/PortSwigger/tree/main#jwt-attacks)
 - [HTTP request smuggling](https://github.com/DucThinh47/PortSwigger/tree/main#http-request-smuggling)
-- [Prototype pollution]()
+- [Prototype pollution](https://github.com/DucThinh47/PortSwigger/tree/main#prototype-pollution)
 
 ### API Testing
 
@@ -168,4 +168,4 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Exploiting HTTP request smuggling to bypass front-end security controls, CL.TE vulnerability](https://github.com/DucThinh47/PortSwigger/blob/main/HTTP_request_smuggling/Contents.md#lab-exploiting-http-request-smuggling-to-bypass-front-end-security-controls-clte-vulnerability)
 
 ### Prototype pollution
-- [Lab: Client-side prototype pollution via browser APIs]()
+- [Lab: Client-side prototype pollution via browser APIs](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#lab-client-side-prototype-pollution-via-browser-apis)
