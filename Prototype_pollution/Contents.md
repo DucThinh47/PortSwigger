@@ -6,7 +6,7 @@
 - [Prototype pollution gadgets](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#prototype-pollution-gadgets)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#labs)
     - [Lab: Client-side prototype pollution via browser APIs](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#lab-client-side-prototype-pollution-via-browser-apis)
-    - [Lab: DOM XSS via client-side prototype pollution]()
+    - [Lab: DOM XSS via client-side prototype pollution](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#lab-dom-xss-via-client-side-prototype-pollution)
 # What is prototype pollution?
 `Prototype pollution` là một `lỗ hổng JavaScript` cho phép kẻ tấn công `thêm các thuộc tính tùy ý` vào các nguyên mẫu đối tượng toàn cục (global object prototypes), sau đó các nguyên mẫu này có thể `được kế thừa` bởi các đối tượng do người dùng định nghĩa.
 
@@ -193,7 +193,7 @@ Bạn có thể giải quyết phòng lab này theo cách thủ công trong trì
 
 Truy cập lab:
 
-![img](7)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image7.png?raw=true)
 
 Kiểm tra website có tồn tại lỗ hổng `prototype pollution` không, thay URL thành:
 
@@ -201,13 +201,13 @@ Kiểm tra website có tồn tại lỗ hổng `prototype pollution` không, tha
 
 Kiểm tra trong dev tools:
 
-![img](8)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image8.png?raw=true)
 
 => Tồn tại thuộc tính `foo` có giá trị `bar`, website có thể dính lỗ hổng `prototype pollution`.
 
 Tiếp theo tôi sẽ nghiên cứu các file js để tìm kiếm `DOM XSS sinks`:
 
-![img](9)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image9.png?raw=true)
 
 Tôi để ý `config` object có thuộc tính `transport_url`, được sử dụng để tự động nối một tập lệnh vào `DOM` => Tôi có thể thêm thuộc tính `transport_url` vào `Object.prototype` để thành công thực hiện cuộc tấn công XSS.
 
@@ -215,9 +215,9 @@ Tiếp theo, thay đổi URL thành:
 
     https://0a1600d603fd278d806ce044000700e1.web-security-academy.net/?__proto__[transport_url]=foo
 
-![img](10)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image10.png?raw=true)
 
-![img](11)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image11.png?raw=true)
 
 => Một thẻ `<script>` đã xuất hiện với thuộc tính `src=foo`. 
 
@@ -225,9 +225,9 @@ Tiếp theo, sửa URL thành:
 
     https://0a1600d603fd278d806ce044000700e1.web-security-academy.net/?__proto__[transport_url]=data:,alert(1);
 
-![img](12)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image12.png?raw=true)
 
-![img](13)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/images/image13.png?raw=true)
 
 
 
