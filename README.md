@@ -169,3 +169,4 @@ Thực hành các bài labs trên Portswigger.
 
 ### Prototype pollution
 - [Lab: Client-side prototype pollution via browser APIs](https://github.com/DucThinh47/PortSwigger/blob/main/Prototype_pollution/Contents.md#lab-client-side-prototype-pollution-via-browser-apis)
+- [Lab: DOM XSS via client-side prototype pollution]()
