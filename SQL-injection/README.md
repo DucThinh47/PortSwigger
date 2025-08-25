@@ -1,13 +1,13 @@
 # Contents
-- [What is SQL injection (SQLi)?]()
-- [What is the impact of a successful SQL injection attack?]()
-- [How to detect SQL injection vulnerabilities]()
-    - [SQL injection in different parts of the query]()
-- [SQL injection examples]()
-    - [Retrieving hidden data]()
-        - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data]()
-    - [Subverting application logic]()
-        - [Lab: SQL injection vulnerability allowing login bypass]()
+- [What is SQL injection (SQLi)?](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#what-is-sql-injection-sqli)
+- [What is the impact of a successful SQL injection attack?](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#what-is-the-impact-of-a-successful-sql-injection-attack)
+- [How to detect SQL injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#how-to-detect-sql-injection-vulnerabilities)
+    - [SQL injection in different parts of the query](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#sql-injection-in-different-parts-of-the-query)
+- [SQL injection examples](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#sql-injection-examples)
+    - [Retrieving hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#retrieving-hidden-data)
+        - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
+    - [Subverting application logic](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#subverting-application-logic)
+        - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-allowing-login-bypass)
 ## What is SQL injection (SQLi)?
 SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng thực hiện đối với cơ sở dữ liệu. Điều này có thể cho phép kẻ tấn công xem dữ liệu mà họ không được phép truy xuất, bao gồm dữ liệu của người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể chỉnh sửa hoặc xóa dữ liệu, gây ra những thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
 
