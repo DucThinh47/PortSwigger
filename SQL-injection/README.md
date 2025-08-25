@@ -1,0 +1,150 @@
+# Contents
+- [What is SQL injection (SQLi)?]()
+- [What is the impact of a successful SQL injection attack?]()
+- [How to detect SQL injection vulnerabilities]()
+    - [SQL injection in different parts of the query]()
+- [SQL injection examples]()
+    - [Retrieving hidden data]()
+        - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data]()
+    - [Subverting application logic]()
+        - [Lab: SQL injection vulnerability allowing login bypass]()
+## What is SQL injection (SQLi)?
+SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng thực hiện đối với cơ sở dữ liệu. Điều này có thể cho phép kẻ tấn công xem dữ liệu mà họ không được phép truy xuất, bao gồm dữ liệu của người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể chỉnh sửa hoặc xóa dữ liệu, gây ra những thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
+
+Trong một số tình huống, kẻ tấn công có thể nâng cao cuộc tấn công SQL injection để xâm phạm máy chủ nền hoặc cơ sở hạ tầng phía sau. Ngoài ra, chúng có thể thực hiện các cuộc tấn công từ chối dịch vụ (DoS).
+## What is the impact of a successful SQL injection attack?
+Một cuộc tấn công SQL injection thành công có thể dẫn đến hậu quả nghiêm trọng trong bảo mật thông tin, bao gồm:
+- `Truy cập trái phép vào dữ liệu nhạy cảm`: Kẻ tấn công có thể đánh cắp các thông tin quan trọng như mật khẩu, thông tin thẻ tín dụng và dữ liệu cá nhân của người dùng.
+- `Thiệt hại về uy tín và tài chính`: Nhiều vụ rò rỉ dữ liệu nổi tiếng do SQL injection đã gây ra những tổn thất nặng nề về danh tiếng cho các tổ chức và dẫn đến các khoản tiền phạt lớn từ các cơ quan quản lý.
+- `Tạo cửa hậu (backdoor) lâu dài`: Trong một số trường hợp, kẻ tấn công có thể cài đặt một cửa hậu trong hệ thống. Điều này cho phép chúng truy cập liên tục vào hệ thống mà không bị phát hiện trong một thời gian dài, gây ra rủi ro thỏa hiệp lâu dài.
+## How to detect SQL injection vulnerabilities
+Bạn có thể phát hiện SQL injection thủ công bằng cách thực hiện một bộ kiểm tra có hệ thống trên mọi điểm nhập dữ liệu trong ứng dụng. Để làm điều này, thường sẽ gửi các dữ liệu sau:
+
+- Dấu nháy đơn `'` và kiểm tra xem có lỗi hoặc bất thường nào xuất hiện không.
+- `Cú pháp SQL đặc biệt` để kiểm tra xem giá trị đầu vào có thể bị thay đổi hay không bằng cách so sánh phản hồi của ứng dụng với giá trị gốc và giá trị đã bị chỉnh sửa.
+- Các điều kiện Boolean như `OR 1=1` và `OR 1=2`, sau đó quan sát sự khác biệt trong phản hồi của ứng dụng.
+- Payloads gây trễ thời gian, được thiết kế để làm chậm phản hồi nếu truy vấn SQL bị thực thi, nhằm phát hiện sự khác biệt về thời gian phản hồi.
+- Payloads OAST (Out-of-Band Application Security Testing), nhằm kích hoạt tương tác mạng ngoài băng tần khi thực thi trong truy vấn SQL, sau đó giám sát các tương tác này.
+
+Ngoài ra, có thể nhanh chóng và hiệu quả phát hiện hầu hết các lỗ hổng SQL injection bằng cách sử dụng `Burp Scanner`.
+### SQL injection in different parts of the query
+Hầu hết các lỗ hổng SQL injection xảy ra trong mệnh đề `WHERE` của truy vấn `SELECT`. Đây là loại SQL injection phổ biến mà hầu hết những người kiểm thử có kinh nghiệm đều quen thuộc.
+
+Tuy nhiên, lỗ hổng SQL injection có thể xuất hiện ở bất kỳ vị trí nào trong truy vấn và trong nhiều loại truy vấn khác nhau. Một số vị trí phổ biến khác mà SQL injection có thể xảy ra bao gồm:
+- Trong câu lệnh `UPDATE`: Xuất hiện trong giá trị cập nhật hoặc mệnh đề `WHERE`
+- Trong câu lệnh `INSERT`: Xuất hiện trong giá trị được chèn vào
+- Trong câu lệnh `SELECT`: Xuất hiện trong tên bảng hoặc tên cột
+- `Trong câu lệnh SELECT`: Xuất hiện trong mệnh đề `ORDER BY`
+## SQL injection examples
+Trong bối cảnh an toàn thông tin, tồn tại rất nhiều lỗ hổng, kỹ thuật tấn công và phương thức SQL injection xuất hiện trong các tình huống khác nhau. Một số ví dụ phổ biến về SQL injection bao gồm:
+- `Khôi phục dữ liệu ẩn`: Kẻ tấn công có thể sửa đổi truy vấn SQL để trả về các kết quả bổ sung.
+- `Phá vỡ logic ứng dụng`: Thay đổi truy vấn nhằm can thiệp vào logic hoạt động của ứng dụng.
+- `Tấn công UNION`: Cho phép truy xuất dữ liệu từ các bảng cơ sở dữ liệu khác nhau.
+- `SQL injection mù`: Kết quả truy vấn do kẻ tấn công kiểm soát không được hiển thị trong phản hồi của ứng dụng.
+### Retrieving hidden data
+Kịch bản như sau: một ứng dụng shopping hiển thị sản phẩm theo danh mục. Khi user click chọn danh mục `Gifts`, trình duyệt của họ sẽ gửi yêu cầu đến URL sau:
+
+    https://insecure-website.com/products?category=Gifts
+
+Điều này khiến ứng dụng thực hiện truy vấn SQL để lấy thông tin sản phẩm tương ứng từ cơ sở dữ liệu:
+
+    SELECT * FROM products WHERE category = 'Gifts' AND released = 1
+
+Truy vấn SQL này yêu cầu cơ sở dữ liệu trả về:
+- Tất cả thông tin (`*`)
+- Từ bảng `products`
+- Với điều kiện `category = Gifts`
+- Và sản phẩm đã được phát hành (`released = 1`)
+
+Điều kiện `released = 1` được sử dụng để ẩn những sản phẩm chưa được phát hành. Có thể giả định rằng đối với các sản phẩm chưa phát hành, giá trị `released = 0`.
+
+Ứng dụng trong kịch bản này không có bất kỳ cơ chế bảo vệ nào chống lại SQL injection. Điều này cho phép kẻ tấn công có thể tạo ra một truy vấn tấn công như sau:
+
+    https://insecure-website.com/products?category=Gifts'--
+
+Truy vấn SQL tương ứng sẽ trở thành:
+
+    SELECT * FROM products WHERE category = 'Gifts'--' AND released = 1
+
+Điểm quan trọng cần lưu ý: `--` là ký hiệu comment trong SQL, nghĩa là phần còn lại của truy vấn sẽ bị bỏ qua như một comment, về cơ bản là loại bỏ điều kiện `AND released = 1`. Do đó, tất cả sản phẩm, bao gồm cả những sản phẩm chưa phát hành, sẽ được hiển thị.
+
+Ngoài ra, attacker có thể sử dụng một truy vấn khác để hiển thị tất cả sản phẩm, kể cả những danh mục mà họ không biết:
+
+    https://insecure-website.com/products?category=Gifts'+OR+1=1--
+
+Truy vấn SQL tương ứng sẽ trở thành:
+
+    SELECT * FROM products WHERE category = 'Gifts' OR 1=1--' AND released = 1
+
+Truy vấn này sẽ trả về tất cả các sản phẩm vì điều kiện `1=1` luôn đúng, làm cho toàn bộ điều kiện WHERE luôn hợp lệ.
+
+**Lưu ý**: Hãy cẩn trọng khi chèn điều kiện `OR 1=1` vào truy vấn SQL. Ngay cả khi điều này có vẻ vô hại trong bối cảnh đang thực hiện, nhiều ứng dụng có thể tái sử dụng dữ liệu từ một yêu cầu trong nhiều truy vấn khác nhau. Nếu điều kiện này lọt vào một câu lệnh `UPDATE` hoặc `DELETE`, nó có thể gây mất dữ liệu nghiêm trọng.
+#### Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image.png?raw=true)
+
+Truy cập lab: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image1.png?raw=true)
+
+Ở phần Refine your search, click chọn Accessories: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image2.png?raw=true)
+
+Intercept request này trong Burp Suite: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image3.png?raw=true)
+
+Chèn điều kiện `'+OR+1=1--` vào đằng sau `category=Accessories`: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image4.png?raw=true)
+
+Số sản phẩm hiển thị khi chưa chèn: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image5.png?raw=true)
+
+Sau khi chèn payload: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image6.png?raw=true)
+
+Solved the lab!
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image7.png?raw=true)
+### Subverting application logic
+Kịch bản: một ứng dụng cho phép user login bằng username và password. Khi user nhập `wiener:bluecheese`, ứng dụng sẽ kiểm tra thông tin đăng nhập bằng cách thực hiện truy vấn SQL sau:
+
+    SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'
+
+Nếu truy vấn trả về thông tin của một user, login sẽ thành công. Ngược lại, login request sẽ bị từ chối.
+
+Trong trường hợp này, attacker có thể login vào bất kỳ account nào mà không cần biết password. Điều này có thể thực hiện bằng cách sử dụng chuỗi SQL comment `--` để loại bỏ điều kiện kiểm tra password trong mệnh đề `WHERE`.
+
+Ví dụ, nếu kẻ tấn công nhập username: `administrator'--` và để trống password, truy vấn SQL sẽ trở thành:
+
+    SELECT * FROM users WHERE username = 'administrator'--' AND password = ''
+
+Vì dấu `--` biến phần còn lại của truy vấn thành comment, điều kiện kiểm tra password `AND password = ''` bị loại bỏ. Điều này khiến ứng dụng xác thực thành công với account có username = administrator, cho phép attakcer login trái phép vào tài khoản quản trị viên.
+#### Lab: SQL injection vulnerability allowing login bypass
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image8.png?raw=true)
+
+Truy cập lab: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image9.png?raw=true)
+
+Click My account:
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image10.png?raw=true)
+
+Nhập username là `administrator'--` và password là `123` (tùy chọn), trước khi click Login, Intercept request này trong Burp Suite: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image11.png?raw=true)
+
+Send request này:
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image12.png?raw=true)
+
+Đăng nhập vào tài khoản `administrator`.
+
+Solved the lab!
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image13.png?raw=true)
