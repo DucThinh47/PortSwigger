@@ -7,9 +7,9 @@
 - [SQL injection examples](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#sql-injection-examples)
     - [Retrieving hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#retrieving-hidden-data)
     - [Subverting application logic](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#subverting-application-logic)
-    - [Retrieving data from other database tables]()
-    - [Blind SQL injection vulnerabilities]()
-    - [Second-order SQL injection]()
+    - [Retrieving data from other database tables](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#retrieving-data-from-other-database-tables)
+    - [Blind SQL injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#blind-sql-injection-vulnerabilities)
+    - [Second-order SQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#second-order-sql-injection)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#labs)
     - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
     - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-allowing-login-bypass)
@@ -144,7 +144,7 @@ SQL injection bậc nhất (`First-order SQL injection`) xảy ra khi ứng dụ
 
 SQL injection bậc hai (`Second-order SQL injection`) xảy ra khi ứng dụng nhận dữ liệu đầu vào từ một `HTTP request` và `lưu trữ nó` để sử dụng trong tương lai. Việc này thường được thực hiện bằng cách đưa dữ liệu vào CSDL, và không có lỗ hổng nào xảy ra tại thời điểm lưu trữ. Về sau, khi xử lý một `HTTP request` khác, ứng dụng truy xuất dữ liệu đã lưu trữ và kết hợp nó vào một truy vấn SQL một cách không an toàn. Vì lý do này, SQL injection bậc hai còn được gọi là `stored SQL injection`.
 
-![img](208)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image208.png?raw=true)
 
 SQL injection bậc hai thường xảy ra trong các tình huống mà nhà phát triển nhận thức được các lỗ hổng SQL injection, và do đó xử lý an toàn việc đưa dữ liệu ban đầu vào CSDL. Khi dữ liệu này được xử lý sau đó, nó được coi là an toàn vì đã được đưa vào CSDL một cách an toàn trước đó. Ở thời điểm này, dữ liệu được xử lý một cách không an toàn, do nhà phát triển sai lầm khi coi nó là đáng tin cậy.
 
