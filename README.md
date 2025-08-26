@@ -84,7 +84,7 @@ Thực hành các bài labs trên Portswigger.
 - [Lab: Visible error-based SQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Error-based_SQL_injection.md#lab-visible-error-based-sql-injection)
 - [Lab: Blind SQL injection with time delays and information retrieval](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/Exploiting_blind_SQL_injection_by_triggering_time_delays.md#lab-blind-sql-injection-with-time-delays-and-information-retrieval)
 - [Lab: SQL injection with filter bypass via XML encoding](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-with-filter-bypass-via-xml-encoding)
-- [Lab: SQL injection attack, querying the database type and version on Oracle]()
+- [Lab: SQL injection attack, querying the database type and version on Oracle](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-attack-querying-the-database-type-and-version-on-oracle)
 
 ### Cross-origin resource sharing (CORS) 
 

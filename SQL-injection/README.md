@@ -10,13 +10,13 @@
     - [Retrieving data from other database tables](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#retrieving-data-from-other-database-tables)
     - [Blind SQL injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#blind-sql-injection-vulnerabilities)
     - [Second-order SQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#second-order-sql-injection)
-- [Examining the database]()
-    - [Querying the database type and version]()
+- [Examining the database](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#examining-the-database)
+    - [Querying the database type and version](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#querying-the-database-type-and-version)
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#labs)
     - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
     - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-allowing-login-bypass)
     - [Lab: SQL injection with filter bypass via XML encoding](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-with-filter-bypass-via-xml-encoding)
-    - [Lab: SQL injection attack, querying the database type and version on Oracle]()
+    - [Lab: SQL injection attack, querying the database type and version on Oracle](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-attack-querying-the-database-type-and-version-on-oracle)
 
 ## What is SQL injection (SQLi)?
 SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng thực hiện đối với cơ sở dữ liệu. Điều này có thể cho phép kẻ tấn công xem dữ liệu mà họ không được phép truy xuất, bao gồm dữ liệu của người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể chỉnh sửa hoặc xóa dữ liệu, gây ra những thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
@@ -323,26 +323,26 @@ Login và solved bài lab:
 
 ### Lab: SQL injection attack, querying the database type and version on Oracle
 
-![img](209)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image209.png?raw=true)
 
 Click vào một bộ lọc sản phẩm bất kỳ:
 
-![img](210)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image210.png?raw=true)
 
 Kiểm tra request xem có tham số nào có thể chèn payload không:
 
-![img](211)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image211.png?raw=true)
 
 => Tìm được tham số `category=Gifts`, thử thay `Gifts` thành payload xác định số cột trong bảng và cột nào chứa dữ liệu kiểu text:
 
     '+UNION+SELECT+'abc','def'+FROM+dual--
 
-![img](212)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image212.png?raw=true)
 
 => Truy vấn trả về 2 cột đều có kiểu dữ liệu là text, xác định được CSDL thuộc Oracle, sử dụng payload sau để in ra version:
 
     '+UNION+SELECT+BANNER,+NULL+FROM+v$version--
 
-![img](213)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image213.png?raw=true)
 
 
