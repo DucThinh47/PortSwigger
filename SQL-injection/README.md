@@ -10,10 +10,13 @@
     - [Retrieving data from other database tables](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#retrieving-data-from-other-database-tables)
     - [Blind SQL injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#blind-sql-injection-vulnerabilities)
     - [Second-order SQL injection](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#second-order-sql-injection)
+- [Examining the database]()
+    - [Querying the database type and version]()
 - [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#labs)
     - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
     - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-allowing-login-bypass)
     - [Lab: SQL injection with filter bypass via XML encoding](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-with-filter-bypass-via-xml-encoding)
+    - [Lab: SQL injection attack, querying the database type and version on Oracle]()
 
 ## What is SQL injection (SQLi)?
 SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng thực hiện đối với cơ sở dữ liệu. Điều này có thể cho phép kẻ tấn công xem dữ liệu mà họ không được phép truy xuất, bao gồm dữ liệu của người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể chỉnh sửa hoặc xóa dữ liệu, gây ra những thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
@@ -148,6 +151,46 @@ SQL injection bậc hai (`Second-order SQL injection`) xảy ra khi ứng dụng
 
 SQL injection bậc hai thường xảy ra trong các tình huống mà nhà phát triển nhận thức được các lỗ hổng SQL injection, và do đó xử lý an toàn việc đưa dữ liệu ban đầu vào CSDL. Khi dữ liệu này được xử lý sau đó, nó được coi là an toàn vì đã được đưa vào CSDL một cách an toàn trước đó. Ở thời điểm này, dữ liệu được xử lý một cách không an toàn, do nhà phát triển sai lầm khi coi nó là đáng tin cậy.
 
+## Examining the database
+Một số tính năng cốt lõi của ngôn ngữ SQL được triển khai giống nhau trên các nền tảng CSDL phổ biến, do đó nhiều phương pháp phát hiện và khai thác lỗ hổng SQL injection hoạt động tương tự trên các loại CSDL khác nhau.
+
+Tuy nhiên, cũng có nhiều điểm khác biệt giữa các CSDL thông dụng. Những khác biệt này dẫn đến việc một số kỹ thuật phát hiện và khai thác SQL injection hoạt động khác nhau trên các nền tảng khác nhau. Ví dụ:
+- `Cú pháp nối chuỗi (string concatenation)`
+- `Cách ghi chú (comments)`
+- `Truy vấn batch (hoặc stacked)`
+- `Các API đặc thù theo nền tảng`
+- `Thông báo lỗi`
+
+Sau khi xác định được lỗ hổng SQL injection, việc thu thập thông tin về CSDL thường rất hữu ích. Thông tin này có thể giúp bạn khai thác lỗ hổng hiệu quả hơn.
+
+Bạn có thể truy vấn thông tin phiên bản của CSDL. Các phương pháp khác nhau áp dụng cho các loại CSDL khác nhau. Điều này có nghĩa là nếu bạn tìm thấy một phương pháp cụ thể hoạt động, bạn có thể suy ra loại CSDL. Ví dụ, trên Oracle bạn có thể thực thi:
+
+    SELECT * FROM v$version
+Bạn cũng có thể xác định các bảng tồn tại trong CSDL và các cột mà chúng chứa. Ví dụ, trên hầu hết các CSDL, bạn có thể thực thi truy vấn sau để liệt kê các bảng:
+
+    SELECT * FROM information_schema.tables
+### Querying the database type and version
+Có thể xác định **loại** và **phiên bản** của hệ quản trị CSDL (DBMS) bằng cách chèn các truy vấn đặc trưng cho từng hệ thống và kiểm tra xem truy vấn nào hoạt động.
+
+Dưới đây là một số truy vấn để xác định phiên bản của một số hệ quản trị CSDL phổ biến:
+
+| Loại CSDL         | Truy vấn                |
+|-------------------|-------------------------|
+| Mircrosoft, MySQL | SELECT @@version        |
+| Oracle            | SELECT * FROM v$version |
+| PostgreSQL        | SELECT version()        |
+
+Ví dụ, có thể sử dụng tấn công **UNION** với payload sau:
+
+    ' UNION SELECT @@version--
+
+Nếu tấn công thành công, nó có thể trả về thông tin như sau, xác nhận rằng cơ sở dữ liệu đang sử dụng **Microsoft SQL Server** và hiển thị phiên bản của nó:
+
+    Microsoft SQL Server 2016 (SP2) (KB4052908) - 13.0.5026.0 (X64)  
+    Mar 18 2018 09:11:49  
+    Copyright (c) Microsoft Corporation  
+    Standard Edition (64-bit) on Windows Server 2016 Standard 10.0 <X64> (Build 14393: ) (Hypervisor)  
+
 ## Labs
 ### Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image.png?raw=true)
@@ -278,6 +321,28 @@ Login và solved bài lab:
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image207.png?raw=true)
 
-### Lab: SQL injection vulnerability allowing login bypass
+### Lab: SQL injection attack, querying the database type and version on Oracle
+
+![img](209)
+
+Click vào một bộ lọc sản phẩm bất kỳ:
+
+![img](210)
+
+Kiểm tra request xem có tham số nào có thể chèn payload không:
+
+![img](211)
+
+=> Tìm được tham số `category=Gifts`, thử thay `Gifts` thành payload xác định số cột trong bảng và cột nào chứa dữ liệu kiểu text:
+
+    '+UNION+SELECT+'abc','def'+FROM+dual--
+
+![img](212)
+
+=> Truy vấn trả về 2 cột đều có kiểu dữ liệu là text, xác định được CSDL thuộc Oracle, sử dụng payload sau để in ra version:
+
+    '+UNION+SELECT+BANNER,+NULL+FROM+v$version--
+
+![img](213)
 
 
