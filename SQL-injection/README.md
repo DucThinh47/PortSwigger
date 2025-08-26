@@ -3,14 +3,17 @@
 - [What is the impact of a successful SQL injection attack?](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#what-is-the-impact-of-a-successful-sql-injection-attack)
 - [How to detect SQL injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#how-to-detect-sql-injection-vulnerabilities)
     - [SQL injection in different parts of the query](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#sql-injection-in-different-parts-of-the-query)
-    - [SQL injection in different contexts]()
+    - [SQL injection in different contexts](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#sql-injection-in-different-contexts)
 - [SQL injection examples](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#sql-injection-examples)
     - [Retrieving hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#retrieving-hidden-data)
     - [Subverting application logic](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#subverting-application-logic)
-- [Labs]()
+    - [Retrieving data from other database tables]()
+    - [Blind SQL injection vulnerabilities]()
+    - [Second-order SQL injection]()
+- [Labs](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#labs)
     - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
     - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-allowing-login-bypass)
-    - [Lab: SQL injection with filter bypass via XML encoding]()
+    - [Lab: SQL injection with filter bypass via XML encoding](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-with-filter-bypass-via-xml-encoding)
 
 ## What is SQL injection (SQLi)?
 SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng thực hiện đối với cơ sở dữ liệu. Điều này có thể cho phép kẻ tấn công xem dữ liệu mà họ không được phép truy xuất, bao gồm dữ liệu của người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể chỉnh sửa hoặc xóa dữ liệu, gây ra những thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
@@ -60,6 +63,7 @@ Trong bối cảnh an toàn thông tin, tồn tại rất nhiều lỗ hổng, k
 - `Phá vỡ logic ứng dụng`: Thay đổi truy vấn nhằm can thiệp vào logic hoạt động của ứng dụng.
 - `Tấn công UNION`: Cho phép truy xuất dữ liệu từ các bảng cơ sở dữ liệu khác nhau.
 - `SQL injection mù`: Kết quả truy vấn do kẻ tấn công kiểm soát không được hiển thị trong phản hồi của ứng dụng.
+
 ### Retrieving hidden data
 Kịch bản như sau: một ứng dụng shopping hiển thị sản phẩm theo danh mục. Khi user click chọn danh mục `Gifts`, trình duyệt của họ sẽ gửi yêu cầu đến URL sau:
 
@@ -114,6 +118,35 @@ Ví dụ, nếu kẻ tấn công nhập username: `administrator'--` và để t
 
 Vì dấu `--` biến phần còn lại của truy vấn thành comment, điều kiện kiểm tra password `AND password = ''` bị loại bỏ. Điều này khiến ứng dụng xác thực thành công với account có username = administrator, cho phép attakcer login trái phép vào tài khoản quản trị viên.
 
+### Retrieving data from other database tables
+Trong những trường hợp ứng dụng phản hồi bằng kết quả của một truy vấn SQL, attacker có thể lợi dụng lỗ hổng SQL injection để truy xuất dữ liệu từ các bảng khác trong CSDL. Chúng có thể sử dụng từ khóa `UNION` để thực thi thêm một truy vấn `SELECT` và nối kết quả vào truy vấn ban đầu.
+
+Ví dụ, nếu một ứng dụng thực thi truy vấn sau chứa đầu vào của user là `Gifts`:
+
+    SELECT name, description FROM products WHERE category = 'Gifts'
+
+Attackers có thể gửi đầu vào:
+
+    ' UNION SELECT username, password FROM users--
+
+Điều này khiến ứng dụng trả về tất cả username và password cùng với tên và mô tả của các sản phẩm.
+
+### Blind SQL injection vulnerabilities
+Nhiều trường hợp SQL injection là các lỗ hổng mù. Điều này có nghĩa là ứng dụng không trả về kết quả của truy vấn SQL hoặc chi tiết về bất kỳ lỗi CSDL nào trong phản hồi của nó. Các lỗ hổng mù vẫn có thể bị khai thác để truy cập dữ liệu trái phép, nhưng các kỹ thuật liên quan thường phức tạp hơn và khó thực hiện hơn.
+
+Các kỹ thuật sau đây có thể được sử dụng để khai thác các lỗ hổng `Blind SQL Injection`, tùy thuộc vào tính chất của lỗ hổng và CSDL liên quan:
+- Bạn có thể thay đổi logic của truy vấn để kích hoạt một sự khác biệt có thể phát hiện được trong phản hồi của ứng dụng, phụ thuộc vào` tính đúng/sai` của một điều kiện duy nhất. Điều này có thể liên quan đến việc tiêm một điều kiện mới vào một số `logic Boolean`, hoặc kích hoạt một lỗi có điều kiện như lỗi chia cho số không (`divide-by-zero`).
+- Bạn có thể kích hoạt một cách có điều kiện một độ trễ thời gian trong quá trình xử lý truy vấn. Điều này cho phép bạn suy luận tính đúng đắn của điều kiện dựa trên thời gian ứng dụng phản hồi.
+- Bạn có thể kích hoạt một tương tác mạng ngoại vi (out-of-band), sử dụng các kỹ thuật `OAST` (Out-of-band Application Security Testing). Kỹ thuật này cực kỳ mạnh mẽ và hoạt động trong những tình huống mà các kỹ thuật khác không thể. Thông thường, bạn có thể trực tiếp trích xuất dữ liệu thông qua kênh ngoại vi này. Ví dụ: bạn có thể đặt dữ liệu vào một truy vấn `DNS lookup` cho một tên miền mà bạn kiểm soát.
+
+### Second-order SQL injection
+SQL injection bậc nhất (`First-order SQL injection`) xảy ra khi ứng dụng xử lý dữ liệu đầu vào từ một `HTTP request` và kết hợp dữ liệu này vào một truy vấn SQL một cách không an toàn.
+
+SQL injection bậc hai (`Second-order SQL injection`) xảy ra khi ứng dụng nhận dữ liệu đầu vào từ một `HTTP request` và `lưu trữ nó` để sử dụng trong tương lai. Việc này thường được thực hiện bằng cách đưa dữ liệu vào CSDL, và không có lỗ hổng nào xảy ra tại thời điểm lưu trữ. Về sau, khi xử lý một `HTTP request` khác, ứng dụng truy xuất dữ liệu đã lưu trữ và kết hợp nó vào một truy vấn SQL một cách không an toàn. Vì lý do này, SQL injection bậc hai còn được gọi là `stored SQL injection`.
+
+![img](208)
+
+SQL injection bậc hai thường xảy ra trong các tình huống mà nhà phát triển nhận thức được các lỗ hổng SQL injection, và do đó xử lý an toàn việc đưa dữ liệu ban đầu vào CSDL. Khi dữ liệu này được xử lý sau đó, nó được coi là an toàn vì đã được đưa vào CSDL một cách an toàn trước đó. Ở thời điểm này, dữ liệu được xử lý một cách không an toàn, do nhà phát triển sai lầm khi coi nó là đáng tin cậy.
 
 ## Labs
 ### Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
@@ -244,3 +277,7 @@ Do chỉ có thể trả về một cột,nối (concatenate) dữ liệu userna
 Login và solved bài lab: 
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image207.png?raw=true)
+
+### Lab: SQL injection vulnerability allowing login bypass
+
+
