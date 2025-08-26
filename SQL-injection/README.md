@@ -3,20 +3,26 @@
 - [What is the impact of a successful SQL injection attack?](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#what-is-the-impact-of-a-successful-sql-injection-attack)
 - [How to detect SQL injection vulnerabilities](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#how-to-detect-sql-injection-vulnerabilities)
     - [SQL injection in different parts of the query](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#sql-injection-in-different-parts-of-the-query)
+    - [SQL injection in different contexts]()
 - [SQL injection examples](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#sql-injection-examples)
     - [Retrieving hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#retrieving-hidden-data)
-        - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
     - [Subverting application logic](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#subverting-application-logic)
-        - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-allowing-login-bypass)
+- [Labs]()
+    - [Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data)
+    - [Lab: SQL injection vulnerability allowing login bypass](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-vulnerability-allowing-login-bypass)
+    - [Lab: SQL injection with filter bypass via XML encoding]()
+
 ## What is SQL injection (SQLi)?
 SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng thực hiện đối với cơ sở dữ liệu. Điều này có thể cho phép kẻ tấn công xem dữ liệu mà họ không được phép truy xuất, bao gồm dữ liệu của người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể chỉnh sửa hoặc xóa dữ liệu, gây ra những thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
 
 Trong một số tình huống, kẻ tấn công có thể nâng cao cuộc tấn công SQL injection để xâm phạm máy chủ nền hoặc cơ sở hạ tầng phía sau. Ngoài ra, chúng có thể thực hiện các cuộc tấn công từ chối dịch vụ (DoS).
+
 ## What is the impact of a successful SQL injection attack?
 Một cuộc tấn công SQL injection thành công có thể dẫn đến hậu quả nghiêm trọng trong bảo mật thông tin, bao gồm:
 - `Truy cập trái phép vào dữ liệu nhạy cảm`: Kẻ tấn công có thể đánh cắp các thông tin quan trọng như mật khẩu, thông tin thẻ tín dụng và dữ liệu cá nhân của người dùng.
 - `Thiệt hại về uy tín và tài chính`: Nhiều vụ rò rỉ dữ liệu nổi tiếng do SQL injection đã gây ra những tổn thất nặng nề về danh tiếng cho các tổ chức và dẫn đến các khoản tiền phạt lớn từ các cơ quan quản lý.
 - `Tạo cửa hậu (backdoor) lâu dài`: Trong một số trường hợp, kẻ tấn công có thể cài đặt một cửa hậu trong hệ thống. Điều này cho phép chúng truy cập liên tục vào hệ thống mà không bị phát hiện trong một thời gian dài, gây ra rủi ro thỏa hiệp lâu dài.
+
 ## How to detect SQL injection vulnerabilities
 Bạn có thể phát hiện SQL injection thủ công bằng cách thực hiện một bộ kiểm tra có hệ thống trên mọi điểm nhập dữ liệu trong ứng dụng. Để làm điều này, thường sẽ gửi các dữ liệu sau:
 
@@ -27,6 +33,7 @@ Bạn có thể phát hiện SQL injection thủ công bằng cách thực hiệ
 - Payloads OAST (Out-of-Band Application Security Testing), nhằm kích hoạt tương tác mạng ngoài băng tần khi thực thi trong truy vấn SQL, sau đó giám sát các tương tác này.
 
 Ngoài ra, có thể nhanh chóng và hiệu quả phát hiện hầu hết các lỗ hổng SQL injection bằng cách sử dụng `Burp Scanner`.
+
 ### SQL injection in different parts of the query
 Hầu hết các lỗ hổng SQL injection xảy ra trong mệnh đề `WHERE` của truy vấn `SELECT`. Đây là loại SQL injection phổ biến mà hầu hết những người kiểm thử có kinh nghiệm đều quen thuộc.
 
@@ -35,6 +42,18 @@ Tuy nhiên, lỗ hổng SQL injection có thể xuất hiện ở bất kỳ v�
 - Trong câu lệnh `INSERT`: Xuất hiện trong giá trị được chèn vào
 - Trong câu lệnh `SELECT`: Xuất hiện trong tên bảng hoặc tên cột
 - `Trong câu lệnh SELECT`: Xuất hiện trong mệnh đề `ORDER BY`
+
+### SQL injection in different contexts
+
+Ngoài việc sử dụng sử dụng query string để tiêm payload SQL độc hại, bạn có thể thực hiện các cuộc tấn công SQL injection bằng bất kỳ đầu vào nào có thể kiểm soát được mà ứng dụng xử lý như một truy vấn SQL. Ví dụ: một số trang web chấp nhận đầu vào ở định dạng `JSON` hoặc `XML` và sử dụng chúng để truy vấn CSDL.
+
+Những định dạng khác nhau này có thể cung cấp cho bạn nhiều cách thức để che giấu các cuộc tấn công vốn thường bị chặn bởi các cơ chế phòng thủ như Tường lửa ứng dụng Web (WAF). Các biện pháp triển khai yếu thường chỉ tìm kiếm các từ khóa SQL injection phổ biến trong request, vì vậy bạn có thể vượt qua các bộ lọc này bằng cách mã hóa hoặc thoát các ký tự trong các từ khóa bị cấm. Ví dụ: đoạn SQL injection dựa trên `XML` dưới đây sử dụng `chuỗi thoát XML` để mã hóa ký tự `S`trong từ khóa `SELECT`:
+
+    <stockCheck>
+        <productId>123</productId>
+        <storeId>999 &#x53;ELECT * FROM information_schema.tables</storeId>
+    </stockCheck>
+
 ## SQL injection examples
 Trong bối cảnh an toàn thông tin, tồn tại rất nhiều lỗ hổng, kỹ thuật tấn công và phương thức SQL injection xuất hiện trong các tình huống khác nhau. Một số ví dụ phổ biến về SQL injection bao gồm:
 - `Khôi phục dữ liệu ẩn`: Kẻ tấn công có thể sửa đổi truy vấn SQL để trả về các kết quả bổ sung.
@@ -79,7 +98,25 @@ Truy vấn SQL tương ứng sẽ trở thành:
 Truy vấn này sẽ trả về tất cả các sản phẩm vì điều kiện `1=1` luôn đúng, làm cho toàn bộ điều kiện WHERE luôn hợp lệ.
 
 **Lưu ý**: Hãy cẩn trọng khi chèn điều kiện `OR 1=1` vào truy vấn SQL. Ngay cả khi điều này có vẻ vô hại trong bối cảnh đang thực hiện, nhiều ứng dụng có thể tái sử dụng dữ liệu từ một yêu cầu trong nhiều truy vấn khác nhau. Nếu điều kiện này lọt vào một câu lệnh `UPDATE` hoặc `DELETE`, nó có thể gây mất dữ liệu nghiêm trọng.
-#### Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
+
+### Subverting application logic
+Kịch bản: một ứng dụng cho phép user login bằng username và password. Khi user nhập `wiener:bluecheese`, ứng dụng sẽ kiểm tra thông tin đăng nhập bằng cách thực hiện truy vấn SQL sau:
+
+    SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'
+
+Nếu truy vấn trả về thông tin của một user, login sẽ thành công. Ngược lại, login request sẽ bị từ chối.
+
+Trong trường hợp này, attacker có thể login vào bất kỳ account nào mà không cần biết password. Điều này có thể thực hiện bằng cách sử dụng chuỗi SQL comment `--` để loại bỏ điều kiện kiểm tra password trong mệnh đề `WHERE`.
+
+Ví dụ, nếu kẻ tấn công nhập username: `administrator'--` và để trống password, truy vấn SQL sẽ trở thành:
+
+    SELECT * FROM users WHERE username = 'administrator'--' AND password = ''
+
+Vì dấu `--` biến phần còn lại của truy vấn thành comment, điều kiện kiểm tra password `AND password = ''` bị loại bỏ. Điều này khiến ứng dụng xác thực thành công với account có username = administrator, cho phép attakcer login trái phép vào tài khoản quản trị viên.
+
+
+## Labs
+### Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image.png?raw=true)
 
 Truy cập lab: 
@@ -109,21 +146,8 @@ Sau khi chèn payload:
 Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image7.png?raw=true)
-### Subverting application logic
-Kịch bản: một ứng dụng cho phép user login bằng username và password. Khi user nhập `wiener:bluecheese`, ứng dụng sẽ kiểm tra thông tin đăng nhập bằng cách thực hiện truy vấn SQL sau:
 
-    SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'
-
-Nếu truy vấn trả về thông tin của một user, login sẽ thành công. Ngược lại, login request sẽ bị từ chối.
-
-Trong trường hợp này, attacker có thể login vào bất kỳ account nào mà không cần biết password. Điều này có thể thực hiện bằng cách sử dụng chuỗi SQL comment `--` để loại bỏ điều kiện kiểm tra password trong mệnh đề `WHERE`.
-
-Ví dụ, nếu kẻ tấn công nhập username: `administrator'--` và để trống password, truy vấn SQL sẽ trở thành:
-
-    SELECT * FROM users WHERE username = 'administrator'--' AND password = ''
-
-Vì dấu `--` biến phần còn lại của truy vấn thành comment, điều kiện kiểm tra password `AND password = ''` bị loại bỏ. Điều này khiến ứng dụng xác thực thành công với account có username = administrator, cho phép attakcer login trái phép vào tài khoản quản trị viên.
-#### Lab: SQL injection vulnerability allowing login bypass
+### Lab: SQL injection vulnerability allowing login bypass
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image8.png?raw=true)
 
@@ -148,3 +172,75 @@ Send request này:
 Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image13.png?raw=true)
+
+### Lab: SQL injection with filter bypass via XML encoding
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image197.png?raw=true)
+
+Truy cập lab: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image198.png?raw=true)
+
+Click xem 1 sản phẩm chi tiết:
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image199.png?raw=true)
+
+Click check stock. Kiểm tra request khi check stock: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image200.png?raw=true)
+
+=> Chức năng kiểm tra hàng tồn kho gửi `productId` và `storeId` đến ứng dụng theo định dạng XML.
+
+Send request, xem response:
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image201.png?raw=true)
+
+Thử thay đổi `storeId` để kiểm tra xem ứng dụng có đánh giá đầu vào không. Ví dụ, thay ID bằng một biểu thức toán học:
+
+    <storeId>1+1</storeId>
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image202.png?raw=true)
+
+=> Webiste thực hiện phép toán này, trả về kết quả cho một cửa hàng khác, chứng tỏ dữ liệu đầu vào bị đánh giá.
+
+Tiếp tục kiểm tra bằng cách thử khai thác SQL Injection với `UNION SELECT`:
+
+    <storeId>1 UNION SELECT NULL</storeId>
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image203.png?raw=true)
+
+=> Yêu cầu bị chặn với thông báo đây là một cuộc tấn công tiềm năng, chứng tỏ hệ thống có WAF (Web Application Firewall).
+
+Download extension `Hackvertor`. 
+
+=> Vượt qua WAF
+
+Do đang tiêm SQL vào XML, thử ẩn payload bằng XML entities.
+
+Sử dụng `Hackvertor Extension` trong Burp Suite:
+- Tô đậm payload
+- Chuột phải > Extensions > Hackvertor > Encode > dec_entities/hex_entities
+- Gửi lại yêu cầu.
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image204.png?raw=true)
+
+=> Nhận được phản hồi bình thường từ ứng dụng, vượt qua WAF thành công.
+
+=> Tạo khai thác (Exploit)
+
+Tiếp tục thử nghiệm, nhận thấy rằng truy vấn trả về một cột duy nhất.
+
+Nếu cố gắng trả về nhiều hơn một cột, website sẽ phản hồi `0 units`, nghĩa là có lỗi xảy ra.
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image205.png?raw=true)
+
+Do chỉ có thể trả về một cột,nối (concatenate) dữ liệu username và password bằng ký tự `~`
+
+    <storeId><@hex_entities>1 UNION SELECT username || '~' || password FROM users</@hex_entities></storeId>
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image206.png?raw=true)
+
+=> Tìm ra tài khoản administrator. 
+
+Login và solved bài lab: 
+
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image207.png?raw=true)
