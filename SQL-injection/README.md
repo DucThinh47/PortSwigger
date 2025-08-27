@@ -20,7 +20,7 @@
     - [Lab: SQL injection attack, querying the database type and version on Oracle](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-attack-querying-the-database-type-and-version-on-oracle)
     - [Lab: SQL injection attack, querying the database type and version on MySQL and Microsoft](https://github.com/DucThinh47/PortSwigger/edit/main/SQL-injection/README.md#lab-sql-injection-attack-querying-the-database-type-and-version-on-mysql-and-microsoft)
     - [Lab: SQL injection attack, listing the database contents on non-Oracle databases](https://github.com/DucThinh47/PortSwigger/edit/main/SQL-injection/README.md#lab-sql-injection-attack-listing-the-database-contents-on-non-oracle-databases)
-    - [Lab: SQL injection attack, listing the database contents on Oracle]()
+    - [Lab: SQL injection attack, listing the database contents on Oracle](https://github.com/DucThinh47/PortSwigger/tree/main/SQL-injection#lab-sql-injection-attack-listing-the-database-contents-on-oracle)
 
 ## What is SQL injection (SQLi)?
 SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng thực hiện đối với cơ sở dữ liệu. Điều này có thể cho phép kẻ tấn công xem dữ liệu mà họ không được phép truy xuất, bao gồm dữ liệu của người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể chỉnh sửa hoặc xóa dữ liệu, gây ra những thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
@@ -527,30 +527,30 @@ Solved the lab!
 
 Chọn một danh mục sản phẩm bất kỳ để lọc sản phẩm:
 
-![img](214)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image214.png?raw=true)
 
 Kiểm tra request:
 
-![img](215)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image215.png?raw=true)
 
 Thử chèn SQLi payload `'+UNION+SELECT+'abc','def'+FROM+dual--` vào tham số `category`:
 
-![img](216)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image216.png?raw=true)
 
 => Thành công phát hiện có 2 cột chứa kiểu dữ liệu text. Tiếp theo, thử chèn `'+UNION+SELECT+table_name,NULL+FROM+all_tables--` để response trả về danh sách tables trong CSDL:
 
-![img](217)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image217.png?raw=true)
 
 => Thành công trả về danh sách tables trong CSDL. Tìm được tên table chứa thông tin về user là `USERS_OLGCBU`. Tiếp theo, chèn payload để lấy về thông tin về các columns trong table: `'+UNION+SELECT+column_name,NULL+FROM+all_tab_columns+WHERE+table_name='USERS_OLGCBU'--`:
 
-![img](218)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image218.png?raw=true)
 
 => Thông tin 3 cột được trả về: `EMAIL`, `PASSWORD_VFVHCO` và `USERNAME_DTQOVR`. Tiếp theo, chèn payload để xem giá trị của các cột này: `'+UNION+SELECT+USERNAME_DTQOVR,+PASSWORD_VFVHCO+FROM+USERS_OLGCBU--`:
 
-![img](219)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image219.png?raw=true)
 
 => Tìm ra thông tin đăng nhập của admin: `administrator:jw0crgfycdo7ndw1tptx`. Login và solve the lab:
 
-![img](220)
+![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image220.png?raw=true)
 
 
