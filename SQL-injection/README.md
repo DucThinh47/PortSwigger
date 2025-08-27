@@ -20,6 +20,7 @@
     - [Lab: SQL injection attack, querying the database type and version on Oracle](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/README.md#lab-sql-injection-attack-querying-the-database-type-and-version-on-oracle)
     - [Lab: SQL injection attack, querying the database type and version on MySQL and Microsoft](https://github.com/DucThinh47/PortSwigger/edit/main/SQL-injection/README.md#lab-sql-injection-attack-querying-the-database-type-and-version-on-mysql-and-microsoft)
     - [Lab: SQL injection attack, listing the database contents on non-Oracle databases](https://github.com/DucThinh47/PortSwigger/edit/main/SQL-injection/README.md#lab-sql-injection-attack-listing-the-database-contents-on-non-oracle-databases)
+    - [Lab: SQL injection attack, listing the database contents on Oracle]()
 
 ## What is SQL injection (SQLi)?
 SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng thực hiện đối với cơ sở dữ liệu. Điều này có thể cho phép kẻ tấn công xem dữ liệu mà họ không được phép truy xuất, bao gồm dữ liệu của người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể chỉnh sửa hoặc xóa dữ liệu, gây ra những thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
@@ -522,4 +523,8 @@ Solved the lab!
 
 ![img](https://github.com/DucThinh47/PortSwigger/blob/main/SQL-injection/images/image100.png?raw=true)
 
+### Lab: SQL injection attack, listing the database contents on Oracle
 
+Chọn một danh mục sản phẩm bất kỳ để lọc sản phẩm:
+
+![img](214)
